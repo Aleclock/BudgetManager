@@ -9,11 +9,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //setContentView(R.layout.activity_main)
         setContentView(R.layout.activity_main)
-       // setContentView(R.layout.activity_create_account)
-
+/*
         val intent = Intent(this, CreateAccountActivity::class.java)
-        startActivity(intent)
+        startActivity(intent)*/
     }
 
 

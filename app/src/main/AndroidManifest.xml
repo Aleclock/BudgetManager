@@ -11,14 +11,15 @@
             android:theme="@style/AppTheme">
         <activity android:name="com.example.aleclock.budgetmanager.DetailActivity">
         </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".CreateAccountActivity"></activity>
+        <activity android:name=".SplashScreenActivity" android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".CreateAccountActivity"></activity>
     </application>
 
 </manifest>
