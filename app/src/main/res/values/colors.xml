@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#FED65E</color>
+    <color name="colorPrimaryDark">#FFC107</color>
+    <color name="colorSecondary">#343330</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorThird">#2E4052</color>
+    <color name="colorGreen">#BDD9BF</color>
+    <color name="colorGreenDark">#87A878</color>
+    <color name="colorAccent">#ffffff</color>
 </resources>
+
+<!-- TODO sistemare colori (vedere come si vedono sul cellulare a-->
