@@ -12,13 +12,16 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.*
 
-class LoginActivity : AppCompatActivity(){
+class LoginActivity : AppCompatActivity() {
 
     private val TAG = "LoginActivity"
     //global variables
     private var email: String? = null
     private var password: String? = null
+
     //UI elements
     private var tvForgotPassword: TextView? = null
     private var etEmail: EditText? = null
@@ -28,11 +31,39 @@ class LoginActivity : AppCompatActivity(){
     private var mProgressBar: ProgressDialog? = null
     //Firebase references
     private var mAuth: FirebaseAuth? = null
+    private var user: FirebaseUser? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        initialise()
+        mAuth = FirebaseAuth.getInstance()
+        user = FirebaseAuth.getInstance().currentUser
+
+        /*val uid = FirebaseAuth.getInstance().currentUser!!.uid
+        val mDatabaseReference = FirebaseDatabase.getInstance().reference.child("Users")
+        val mUserReference= mDatabaseReference.child(uid)
+        val aaa = mUserReference.child("firstName")
+
+
+        // TODO https://stackoverflow.com/questions/56199072/how-to-read-data-from-firebase-in-android-studio-using-kotlin
+        Log.d("-------------------", aaa.toString())
+
+        mUserReference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                userFirstName = snapshot.child("firstName").value as String
+                userLastName = snapshot.child("lastName").value as String
+
+                Log.d("-------------------", userFirstName)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })*/
+
+
+        if (user != null)
+            updateUI()
+        else
+            initialise()
     }
 
     private fun initialise() {
@@ -42,7 +73,6 @@ class LoginActivity : AppCompatActivity(){
         btnLogin = findViewById<View>(R.id.btn_login) as Button
         btnCreateAccount = findViewById<View>(R.id.btn_register_account) as Button
         mProgressBar = ProgressDialog(this)
-        mAuth = FirebaseAuth.getInstance()
         /*tvForgotPassword!!
             .setOnClickListener { startActivity(Intent(this@LoginActivity,
                 ForgotPasswordActivity::class.java)) }*/
@@ -85,4 +115,38 @@ class LoginActivity : AppCompatActivity(){
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(intent)
     }
+
+
+    companion object UserValue {
+
+        var user = FirebaseAuth.getInstance().currentUser
+        var mAuth = FirebaseAuth.getInstance()
+
+
+
+        private var userFirstName: String? = null
+        private var userLastName: String? = null
+
+
+        // TODO in teoria da fuori posso accedere alle variabili del companion object. Quindi fare il listenere nel
+        //  oncreate e assegnare alle variabili del companion i valori trovati
+
+
+        fun getUserMail(): String? {
+            return user?.email
+        }
+
+        fun getUserFirstName(): String? {
+            return userFirstName
+        }
+
+        fun getUserLastName(): String? {
+            return userLastName
+        }
+
+        fun signOut() {
+            mAuth?.signOut()
+        }
+    }
+
 }

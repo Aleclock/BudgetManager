@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                              xmlns:app="http://schemas.android.com/apk/res-auto"
-                                             xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-                                             android:layout_height="match_parent">
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent" android:background="#F4F4F4">
 
     <EditText
             android:id="@+id/et_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/email"
+            android:textSize="15sp"
+            android:background="@drawable/custom_editext"
             android:inputType="textEmailAddress"
             android:layout_marginTop="100dp"
             android:layout_marginBottom="24dp"
@@ -25,6 +28,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/password"
+            android:textSize="15sp"
+            android:background="@drawable/custom_editext"
             android:inputType="textPassword"
             app:layout_constraintTop_toBottomOf="@+id/et_email"
             app:layout_constraintStart_toStartOf="parent"
@@ -39,15 +44,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/et_password"
-            android:background="@color/colorAccent"
+            android:background="@drawable/custom_fill_button"
             android:text="@string/login_title"
+            android:textSize="15sp"
+            android:textAllCaps="false"
             android:textColor="@android:color/white"
-            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="70dp"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="32dp" android:layout_marginTop="80dp"
-            app:layout_constraintTop_toBottomOf="@+id/et_password"/>
+            android:layout_marginEnd="70dp" android:layout_marginTop="80dp"
+            app:layout_constraintTop_toBottomOf="@+id/et_password"
+            android:stateListAnimator="@null" android:hapticFeedbackEnabled="false"/>
 
     <!-- TODO aggiungere password dimenticata -->
 
@@ -56,15 +63,17 @@
             android:layout_alignParentBottom="true"
             app:layout_constraintBottom_toBottomOf="parent"
             android:text="@string/create_act"
+            android:textSize="15sp"
+            android:textAllCaps="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
+            android:textColor="@color/colorSecondaryDark"
+            android:background="@drawable/custom_stroke_button"
             android:layout_marginBottom="32dp" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="32dp" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="32dp"/>
-            <!--app:layout_constraintEnd_toEndOf="parent"-->
-
+            android:layout_marginStart="70dp" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="70dp"
+            android:stateListAnimator="@null"/>
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
 
 
 </android.support.constraint.ConstraintLayout>

@@ -16,6 +16,10 @@ import com.google.firebase.database.FirebaseDatabase
 
 class CreateAccountActivity : AppCompatActivity() {
 
+    // TODO https://www.behance.net/gallery/61857935/Daily-UI-01-05
+    // TODO https://developer.android.com/guide/navigation/navigation-swipe-view da vedere se farlo o no
+    // TODO Sostituire progressDialog
+
     //UI elements
     private var etFirstName: EditText? = null
     private var etLastName: EditText? = null
@@ -113,5 +117,6 @@ class CreateAccountActivity : AppCompatActivity() {
         //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(intent)
     }
+
 
 }
