@@ -5,6 +5,7 @@
                                              android:layout_width="match_parent"
                                              android:layout_height="match_parent" android:background="#F4F4F4">
 
+    <!-- TODO cambiare colore edittext onfocus/onselected -->
     <EditText
             android:id="@+id/et_email"
             android:layout_width="match_parent"

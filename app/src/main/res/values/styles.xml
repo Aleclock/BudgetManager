@@ -5,7 +5,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorSecondaryDark</item>
     </style>
 
     <style name="viewCustom">
@@ -19,6 +19,14 @@
         <item name="colorControlActivated">@color/colorThird</item>
         <item name="colorControlHighlight">@color/colorGreen</item>
         <item name="android:textColorHint">@color/colorGreen</item>
+    </style>
+s
+    <style name="BottomNavigationView" parent="@style/TextAppearance.AppCompat.Caption">
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="BottomNavigationView.Active" parent="@style/TextAppearance.AppCompat.Caption">
+        <item name="android:textSize">11sp</item>
     </style>
 
 </resources>

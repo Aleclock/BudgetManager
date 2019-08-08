@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Transazioni"
+        android:id="@+id/transazioni"
+        android:icon="@drawable/ic_action_transition"/>
+    <item android:title="Statistiche"
+        android:id="@+id/stats"
+        android:icon="@drawable/ic_action_stats"/>
+    <item android:title="Conto"
+        android:id="@+id/conto"
+        android:icon="@drawable/ic_action_card"/>
+    <item android:title="Impostazioni"
+        android:id="@+id/settings"
+        android:icon="@drawable/ic_action_setting"/>
+</menu>

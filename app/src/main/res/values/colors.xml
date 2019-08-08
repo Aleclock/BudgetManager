@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#FFC107</color>
     <color name="colorPrimaryMedium">#FCCC3D</color>
     <color name="colorSecondary">#F4F4F4</color>
+    <color name="colorSecondaryMedium">#636363</color>
     <color name="colorSecondaryDark">#343330</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorThird">#2E4052</color>
@@ -13,3 +14,4 @@
 </resources>
 
 <!-- TODO sistemare colori (vedere come si vedono sul cellulare a-->
+<!-- TODO cambiare colorSecondaryMedium-->

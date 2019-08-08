@@ -11,6 +11,9 @@ import android.widget.TextView
 
 class MainActivity : AppCompatActivity() {
 
+    // TODO quando si fa "indietro" l'app ritorna alla pagina di login (sistemare)
+
+
     private val TAG = "MainActivity"
     private var userText: TextView? = null
     private var userName: String? = null
