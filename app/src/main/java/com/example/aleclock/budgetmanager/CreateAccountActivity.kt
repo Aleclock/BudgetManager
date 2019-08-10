@@ -101,7 +101,7 @@ class CreateAccountActivity : AppCompatActivity() {
                     currentUserDb.child("lastName").setValue(lastName)*/
 
 
-
+                    // TODO quando viene creato un profilo va renderizzato sulla MainAcitivity
                     updateUserInfoAndUI()
                 } else {
                     // If sign in fails, display a message to the user.
@@ -114,7 +114,7 @@ class CreateAccountActivity : AppCompatActivity() {
 
     private fun updateUserInfoAndUI() {
         //start next activity
-        val intent = Intent(this, DetailActivity::class.java)
+        val intent = Intent(this, MainActivity::class.java)
         //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(intent)
     }

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Transazioni"
-        android:id="@+id/transazioni"
+    <item android:title="@string/transazioni"
+        android:id="@+id/transaction"
         android:icon="@drawable/ic_action_transition"/>
-    <item android:title="Statistiche"
-        android:id="@+id/stats"
+    <item android:title="@string/stats"
+        android:id="@+id/graph"
         android:icon="@drawable/ic_action_stats"/>
-    <item android:title="Conto"
-        android:id="@+id/conto"
+    <item android:title="@string/account"
+        android:id="@+id/account"
         android:icon="@drawable/ic_action_card"/>
-    <item android:title="Impostazioni"
+    <item android:title="@string/setting"
         android:id="@+id/settings"
         android:icon="@drawable/ic_action_setting"/>
 </menu>
