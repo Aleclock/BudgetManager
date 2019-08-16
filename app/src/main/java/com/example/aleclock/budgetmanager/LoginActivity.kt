@@ -38,32 +38,12 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
         mAuth = FirebaseAuth.getInstance()
         user = FirebaseAuth.getInstance().currentUser
+        val uid = FirebaseAuth.getInstance().uid
 
-        /*val uid = FirebaseAuth.getInstance().currentUser!!.uid
-        val mDatabaseReference = FirebaseDatabase.getInstance().reference.child("Users")
-        val mUserReference= mDatabaseReference.child(uid)
-        val aaa = mUserReference.child("firstName")
-
-
-        // TODO https://stackoverflow.com/questions/56199072/how-to-read-data-from-firebase-in-android-studio-using-kotlin
-        Log.d("-------------------", aaa.toString())
-
-        mUserReference.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                userFirstName = snapshot.child("firstName").value as String
-                userLastName = snapshot.child("lastName").value as String
-
-                Log.d("-------------------", userFirstName)
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })*/
-
-
-        if (user != null)
-            updateUI()
-        else
+        if (uid == null)
             initialise()
+        else
+            updateUI()
     }
 
     private fun initialise() {
@@ -87,7 +67,10 @@ class LoginActivity : AppCompatActivity() {
     private fun loginUser() {
         email = etEmail?.text.toString()
         password = etPassword?.text.toString()
-        if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
+
+        if (email!!.isEmpty() || password!!.isEmpty()) {
+            Toast.makeText(this, "Enter all details", Toast.LENGTH_SHORT).show()
+        } else {
             mProgressBar!!.setMessage("Login User...")
             mProgressBar!!.show()
             Log.d(TAG, "Logging in user.")
@@ -105,8 +88,6 @@ class LoginActivity : AppCompatActivity() {
                             Toast.LENGTH_SHORT).show()
                     }
                 }
-        } else {
-            Toast.makeText(this, "Enter all details", Toast.LENGTH_SHORT).show()
         }
     }
 

@@ -17,6 +17,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
+    <!-- TODO https://stackoverflow.com/questions/50145541/new-bottom-layout-from-google -->
     <android.support.design.widget.BottomNavigationView
             android:id="@+id/nav_bar"
             android:layout_width="match_parent"
@@ -29,30 +30,13 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:labelVisibilityMode="labeled"/>
 
-    <!-- TODO https://www.youtube.com/watch?v=GEgTpxtXB2o -->
-
     <FrameLayout
             android:id="@+id/frame_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorGreen"
+            android:background="@color/colorWhite"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/nav_bar">
     </FrameLayout>
-
-    <Button
-            android:id="@+id/btn_logout"
-            android:layout_alignParentBottom="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:text="@string/logout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
-            android:layout_marginBottom="80dp" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="32dp" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="32dp" app:layout_constraintHorizontal_bias="0.0"/>
-
-
 
 </android.support.constraint.ConstraintLayout>

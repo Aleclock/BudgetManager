@@ -4,7 +4,6 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -41,6 +40,7 @@ class CreateAccountActivity : AppCompatActivity() {
     private var email: String? = null
     private var password: String? = null
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_account)
@@ -67,57 +67,66 @@ class CreateAccountActivity : AppCompatActivity() {
         email = etEmail?.text.toString()
         password = etPassword?.text.toString()
 
-        if (!TextUtils.isEmpty(firstName) && !TextUtils.isEmpty(lastName)
-            && !TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
-            //...
-        } else {
+        if (firstName!!.isEmpty() || lastName!!.isEmpty() || email!!.isEmpty() || password!!.isEmpty()) {
             Toast.makeText(this, "Enter all details", Toast.LENGTH_SHORT).show()
-        }
+            return
+        } else {
 
         mProgressBar!!.setMessage("Registering User...")
         mProgressBar!!.show()
 
-
-
-
+        // Creazione di un nuovo account
         mAuth!!
             .createUserWithEmailAndPassword(email!!, password!!)
             .addOnCompleteListener(this) { task ->
                 mProgressBar!!.hide()
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
-                    Toast.makeText(this@CreateAccountActivity, "Authentication success.",
+                    Toast.makeText(this@CreateAccountActivity, "Account created.",
                         Toast.LENGTH_SHORT).show()
                     Log.d(TAG, "createUserWithEmail:success")
                     val userId = mAuth!!.currentUser!!.uid
+
+                    // TODO aggiungere controlli (se la mail esiste già)
                     //Verify Email
                     //verifyEmail();
                     //update user profile information
 
-
-
-                   /* val currentUserDb = mDatabaseReference!!.child(userId)
-                    currentUserDb.child("firstName").setValue(firstName)
-                    currentUserDb.child("lastName").setValue(lastName)*/
-
-
-                    // TODO quando viene creato un profilo va renderizzato sulla MainAcitivity
+                    saveUserToFirebaseDatabase(userId)
                     updateUserInfoAndUI()
                 } else {
                     // If sign in fails, display a message to the user.
-                    Log.w(TAG, "createUserWithEmail:failure", task.exception)
+                    Log.e(TAG, "createUserWithEmail:failure", task.exception)
                     Toast.makeText(this@CreateAccountActivity, "Authentication failed.",
                         Toast.LENGTH_SHORT).show()
                 }
+            }
+        }
+    }
+
+    private fun saveUserToFirebaseDatabase(userId: String) {
+        val currentUserDb = mDatabaseReference!!.child(userId)
+
+        val user = User (userId,firstName,lastName,email)
+
+        currentUserDb.setValue(user)
+            .addOnSuccessListener {
+                Log.d(TAG, "User saved to Firebase Database")
+            }
+            .addOnFailureListener {
+                Log.d(TAG,"User NOT saved to Firebase Database")
             }
     }
 
     private fun updateUserInfoAndUI() {
         //start next activity
         val intent = Intent(this, MainActivity::class.java)
-        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
     }
 
 
 }
+
+// Classe necessaria per il caricamento dei dati dell'utente nel Database Firebase
+class User(val uid: String?, val firstName:String?, val lastName:String?, val email:String? )

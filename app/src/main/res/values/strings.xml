@@ -8,10 +8,31 @@
     <string name="login_title">Login</string>
     <string name="create_act">Create Account</string>
     <string name="logout">Logout</string>
+    <string name="addAccount">Aggiungi conto</string>
     <string name="logoDescription">Logo</string>
 
+    <!-- Menu -->
     <string name="transazioni">Transazioni</string>
     <string name="stats">Grafici</string>
     <string name="account">Conti</string>
-    <string name="setting">Transazioni</string>
+    <string name="setting">Impostazioni</string>
+
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="save_new_account">Crea conto</string>
+    <string name="account_name">Nome account</string>
+    <string name="account_amount">Importo</string>
+    <string name="select_category">Seleziona categoria</string>
+
+    <!-- Category -->
+    <string name="category_cash">Contanti</string>
+    <string name="category_account">Conti</string>
+    <string name="category_credit_card">Carte di credito</string>
+    <string name="category_debit_card">Carte di debito</string>
+    <string name="category_savings">Risparmi</string>
+    <string name="category_cash_electronic">Cash elettronico</string>
+    <string name="category_investment">Investimenti</string>
+    <string name="category_loans">Investimenti</string>
+    <string name="category_insurance">Assicurazioni</string>
+    <string name="spinner_title">Seleziona categoria</string>
 </resources>

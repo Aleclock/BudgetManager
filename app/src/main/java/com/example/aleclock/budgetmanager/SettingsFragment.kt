@@ -1,23 +1,22 @@
 package com.example.aleclock.budgetmanager
 
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
  *
  */
 class SettingsFragment : Fragment() {
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,5 +26,22 @@ class SettingsFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_settings, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
+        /**
+         * Logout
+         */
+        val btnLogout = view!!.findViewById<Button>(R.id.btn_logout)
+        btnLogout!!.setOnClickListener { logoutUser() }
+    }
+
+    private fun logoutUser() {
+        LoginActivity.signOut()
+        val intent = Intent(activity, LoginActivity::class.java)
+
+        // TODO in teoria se cambio i flag cambia anche l'animazione
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
+    }
 }

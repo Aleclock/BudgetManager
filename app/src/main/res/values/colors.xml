@@ -10,6 +10,7 @@
     <color name="colorThird">#2E4052</color>
     <color name="colorGreen">#BDD9BF</color>
     <color name="colorGreenDark">#87A878</color>
+    <color name="colorBlack">#000000</color>
     <color name="colorAccent">#ffffff</color>
 </resources>
 

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="category_array">
+        <item>@string/category_cash</item>
+        <item>@string/category_account</item>
+        <item>@string/category_credit_card</item>
+        <item>@string/category_debit_card</item>
+        <item>@string/category_savings</item>
+        <item>@string/category_cash_electronic</item>
+        <item>@string/category_investment</item>
+        <item>@string/category_loans</item>
+        <item>@string/category_insurance</item>
+    </string-array>
+</resources>
+
+<!-- TODO valutare se ha senso mantenere degli id per ogni categoria in modo da standardizzare -->
