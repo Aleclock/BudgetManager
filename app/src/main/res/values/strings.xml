@@ -23,6 +23,7 @@
     <string name="account_name">Nome account</string>
     <string name="account_amount">Importo</string>
     <string name="select_category">Seleziona categoria</string>
+    <string name="creation_date">Data di creazione</string>
 
     <!-- Category -->
     <string name="category_cash">Contanti</string>
@@ -32,7 +33,7 @@
     <string name="category_savings">Risparmi</string>
     <string name="category_cash_electronic">Cash elettronico</string>
     <string name="category_investment">Investimenti</string>
-    <string name="category_loans">Investimenti</string>
+    <string name="category_loans">Prestiti</string>
     <string name="category_insurance">Assicurazioni</string>
     <string name="spinner_title">Seleziona categoria</string>
 </resources>

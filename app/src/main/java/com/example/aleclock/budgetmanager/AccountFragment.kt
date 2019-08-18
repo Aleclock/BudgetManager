@@ -1,9 +1,11 @@
 package com.example.aleclock.budgetmanager
 
 
+import android.content.res.Resources
 import android.os.Bundle
 import android.support.design.widget.BottomSheetDialog
 import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,10 +18,12 @@ import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.account_row_account_layout.view.*
 import kotlinx.android.synthetic.main.fragment_account.*
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.coroutines.coroutineContext
 
 class AccountFragment : Fragment() {
-
-    // TODO https://grokonez.com/android/kotlin-firebase-realtime-database-readwrite-data-example-android
 
     var TAG = "AccountFragment"
 
@@ -36,6 +40,8 @@ class AccountFragment : Fragment() {
         /*val dividerItemDecoration = DividerItemDecoration(recycler_view_account.context,layoutManager.orientation)
         recycler_view_account.addItemDecoration(dividerItemDecoration)*/
 
+        val img_account = view.findViewById<Spinner>(R.id.img_account)
+
         fetchAccount()
         // TODO se premo velocemente la schermata "account" l'app va in crash perchè il recyclerview è NULL
 
@@ -44,13 +50,12 @@ class AccountFragment : Fragment() {
 
         btn_show_dialog.setOnClickListener {
             val dialog = context?.let { it1 -> BottomSheetDialog(it1) }
-            val view = layoutInflater.inflate(R.layout.dialog_layout, null)
+            val view = layoutInflater.inflate(R.layout.new_account_dialog_layout, null)
 
+            // Aggiunge l'animazione di entrata e di uscita al popup
             dialog?.window?.attributes!!.windowAnimations = R.style.DialogAnimation
-            //dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-            //dialog.window?.setBackgroundDrawableResource(R.drawable.custom_dialog)
 
-            dialog!!.setContentView(view)
+            dialog.setContentView(view)
             dialog.show()
 
             /**
@@ -83,7 +88,6 @@ class AccountFragment : Fragment() {
         }
 
         // TODO https://www.youtube.com/watch?v=eu_6gIpQPg8&list=PL0dzCUj1L5JE-jiBHjxlmXEkQkum_M3R-&index=6
-        // TODO  https://medium.com/halcyon-mobile/implementing-googles-refreshed-modal-bottom-sheet-4e76cb5de65b
     }
 
     private fun fetchAccount() {
@@ -133,15 +137,30 @@ class AccountFragment : Fragment() {
                 Log.e(TAG, "Account NOT created")
             }
         // TODO aggiungere banner di avvenuta creazione/errore
+        // TODO decidere se aggiungere utenti con cui condividere il conto
 
     }
 
 }
 
 class AccountItem(val account:AccountRowItem):Item<ViewHolder>() {
+
     override fun bind(viewHolder: ViewHolder, position: Int) {
         // Funzione chiamata per ogni elemento contenuto nella lista
         viewHolder.itemView.account_item_name.text = account.name
+        viewHolder.itemView.account_item_category.text = account.category
+
+        val date = getDate(account.timeStamp)
+        viewHolder.itemView.txt_creation_date.text = date
+
+        viewHolder.itemView.img_account.setImageResource(R.drawable.ic_add)
+
+    }
+
+    private fun getDate(date: Long): CharSequence {
+        val dateFormat = SimpleDateFormat("dd.MM.yyyy")
+        val date = Date(account.timeStamp)
+        return dateFormat.format(date)
     }
 
     override fun getLayout(): Int {
