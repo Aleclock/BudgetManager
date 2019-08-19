@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="category_income_array">
+        <item>@string/category_income_salary</item>
+        <item>@string/category_income_sales</item>
+        <item>@string/category_income_refund</item>
+        <item>@string/category_income_award</item>
+        <item>@string/category_income_gift</item>
+        <item>@string/category_income_scholarship</item>
+        <item>@string/category_income_rental</item>
+        <item>@string/category_income_investment</item>
+        <item>@string/category_income_interest</item>
+        <item>@string/category_income_allowances</item>
+        <item>@string/category_income_lottery</item>
+    </string-array>
+</resources>

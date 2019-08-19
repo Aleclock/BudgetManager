@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+                                              xmlns:app="http://schemas.android.com/apk/res-auto"
+                                              android:background="#A6000000"
+                                              xmlns:tools="http://schemas.android.com/tools"
+                                              android:layout_width="match_parent"
+                                              android:layout_height="wrap_content">
+
+    <android.support.constraint.ConstraintLayout android:layout_width="match_parent"
+                                                 android:layout_height="match_parent"
+                                                 android:background="@drawable/custom_dialog">
+
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:textColor="@color/colorSecondaryDark"
+                  android:text="@string/addTransaction"
+                  android:padding="16dp"
+                  android:textSize="20sp"
+                  app:layout_constraintTop_toTopOf="parent"
+                  android:id="@+id/title_add_transaction"/>
+
+        <android.support.design.widget.TabLayout
+                android:id="@+id/tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toBottomOf="@id/title_add_transaction"
+                app:tabTextColor="@color/colorBlack"
+                app:tabSelectedTextColor="@color/colorBlack"
+                app:tabGravity="fill"
+                app:tabMode="fixed" />
+
+        <android.support.constraint.ConstraintLayout android:layout_width="match_parent"
+                                                     android:layout_height="wrap_content"
+                                                     app:layout_constraintTop_toBottomOf="@id/tab_layout"
+                                                     app:layout_constraintBottom_toTopOf="@+id/btn_create_transaction"
+                                                     android:id="@+id/container_et_transaction"
+                                                     android:layout_marginTop="16dp">
+
+            <Button android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btn_date_picker"
+                    android:hint="@string/select_date"
+                    android:background="@drawable/custom_edittext_gray"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:stateListAnimator="@null"/>
+
+            <Spinner
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/spn_transaction_type"
+                    android:spinnerMode="dialog"
+                    android:background="@drawable/custom_stroke_button_gray"
+                    android:prompt="@string/spinner_title_type"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/btn_date_picker"
+                    app:layout_constraintEnd_toStartOf="@+id/spn_transaction_category"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+            <Spinner
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/spn_transaction_category"
+                    android:spinnerMode="dialog"
+                    android:background="@drawable/custom_stroke_button_gray"
+                    android:prompt="@string/spinner_title_category"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/btn_date_picker"
+                    app:layout_constraintStart_toEndOf="@+id/spn_transaction_type"
+                    app:layout_constraintBottom_toTopOf="@+id/et_amount_transaction"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            <EditText
+                    android:id="@+id/et_amount_transaction"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/account_amount"
+                    android:textSize="15sp"
+                    android:inputType="numberDecimal"
+                    android:digits="123456789,"
+                    android:imeOptions="actionDone"
+                    android:background="@drawable/custom_edittext_gray"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/spn_transaction_category"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"></EditText>
+
+
+        </android.support.constraint.ConstraintLayout>
+
+
+        <Button
+                android:id="@+id/btn_create_transaction"
+                android:layout_alignParentBottom="true"
+                app:layout_constraintTop_toBottomOf="@+id/container_et_transaction"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:text="@string/save_new_transaction"
+                android:textSize="15sp"
+                android:textAllCaps="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorSecondaryDark"
+                android:background="@drawable/custom_stroke_button"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginStart="70dp"
+                android:layout_marginEnd="70dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:stateListAnimator="@null"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+
+</android.support.constraint.ConstraintLayout>

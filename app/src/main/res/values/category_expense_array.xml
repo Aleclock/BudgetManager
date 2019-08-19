@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="category_expense_array">
+        <item>@string/category_expense_food</item>
+        <item>@string/category_expense_bills</item>
+        <item>@string/category_expense_rent</item>
+        <item>@string/category_expense_transport</item>
+        <item>@string/category_expense_home</item>
+        <item>@string/category_expense_car</item>
+        <item>@string/category_expense_entertainment</item>
+        <item>@string/category_expense_shopping</item>
+        <item>@string/category_expense_insurance</item>
+        <item>@string/category_expense_tax</item>
+        <item>@string/category_expense_health</item>
+        <item>@string/category_expense_selfcare</item>
+        <item>@string/category_expense_sport</item>
+        <item>@string/category_expense_gift</item>
+        <item>@string/category_expense_trip</item>
+        <item>@string/category_expense_culture</item>
+        <item>@string/category_expense_education</item>
+        <item>@string/category_expense_animal</item>
+        <item>@string/category_expense_other</item>
+    </string-array>
+</resources>

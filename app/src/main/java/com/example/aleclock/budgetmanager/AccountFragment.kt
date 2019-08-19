@@ -45,9 +45,6 @@ class AccountFragment : Fragment() {
         fetchAccount()
         // TODO se premo velocemente la schermata "account" l'app va in crash perchè il recyclerview è NULL
 
-        // Listener per l'aggiornamento della lista degli account
-        //updateAccountList()
-
         btn_show_dialog.setOnClickListener {
             val dialog = context?.let { it1 -> BottomSheetDialog(it1) }
             val view = layoutInflater.inflate(R.layout.new_account_dialog_layout, null)
@@ -63,7 +60,7 @@ class AccountFragment : Fragment() {
              */
             val spinner = view.findViewById<Spinner>(R.id.spn_category_new_account)
             val categories = resources.getStringArray(R.array.category_array)
-            var category_selected = categories[1]
+            var category_selected = categories[0]
             val adapter = ArrayAdapter(context,R.layout.select_dialog_item_material,categories)
             spinner.adapter = adapter
 
@@ -159,8 +156,8 @@ class AccountItem(val account:AccountRowItem):Item<ViewHolder>() {
 
     private fun getDate(date: Long): CharSequence {
         val dateFormat = SimpleDateFormat("dd.MM.yyyy")
-        val date = Date(account.timeStamp)
-        return dateFormat.format(date)
+        val dateF = Date(date)
+        return dateFormat.format(dateF)
     }
 
     override fun getLayout(): Int {

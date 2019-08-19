@@ -25,7 +25,36 @@
                 android:layout_marginStart="32dp"
                 app:layout_constraintStart_toStartOf="parent"/>
 
+        <ImageButton
+                android:id="@+id/btn_show_dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_filter"
+                android:background="@drawable/custom_trasparent_button"
+                android:layout_gravity="center_vertical|center_horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="24dp"
+                android:contentDescription="@string/filter"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:padding="10dp"/>
+
 
     </android.support.constraint.ConstraintLayout>
+
+
+    <android.support.design.widget.FloatingActionButton android:layout_width="wrap_content"
+                                                        android:layout_height="wrap_content"
+                                                        android:id="@+id/btn_add_transaction"
+                                                        app:layout_constraintBottom_toBottomOf="parent"
+                                                        app:layout_constraintStart_toStartOf="parent"
+                                                        app:layout_constraintEnd_toEndOf="parent"
+                                                        android:backgroundTint="@color/colorWhite"
+                                                        app:backgroundTint="@color/colorSecondary"
+                                                        android:tint="@color/colorPrimaryMedium"
+                                                        android:src="@drawable/ic_add"
+                                                        android:layout_marginBottom="10dp"
+                                                        app:borderWidth="1dp"
+                                                        app:elevation="0dp"/>
 
 </android.support.constraint.ConstraintLayout>

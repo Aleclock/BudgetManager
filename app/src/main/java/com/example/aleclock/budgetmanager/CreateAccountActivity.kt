@@ -75,6 +75,7 @@ class CreateAccountActivity : AppCompatActivity() {
         mProgressBar!!.setMessage("Registering User...")
         mProgressBar!!.show()
 
+        // TODO verificare se crasha ancora dopo la creazione di un account
         // Creazione di un nuovo account
         mAuth!!
             .createUserWithEmailAndPassword(email!!, password!!)
@@ -87,7 +88,6 @@ class CreateAccountActivity : AppCompatActivity() {
                     Log.d(TAG, "createUserWithEmail:success")
                     val userId = mAuth!!.currentUser!!.uid
 
-                    // TODO aggiungere controlli (se la mail esiste già)
                     //Verify Email
                     //verifyEmail();
                     //update user profile information
@@ -115,6 +115,68 @@ class CreateAccountActivity : AppCompatActivity() {
             }
             .addOnFailureListener {
                 Log.d(TAG,"User NOT saved to Firebase Database")
+            }
+
+        setDefaultAccount()
+        setDefaultTransactionCategory()
+    }
+
+    private fun setDefaultTransactionCategory() {
+        val userId = FirebaseAuth.getInstance().uid
+
+        if (userId == null) return
+
+        // Expense
+
+        var reference = FirebaseDatabase.getInstance().getReference("/transactionCategory").child(userId).child("expense")
+
+        val expense_categories = resources.getStringArray(R.array.category_expense_array)
+        expense_categories.forEach {
+            var categoryItem = TransactionCategoryItem(it,"expense")
+            reference.push().setValue(categoryItem)
+                .addOnSuccessListener {
+                    Log.d(TAG,"Expense default category added")
+                }
+                .addOnFailureListener {
+                    Log.d(TAG, "Expense default category NOT added")
+                }
+        }
+
+        // Income
+
+        reference = FirebaseDatabase.getInstance().getReference("/transactionCategory").child(userId).child("income")
+
+        val income_categories = resources.getStringArray(R.array.category_income_array)
+        income_categories.forEach {
+            var categoryItem = TransactionCategoryItem(it,"expense")
+            reference.push().setValue(categoryItem)
+                .addOnSuccessListener {
+                    Log.d(TAG,"Expense default category added")
+                }
+                .addOnFailureListener {
+                    Log.d(TAG, "Expense default category NOT added")
+                }
+        }
+    }
+
+    private fun setDefaultAccount() {
+        val accountName = "Default account"
+        val accountDescription = ""
+        val userId = FirebaseAuth.getInstance().uid
+        val categories = resources.getStringArray(R.array.category_array)
+        var accountCategory = categories[0]
+
+        if (userId == null) return
+
+        // Crea il nodo "account"
+        val reference = FirebaseDatabase.getInstance().getReference("/account").child(userId).push()
+        val accountValue = AccountRowItem(accountName,accountCategory,accountDescription,reference.key!!,userId,System.currentTimeMillis())
+        reference.setValue(accountValue)
+            .addOnSuccessListener {
+                Log.d(TAG,"Account created")
+            }
+            .addOnFailureListener {
+                Log.e(TAG, "Account NOT created")
             }
     }
 

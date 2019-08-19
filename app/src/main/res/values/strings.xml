@@ -20,6 +20,7 @@
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="save_new_account">Crea conto</string>
+    <string name="save_new_transaction">Aggiungi transazione</string>
     <string name="account_name">Nome account</string>
     <string name="account_amount">Importo</string>
     <string name="select_category">Seleziona categoria</string>
@@ -35,5 +36,51 @@
     <string name="category_investment">Investimenti</string>
     <string name="category_loans">Prestiti</string>
     <string name="category_insurance">Assicurazioni</string>
-    <string name="spinner_title">Seleziona categoria</string>
+
+
+    <string name="spinner_title_account">Seleziona categoria conto</string>
+    <string name="spinner_title_category">Seleziona categoria</string>
+    <string name="spinner_title_type">Seleziona conto</string>
+    <string name="addTransaction">Nuova transazione</string>
+    <string name="filter">Filtra</string>
+
+
+
+    <string name="expense">Uscita</string>
+    <string name="income">Entrata</string>
+    <string name="select_date">Seleziona data</string>
+
+    <!-- Expense category -->
+    <string name="category_expense_food">Cibo</string>
+    <string name="category_expense_bills">Bollette</string>
+    <string name="category_expense_rent">Affitto</string>
+    <string name="category_expense_transport">Trasporti</string>
+    <string name="category_expense_home">Casa</string>
+    <string name="category_expense_car">Macchina</string>
+    <string name="category_expense_entertainment">Intrattenimento</string>
+    <string name="category_expense_shopping">Shopping</string>
+    <string name="category_expense_insurance">Assicurazioni</string>
+    <string name="category_expense_tax">Tasse</string>
+    <string name="category_expense_selfcare">Cura di sè</string>
+    <string name="category_expense_health">Salute</string>
+    <string name="category_expense_sport">Sport</string>
+    <string name="category_expense_gift">Regali</string>
+    <string name="category_expense_trip">Viaggi</string>
+    <string name="category_expense_education">Istruzione</string>
+    <string name="category_expense_culture">Cultura</string>
+    <string name="category_expense_animal">Animali</string>
+    <string name="category_expense_other">Altro</string>
+
+    <!-- Income category -->
+    <string name="category_income_salary">Stipendio</string>
+    <string name="category_income_sales">Vendita</string>
+    <string name="category_income_refund">Rimborso</string>
+    <string name="category_income_award">Premio</string>
+    <string name="category_income_gift">Regalo</string>
+    <string name="category_income_scholarship">Borsa di studio</string>
+    <string name="category_income_rental">Noleggio</string>
+    <string name="category_income_investment">Investimento</string>
+    <string name="category_income_interest">Interessi</string>
+    <string name="category_income_allowances">Quote</string>
+    <string name="category_income_lottery">Lotteria</string>
 </resources>

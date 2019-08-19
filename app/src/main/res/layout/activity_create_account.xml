@@ -5,6 +5,8 @@
                                              android:layout_width="match_parent"
                                              android:layout_height="match_parent">
 
+    <!-- TODO aggiungere button per tornare alla schermata del login -->
+
     <EditText
             android:id="@+id/et_first_name"
             android:layout_width="match_parent"
@@ -73,10 +75,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/et_password"
-            android:background="@drawable/custom_stroke_button_gray"
+            android:background="@drawable/custom_stroke_button"
             android:text="@string/create_act"
             android:textSize="15sp"
-            android:textColor="@android:color/white"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="70dp"
             app:layout_constraintEnd_toEndOf="parent"
