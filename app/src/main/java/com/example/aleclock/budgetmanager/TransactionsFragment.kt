@@ -2,35 +2,32 @@ package com.example.aleclock.budgetmanager
 
 
 import android.app.DatePickerDialog
-import android.os.Build
+import android.app.ProgressDialog
 import android.os.Bundle
-import android.support.annotation.RequiresApi
 import android.support.design.widget.BottomSheetDialog
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.support.v4.app.FragmentTransaction
-import android.util.Log
 import android.widget.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import kotlinx.android.synthetic.main.new_transaction_dialog_layout.*
-import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
 
 
 class TransactionsFragment : Fragment() {
+
+    var TAG = "TransactionsFragment"
+
+    private var mProgressBar: ProgressDialog? = null
 
     var tabLayout: TabLayout? = null
     var transactionType : String = ""
@@ -49,8 +46,8 @@ class TransactionsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        getAccountlist()
-        getCategoryList("expense")
+        // TODO caricare dati e poi settare gli ascoltatori
+        initializeData()
 
         /**
          * Gestione del pulsante per la creazione di una nuova transazione
@@ -83,7 +80,7 @@ class TransactionsFragment : Fragment() {
                 }
 
                 override fun onTabSelected(p0: TabLayout.Tab?) {
-
+                    // TODO quando cambia il tab la categoria selezionata dev'essere rimossa
                     if (p0 != null) {
                         when (p0.position) {
                             0 -> getCategoryList("expense")
@@ -160,15 +157,23 @@ class TransactionsFragment : Fragment() {
 
             val btn_create_transaction = view.findViewById<Button>(R.id.btn_create_transaction)
             btn_create_transaction.setOnClickListener {
-                Log.d("---", newTransactionDate.toString())
-                //newTransactionDate FATTO
-                // TODO ottenere newTransactionAccount
-                // TODO ottenere newTransactionCategory
-                val newTransactionAmount = view.findViewById<EditText>(R.id.et_amount_transaction)
-                createNewTransaction()
+                val newTransactionAmount = view.findViewById<EditText>(R.id.et_amount_transaction).text
+                if  (newTransactionAmount.toString() == "")
+                    // TODO popup "Inserire importo
+                else
+                    createNewTransaction(getDate(newTransactionDate.time).toString(),
+                                        acc_category_selected,cat_category_selected,
+                                        newTransactionAmount.toString(),
+                                        transactionType
+                                        )
             }
         }
 
+    }
+
+    private fun initializeData() {
+        getAccountlist()
+        getCategoryList("expense")
     }
 
     private fun getCategoryList(type: String) {
@@ -176,6 +181,7 @@ class TransactionsFragment : Fragment() {
         if (userId == null) return
         else {
             categoryListItems.clear()
+            transactionType = type
             val ref = FirebaseDatabase.getInstance().getReference("/transactionCategory").child(userId!!).child(type)
             ref.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
@@ -188,8 +194,8 @@ class TransactionsFragment : Fragment() {
                             categoryListItems.add(transactionCategory.name)
                         }
                     }
-                }
 
+                }
             })
         }
     }
@@ -207,7 +213,8 @@ class TransactionsFragment : Fragment() {
                     p0.children.forEach {
                         val account = it.getValue(AccountRowItem::class.java)
                         if (account != null) {
-                            accountListItems.add(account.name)
+                            accountListItems.add(account.id)
+                            // TODO convertire in modo tale da avere i nomi e non l'id
                         }
                     }
                 }
@@ -216,7 +223,29 @@ class TransactionsFragment : Fragment() {
         }
     }
 
-    private fun createNewTransaction() {
+    private fun createNewTransaction(
+        date: String,
+        account: String,
+        category: String,
+        amount: String,
+        transactionType: String) {
+
+        val userId = FirebaseAuth.getInstance().uid
+
+        if (userId == null) return
+        else {
+            val reference = FirebaseDatabase.getInstance().getReference("/transaction").child(userId).child(account).push()
+            val transactionValue = TransactionRowItem(date, account, category, amount, transactionType)
+            reference.setValue(transactionValue)
+                .addOnSuccessListener {
+                    Log.d(TAG,"Transaction created")
+                }
+                .addOnFailureListener {
+                    Log.e(TAG, "Transaction NOT created")
+                }
+
+        }
+
     }
 
     private fun getDate(date: Long): CharSequence {
