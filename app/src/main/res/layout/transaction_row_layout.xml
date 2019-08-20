@@ -1,6 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:tools="http://schemas.android.com/tools" android:background="@drawable/custom_account_layout"
+                                             android:layout_marginLeft="15dp"
+                                             android:layout_marginRight="15dp"
+                                             android:layout_marginTop="5dp"
+                                             android:layout_marginBottom="5dp"
                                              android:layout_width="match_parent"
-                                             android:layout_height="match_parent">
+                                             android:layout_height="wrap_content"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.constraint.ConstraintLayout android:layout_width="wrap_content"
+                                                 android:layout_height="match_parent"
+                                                 android:minWidth="30dp"
+                                                 android:id="@+id/container_transaction_date"
+                                                 app:layout_constraintStart_toStartOf="parent"
+                                                 app:layout_constraintTop_toTopOf="parent">
+
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="0dp"
+                  android:id="@+id/txt_transaction_date_day"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintEnd_toEndOf="parent"
+                  app:layout_constraintBottom_toTopOf="@+id/txt_transaction_date_month"
+                  android:textColor="@color/colorBlack"
+                  android:textSize="18sp"/>
+
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="0dp"
+                  android:id="@+id/txt_transaction_date_month"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintTop_toBottomOf="@+id/txt_transaction_date_day"
+                  app:layout_constraintEnd_toEndOf="parent"
+                  android:textSize="15sp"/>
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout android:layout_width="0dp"
+                                                 android:layout_height="match_parent"
+                                                 android:id="@+id/container_transaction_category_account"
+                                                 android:layout_marginStart="20dp"
+                                                 app:layout_constraintStart_toEndOf="@+id/container_transaction_date"
+                                                 app:layout_constraintTop_toTopOf="parent"
+                                                 app:layout_constraintEnd_toStartOf="@+id/txt_transaction_amount"
+                                                 app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="0dp"
+                  android:id="@+id/txt_transaction_category"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintEnd_toEndOf="parent"
+                  app:layout_constraintBottom_toTopOf="@+id/txt_transaction_account"
+                  android:textColor="@color/colorBlack"
+                  android:textSize="18sp"/>
+
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="0dp"
+                  android:id="@+id/txt_transaction_account"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintTop_toBottomOf="@+id/txt_transaction_category"
+                  app:layout_constraintEnd_toEndOf="parent"
+                  android:textSize="15sp"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="match_parent"
+              android:id="@+id/txt_transaction_amount"
+              app:layout_constraintEnd_toEndOf="parent"
+              app:layout_constraintTop_toTopOf="parent"
+              app:layout_constraintBottom_toBottomOf="parent"/>
 
 </android.support.constraint.ConstraintLayout>

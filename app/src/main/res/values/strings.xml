@@ -83,4 +83,8 @@
     <string name="category_income_interest">Interessi</string>
     <string name="category_income_allowances">Quote</string>
     <string name="category_income_lottery">Lotteria</string>
+
+    <string name="daily">Giornaliero</string>
+    <string name="weekly">Settimanale</string>
+    <string name="monthly">Mensile</string>
 </resources>

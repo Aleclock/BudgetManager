@@ -3,11 +3,13 @@ package com.example.aleclock.budgetmanager
 
 import android.app.DatePickerDialog
 import android.app.ProgressDialog
+import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.BottomSheetDialog
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -23,7 +25,10 @@ import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.fragment_account.*
 import kotlinx.android.synthetic.main.fragment_transactions.*
+import kotlinx.android.synthetic.main.transaction_row_layout.view.*
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -35,6 +40,7 @@ class TransactionsFragment : Fragment() {
     private var mProgressBar: ProgressDialog? = null
 
     var tabLayout: TabLayout? = null
+    var tabLayoutPeriod: TabLayout? = null
     var transactionType : String = ""
 
     var accountListItems = ArrayList<String>()
@@ -55,7 +61,27 @@ class TransactionsFragment : Fragment() {
         // TODO caricare dati e poi settare gli ascoltatori
         initializeData()
 
-        fetchTransaction()
+        /**
+         * Gestione dei tab per la selezione del periodo (giornaliero, settimanale, mensile)
+         */
+        tabLayoutPeriod = view?.findViewById<TabLayout>(R.id.tab_layout_period)
+        tabLayoutPeriod!!.addTab(tabLayoutPeriod!!.newTab().setText(R.string.daily))
+        tabLayoutPeriod!!.addTab(tabLayoutPeriod!!.newTab().setText(R.string.weekly))
+        tabLayoutPeriod!!.addTab(tabLayoutPeriod!!.newTab().setText(R.string.monthly))
+        tabLayoutPeriod!!.tabGravity = TabLayout.GRAVITY_FILL
+        tabLayoutPeriod!!.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(p0: TabLayout.Tab?) {
+            }
+
+            override fun onTabUnselected(p0: TabLayout.Tab?) {
+            }
+
+            override fun onTabSelected(p0: TabLayout.Tab?) {
+                // Retrieve transaction data from Firebase
+                fetchTransaction()
+            }
+
+        })
 
         /**
          * Gestione del pulsante per la creazione di una nuova transazione
@@ -170,13 +196,16 @@ class TransactionsFragment : Fragment() {
             btn_create_transaction.setOnClickListener {
                 val newTransactionAmount = view.findViewById<EditText>(R.id.et_amount_transaction).text
                 if  (newTransactionAmount.toString() == "")
-                    // TODO popup "Inserire importo
-                else
-                    createNewTransaction(getDate(newTransactionDate.time).toString(),
-                                        acc_category_selected,cat_category_selected,
-                                        newTransactionAmount.toString(),
-                                        transactionType
-                                        )
+                    // TODO popup "Errore Inserire importo"
+                else {
+                    createNewTransaction(
+                        getDate(newTransactionDate.time).toString(),
+                        acc_category_selected, cat_category_selected,
+                        newTransactionAmount.toString(),
+                        transactionType
+                    )
+                    dialog.hide()
+                }
             }
         }
 
@@ -184,8 +213,9 @@ class TransactionsFragment : Fragment() {
 
     private fun fetchTransaction() {
         var userId = FirebaseAuth.getInstance().uid
-        if (userId == null) return
-        else {
+        if (userId == null) {
+            return
+        } else {
             val ref = FirebaseDatabase.getInstance().getReference("/transaction").child(userId!!)
             ref.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
@@ -201,17 +231,19 @@ class TransactionsFragment : Fragment() {
                             adapter.add(TransactionItem(transaction))
                         }
                     }
-
-                    //recycler_view_transaction.adapter = adapter
+                    recycler_view_transaction.adapter = adapter
                 }
 
             })
         }
+
+        Log.d("++++","caiaoa")
     }
 
     private fun initializeData() {
         getAccountlist()
         getCategoryList("expense")
+        fetchTransaction()
     }
 
     private fun getCategoryList(type: String) {
@@ -273,7 +305,7 @@ class TransactionsFragment : Fragment() {
 
         if (userId == null) return
         else {
-            val reference = FirebaseDatabase.getInstance().getReference("/transaction").child(userId).child(account).push()
+            val reference = FirebaseDatabase.getInstance().getReference("/transaction").child(userId).push()
             val transactionValue = TransactionRowItem(date, account, category, amount, transactionType)
             reference.setValue(transactionValue)
                 .addOnSuccessListener {
@@ -297,13 +329,34 @@ class TransactionsFragment : Fragment() {
 
 }
 
-class TransactionItem(transaction: TransactionRowItem) : Item<ViewHolder>() {
+class TransactionItem(val transaction: TransactionRowItem) : Item<ViewHolder>() {
     override fun getLayout(): Int {
         return R.layout.transaction_row_layout
     }
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
-      // TODO aggiungere qui i valori da mettere nel layout
+        viewHolder.itemView.txt_transaction_category.text = transaction.category
+        viewHolder.itemView.txt_transaction_account.text = transaction.account
+
+        val format = SimpleDateFormat("dd.MM.yyyy")
+        val theDate = format.parse(transaction.date)
+        val myCal = GregorianCalendar()
+        myCal.setTime(theDate)
+
+        val day = myCal.get(Calendar.DAY_OF_MONTH)
+        val month = myCal.get(Calendar.MONTH) +1
+
+        viewHolder.itemView.txt_transaction_date_day.text = day.toString()
+        viewHolder.itemView.txt_transaction_date_month.text = month.toString()
+
+        viewHolder.itemView.txt_transaction_amount.text = transaction.amount
+        // TODO impostare colore in base al tipo
+        if (transaction.transactionType == "expense") {
+            // Colore rosso
+        } else {
+            // Colore verde
+        }
+
     }
 
 }

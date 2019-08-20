@@ -51,7 +51,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:background="@color/colorWhite"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-            app:layout_constraintStart_toStartOf="@id/account_titleBar"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
 

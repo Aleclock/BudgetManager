@@ -53,8 +53,8 @@
                 android:background="@drawable/custom_edittext_gray"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-
-                android:inputType="number"
+                android:inputType="numberDecimal"
+                android:digits="123456789,"
                 app:layout_constraintEnd_toEndOf="parent"/>
     </android.support.constraint.ConstraintLayout>
 

@@ -37,8 +37,8 @@ class AccountFragment : Fragment() {
         /*val dividerItemDecoration = DividerItemDecoration(recycler_view_account.context,layoutManager.orientation)
         recycler_view_account.addItemDecoration(dividerItemDecoration)*/
 
-        val img_account = view.findViewById<Spinner>(R.id.img_account)
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view_account)
+        /*val img_account = view.findViewById<Spinner>(R.id.img_account)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view_account)*/
 
         fetchAccount()
         // TODO se premo velocemente la schermata "account" l'app va in crash perchè il recyclerview è NULL
@@ -77,7 +77,7 @@ class AccountFragment : Fragment() {
             val btn = view.findViewById<Button>(R.id.btn_create_account)
             btn.setOnClickListener {
                 val newAccountName = view!!.findViewById<EditText>(R.id.et_name_account)
-                createNewAccount(newAccountName, category_selected,recyclerView)
+                createNewAccount(newAccountName, category_selected)
                 dialog.hide()
             }
         }
@@ -87,8 +87,9 @@ class AccountFragment : Fragment() {
 
     private fun fetchAccount() {
         var userId = FirebaseAuth.getInstance().uid
-        if (userId == null) return
-        else {
+        if (userId == null) {
+            return
+        } else {
             val ref = FirebaseDatabase.getInstance().getReference("/account").child(userId!!)
             ref.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
@@ -96,9 +97,7 @@ class AccountFragment : Fragment() {
 
                 override fun onDataChange(p0: DataSnapshot) {
                     // p0 contiene tutti i dati
-
                     val adapter = GroupAdapter<ViewHolder>()
-
                     p0.children.forEach {
                         val account = it.getValue(AccountRowItem::class.java)
                         if (account != null) {
@@ -115,9 +114,7 @@ class AccountFragment : Fragment() {
 
     private fun createNewAccount(
         editText: EditText,
-        accountCategory: String,
-        recyclerView: RecyclerView
-    ) {
+        accountCategory: String) {
         val accountName = editText.text.toString()
         val accountDescription = ""
         val userId = FirebaseAuth.getInstance().uid
