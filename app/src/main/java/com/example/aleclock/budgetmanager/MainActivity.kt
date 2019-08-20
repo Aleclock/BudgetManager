@@ -41,43 +41,47 @@ class MainActivity : AppCompatActivity() {
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .commit()
 
+        // TODO https://stackoverflow.com/questions/43246059/how-to-set-selected-item-in-bottomnavigationview
+
         bottomNavigation.setOnNavigationItemSelectedListener { item ->
-            when (item.itemId) {
 
-                R.id.transaction -> {
-                    transactionsFragment = TransactionsFragment()
-                    supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.frame_layout, transactionsFragment)
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .commit()
-                }
+            if (bottomNavigation.selectedItemId != item.itemId) {
+                when (item.itemId) {
+                    R.id.transaction -> {
+                        transactionsFragment = TransactionsFragment()
+                        supportFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.frame_layout, transactionsFragment)
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                            .commit()
+                    }
 
-                R.id.graph -> {
-                    graphFragment = GraphFragment()
-                    supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.frame_layout, graphFragment)
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .commit()
-                }
+                    R.id.graph -> {
+                        graphFragment = GraphFragment()
+                        supportFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.frame_layout, graphFragment)
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                            .commit()
+                    }
 
-                R.id.account -> {
-                    accountFragment = AccountFragment()
-                    supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.frame_layout, accountFragment)
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .commit()
-                }
+                    R.id.account -> {
+                        accountFragment = AccountFragment()
+                        supportFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.frame_layout, accountFragment)
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                            .commit()
+                    }
 
-                R.id.settings -> {
-                    settingsFragment = SettingsFragment()
-                    supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.frame_layout, settingsFragment)
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .commit()
+                    R.id.settings -> {
+                        settingsFragment = SettingsFragment()
+                        supportFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.frame_layout, settingsFragment)
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                            .commit()
+                    }
                 }
             }
 

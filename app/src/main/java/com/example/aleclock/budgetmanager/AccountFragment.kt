@@ -1,11 +1,10 @@
 package com.example.aleclock.budgetmanager
 
 
-import android.content.res.Resources
 import android.os.Bundle
 import android.support.design.widget.BottomSheetDialog
 import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -18,10 +17,8 @@ import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.account_row_account_layout.view.*
 import kotlinx.android.synthetic.main.fragment_account.*
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.coroutines.coroutineContext
 
 class AccountFragment : Fragment() {
 
@@ -41,6 +38,7 @@ class AccountFragment : Fragment() {
         recycler_view_account.addItemDecoration(dividerItemDecoration)*/
 
         val img_account = view.findViewById<Spinner>(R.id.img_account)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view_account)
 
         fetchAccount()
         // TODO se premo velocemente la schermata "account" l'app va in crash perchè il recyclerview è NULL
@@ -79,7 +77,7 @@ class AccountFragment : Fragment() {
             val btn = view.findViewById<Button>(R.id.btn_create_account)
             btn.setOnClickListener {
                 val newAccountName = view!!.findViewById<EditText>(R.id.et_name_account)
-                createNewAccount(newAccountName, category_selected)
+                createNewAccount(newAccountName, category_selected,recyclerView)
                 dialog.hide()
             }
         }
@@ -115,7 +113,11 @@ class AccountFragment : Fragment() {
         }
     }
 
-    private fun createNewAccount(editText: EditText, accountCategory: String) {
+    private fun createNewAccount(
+        editText: EditText,
+        accountCategory: String,
+        recyclerView: RecyclerView
+    ) {
         val accountName = editText.text.toString()
         val accountDescription = ""
         val userId = FirebaseAuth.getInstance().uid

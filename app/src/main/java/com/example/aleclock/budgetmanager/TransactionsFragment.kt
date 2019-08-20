@@ -18,6 +18,11 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.Item
+import com.xwray.groupie.ViewHolder
+import kotlinx.android.synthetic.main.fragment_account.*
+import kotlinx.android.synthetic.main.fragment_transactions.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -33,6 +38,7 @@ class TransactionsFragment : Fragment() {
     var transactionType : String = ""
 
     var accountListItems = ArrayList<String>()
+    var accountItemList = ArrayList<AccountRowItem>()
     var categoryListItems = ArrayList<String>()
 
     override fun onCreateView(
@@ -48,6 +54,8 @@ class TransactionsFragment : Fragment() {
 
         // TODO caricare dati e poi settare gli ascoltatori
         initializeData()
+
+        fetchTransaction()
 
         /**
          * Gestione del pulsante per la creazione di una nuova transazione
@@ -97,12 +105,15 @@ class TransactionsFragment : Fragment() {
             var datePicker_btn = view!!.findViewById<Button>(R.id.btn_date_picker)
 
             var newTransactionDate = Calendar.getInstance().time
+            datePicker_btn.text = getDate(newTransactionDate.time).toString()
 
             datePicker_btn.setOnClickListener{
                 val c = Calendar.getInstance()
                 val year = c.get(Calendar.YEAR)
                 val month = c.get(Calendar.MONTH)
                 val day = c.get(Calendar.DAY_OF_MONTH)
+
+                // TODO i valori iniziali della data sono quelli di oggi (credo)
 
                 val datePickerDialog = DatePickerDialog(activity, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
                     newTransactionDate = GregorianCalendar(year, monthOfYear, dayOfMonth).time
@@ -171,6 +182,33 @@ class TransactionsFragment : Fragment() {
 
     }
 
+    private fun fetchTransaction() {
+        var userId = FirebaseAuth.getInstance().uid
+        if (userId == null) return
+        else {
+            val ref = FirebaseDatabase.getInstance().getReference("/transaction").child(userId!!)
+            ref.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+
+                    val adapter = GroupAdapter<ViewHolder>()
+
+                    p0.children.forEach {
+                        val transaction = it.getValue(TransactionRowItem::class.java)
+                        if (transaction != null) {
+                            adapter.add(TransactionItem(transaction))
+                        }
+                    }
+
+                    //recycler_view_transaction.adapter = adapter
+                }
+
+            })
+        }
+    }
+
     private fun initializeData() {
         getAccountlist()
         getCategoryList("expense")
@@ -214,6 +252,7 @@ class TransactionsFragment : Fragment() {
                         val account = it.getValue(AccountRowItem::class.java)
                         if (account != null) {
                             accountListItems.add(account.id)
+                            accountItemList.add(account)
                             // TODO convertire in modo tale da avere i nomi e non l'id
                         }
                     }
@@ -239,6 +278,7 @@ class TransactionsFragment : Fragment() {
             reference.setValue(transactionValue)
                 .addOnSuccessListener {
                     Log.d(TAG,"Transaction created")
+                    fetchTransaction()
                 }
                 .addOnFailureListener {
                     Log.e(TAG, "Transaction NOT created")
@@ -254,5 +294,16 @@ class TransactionsFragment : Fragment() {
         return dateFormat.format(dateF)
     }
 
+
+}
+
+class TransactionItem(transaction: TransactionRowItem) : Item<ViewHolder>() {
+    override fun getLayout(): Int {
+        return R.layout.transaction_row_layout
+    }
+
+    override fun bind(viewHolder: ViewHolder, position: Int) {
+      // TODO aggiungere qui i valori da mettere nel layout
+    }
 
 }
