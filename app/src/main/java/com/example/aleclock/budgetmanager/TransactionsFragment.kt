@@ -63,6 +63,7 @@ class TransactionsFragment : Fragment() {
 
         // TODO caricare dati e poi settare gli ascoltatori
         initializeData()
+        initializeButtons()
 
         /**
          * Gestione dei tab per la selezione del periodo (giornaliero, settimanale, mensile)
@@ -133,8 +134,13 @@ class TransactionsFragment : Fragment() {
              */
             var datePicker_btn = view!!.findViewById<Button>(R.id.btn_date_picker)
 
+            var dateFormat = SimpleDateFormat("yyyyMMdd") // Formato per il salvataggio della data su Firebase
+
             var newTransactionDate = Calendar.getInstance().time
-            datePicker_btn.text = getDate(newTransactionDate.time).toString()
+            var date = dateFormat.format(newTransactionDate)    // newTransactionDate con formato yyyyMMdd
+
+            var newTransactionDateTxt = date
+            datePicker_btn.text = getDate(newTransactionDate.time)
 
             datePicker_btn.setOnClickListener{
                 val c = Calendar.getInstance()
@@ -146,7 +152,11 @@ class TransactionsFragment : Fragment() {
 
                 val datePickerDialog = DatePickerDialog(activity, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
                     newTransactionDate = GregorianCalendar(year, monthOfYear, dayOfMonth).time
-                    datePicker_btn.text = getDate(newTransactionDate.time).toString()
+
+                    date = dateFormat.format(newTransactionDate)
+
+                    newTransactionDateTxt = date
+                    datePicker_btn.text = getDate(newTransactionDate.time)
                 }, year, month, day)
 
                 datePickerDialog.show()
@@ -202,7 +212,7 @@ class TransactionsFragment : Fragment() {
                     // TODO popup "Errore Inserire importo"
                 else {
                     createNewTransaction(
-                        getDate(newTransactionDate.time).toString(),
+                        "-$newTransactionDateTxt",
                         acc_category_selected, cat_category_selected,
                         newTransactionAmount.toString(),
                         transactionType
@@ -214,12 +224,36 @@ class TransactionsFragment : Fragment() {
 
     }
 
+    private fun initializeData() {
+        getAccountlist()
+        getCategoryList("expense")
+        fetchTransaction()
+        initSwipe()
+    }
+
+    private fun initializeButtons() {
+        initTitleBarButtons()   // Imposta gli ascoltatori per i pulsanti setDate e filter
+    }
+
+    private fun initTitleBarButtons() {
+        var btn_setDate = view!!.findViewById<ImageButton>(R.id.btn_set_date)
+        var bt_filter = view!!.findViewById<ImageButton>(R.id.btn_filter)
+
+        btn_setDate.setOnClickListener {
+            Log.d("initButtons","btn_setDate")
+        }
+
+        btn_filter.setOnClickListener {
+            Log.d("initButtons","btn_filter")
+        }
+    }
+
     private fun fetchTransaction() {
         var userId = FirebaseAuth.getInstance().uid
         if (userId == null) {
             return
         } else {
-            val ref = FirebaseDatabase.getInstance().getReference("/transaction").child(userId!!)
+            val ref = FirebaseDatabase.getInstance().getReference("/transaction").child(userId!!).orderByChild("date")
             ref.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
                 }
@@ -239,17 +273,10 @@ class TransactionsFragment : Fragment() {
 
             })
         }
-
-        Log.d("++++","caiaoa")
     }
 
-    private fun initializeData() {
-        getAccountlist()
-        getCategoryList("expense")
-        fetchTransaction()
-        initSwipe()
-    }
 
+    // TODO Implementare questa funzione in una classe
     private fun initSwipe() {
         val simpleItemTouchCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
             // Non è previsto il supporto per lo spostamento verticale
@@ -306,6 +333,10 @@ class TransactionsFragment : Fragment() {
         itemTouchHelper.attachToRecyclerView(recycler_view_transaction)
     }
 
+
+    /**
+     * Funzione che scarica da Firebase le categorie delle transizioni del singolo utente
+     */
     private fun getCategoryList(type: String) {
         var userId = FirebaseAuth.getInstance().uid
         if (userId == null) return
@@ -330,6 +361,9 @@ class TransactionsFragment : Fragment() {
         }
     }
 
+    /**
+     * Funzione che scarica da Firebase la lista degli account/conti attivi dell'utente
+     */
     private fun getAccountlist() {
         var userId = FirebaseAuth.getInstance().uid
         if (userId == null) return
@@ -385,38 +419,4 @@ class TransactionsFragment : Fragment() {
         val dateF = Date(date)
         return dateFormat.format(dateF)
     }
-
-
-}
-
-class TransactionItem(val transaction: TransactionRowItem) : Item<ViewHolder>() {
-    override fun getLayout(): Int {
-        return R.layout.transaction_row_layout
-    }
-
-    override fun bind(viewHolder: ViewHolder, position: Int) {
-        viewHolder.itemView.txt_transaction_category.text = transaction.category
-        viewHolder.itemView.txt_transaction_account.text = transaction.account
-
-        val format = SimpleDateFormat("dd.MM.yyyy")
-        val theDate = format.parse(transaction.date)
-        val myCal = GregorianCalendar()
-        myCal.setTime(theDate)
-
-        val day = myCal.get(Calendar.DAY_OF_MONTH)
-        val month = myCal.get(Calendar.MONTH) +1
-
-        viewHolder.itemView.txt_transaction_date_day.text = day.toString()
-        viewHolder.itemView.txt_transaction_date_month.text = month.toString()
-
-        viewHolder.itemView.txt_transaction_amount.text = transaction.amount
-        // TODO impostare colore in base al tipo
-        if (transaction.transactionType == "expense") {
-            // Colore rosso
-        } else {
-            // Colore verde
-        }
-
-    }
-
 }

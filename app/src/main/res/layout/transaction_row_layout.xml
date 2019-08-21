@@ -12,6 +12,8 @@
     <android.support.constraint.ConstraintLayout android:layout_width="wrap_content"
                                                  android:layout_height="match_parent"
                                                  android:minWidth="30dp"
+                                                 android:paddingRight="15dp"
+                                                 android:background="@drawable/transaction_item_date_layout"
                                                  android:id="@+id/container_transaction_date"
                                                  app:layout_constraintStart_toStartOf="parent"
                                                  app:layout_constraintTop_toTopOf="parent">
