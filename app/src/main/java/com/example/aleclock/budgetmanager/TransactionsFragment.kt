@@ -3,15 +3,18 @@ package com.example.aleclock.budgetmanager
 
 import android.app.DatePickerDialog
 import android.app.ProgressDialog
-import android.graphics.Color
+import android.graphics.*
 import android.os.Bundle
 import android.support.design.widget.BottomSheetDialog
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -244,6 +247,63 @@ class TransactionsFragment : Fragment() {
         getAccountlist()
         getCategoryList("expense")
         fetchTransaction()
+        initSwipe()
+    }
+
+    private fun initSwipe() {
+        val simpleItemTouchCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+            // Non è previsto il supporto per lo spostamento verticale
+            override fun onMove(p0: RecyclerView, p1: RecyclerView.ViewHolder, p2: RecyclerView.ViewHolder): Boolean {
+                return false
+            }
+
+            override fun onSwiped(p0: RecyclerView.ViewHolder, p1: Int) {
+                // po: viewHolder , p1: direction
+                val position = p0.adapterPosition
+                if (p1 == ItemTouchHelper.LEFT) {
+                    Log.d("onSwiped", "left")
+                } else if (p1 == ItemTouchHelper.RIGHT){
+                    Log.d("onSwiped", "right")
+                }
+            }
+
+            var background: RectF = RectF()
+
+            override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
+                if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+                    var icon : Bitmap
+                    var itemView : View = viewHolder.itemView
+                    var height = itemView.getBottom() - itemView.getTop()
+                    var width = height / 3
+                    var p = Paint()
+                    val corners = 15f
+
+
+                    if (dX > 0) {
+
+                    //Drawing for Swife Right
+
+                        p.setColor(resources.getColor(R.color.colorThird))
+                        background = RectF(itemView.left.toFloat(), itemView.top.toFloat(), dX/3 ,itemView.bottom.toFloat())
+                        c.drawRoundRect(background, corners, corners, p)
+                    } else if (dX < 0){
+
+                    //Drawing for Swife Left
+
+                        p.setColor(resources.getColor(R.color.colorError))
+                        // TODO il bordo destro è a filo con l'item a differenza dello swipe sinistro
+                        background = RectF(itemView.right.toFloat() + dX/3 + 30, itemView.top.toFloat(), itemView.right.toFloat() ,itemView.bottom.toFloat())
+                        c.drawRoundRect(background, corners, corners, p)
+                    }
+
+                }
+
+                super.onChildDraw(c, recyclerView, viewHolder,  dX/3, dY, actionState, isCurrentlyActive)
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
+        itemTouchHelper.attachToRecyclerView(recycler_view_transaction)
     }
 
     private fun getCategoryList(type: String) {
@@ -252,7 +312,7 @@ class TransactionsFragment : Fragment() {
         else {
             categoryListItems.clear()
             transactionType = type
-            val ref = FirebaseDatabase.getInstance().getReference("/transactionCategory").child(userId!!).child(type)
+            val ref = FirebaseDatabase.getInstance().getReference("/transactionCategory").child(userId).child(type)
             ref.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
                 }
@@ -274,7 +334,7 @@ class TransactionsFragment : Fragment() {
         var userId = FirebaseAuth.getInstance().uid
         if (userId == null) return
         else {
-            val ref = FirebaseDatabase.getInstance().getReference("/account").child(userId!!)
+            val ref = FirebaseDatabase.getInstance().getReference("/account").child(userId)
             ref.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
                 }

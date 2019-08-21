@@ -12,6 +12,7 @@
     <color name="colorGreenDark">#87A878</color>
     <color name="colorBlack">#000000</color>
     <color name="colorAccent">#ffffff</color>
+    <color name="colorError">#EF5B5B</color>
 </resources>
 
 <!-- TODO sistemare colori (vedere come si vedono sul cellulare a-->
