@@ -9,12 +9,10 @@ import android.support.design.widget.BottomSheetDialog
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -24,14 +22,10 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
-import kotlinx.android.synthetic.main.fragment_account.*
 import kotlinx.android.synthetic.main.fragment_transactions.*
-import kotlinx.android.synthetic.main.transaction_row_layout.view.*
+import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -46,9 +40,12 @@ class TransactionsFragment : Fragment() {
     var tabLayoutPeriod: TabLayout? = null
     var transactionType : String = ""
 
-    var accountListItems = ArrayList<String>()
-    var accountItemList = ArrayList<AccountRowItem>()
+    var accountListId = ArrayList<String>()
+    var accountListName = ArrayList<String>()
     var categoryListItems = ArrayList<String>()
+
+    var currentTabPeriod : String = "daily"
+    var currentDateSelected : String = getTodayDate()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,8 +67,8 @@ class TransactionsFragment : Fragment() {
          */
         tabLayoutPeriod = view?.findViewById<TabLayout>(R.id.tab_layout_period)
         tabLayoutPeriod!!.addTab(tabLayoutPeriod!!.newTab().setText(R.string.daily))
-        tabLayoutPeriod!!.addTab(tabLayoutPeriod!!.newTab().setText(R.string.weekly))
         tabLayoutPeriod!!.addTab(tabLayoutPeriod!!.newTab().setText(R.string.monthly))
+        tabLayoutPeriod!!.addTab(tabLayoutPeriod!!.newTab().setText(R.string.total))
         tabLayoutPeriod!!.tabGravity = TabLayout.GRAVITY_FILL
         tabLayoutPeriod!!.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(p0: TabLayout.Tab?) {
@@ -82,7 +79,20 @@ class TransactionsFragment : Fragment() {
 
             override fun onTabSelected(p0: TabLayout.Tab?) {
                 // Retrieve transaction data from Firebase
-                fetchTransaction()
+                fetchTransaction(getTodayDate(), "daily")
+                if (p0 != null) {
+                    when (p0.position) {
+                        0 -> {
+                            currentTabPeriod = "daily"
+                            fetchTransaction(currentDateSelected,currentTabPeriod) }
+                        1 -> {
+                            currentTabPeriod = "monthly"
+                            fetchTransaction(currentDateSelected,currentTabPeriod)}
+                        2 -> {
+                            currentTabPeriod = "total"
+                            fetchTransaction(currentDateSelected,currentTabPeriod)}
+                    }
+                }
             }
 
         })
@@ -100,6 +110,9 @@ class TransactionsFragment : Fragment() {
 
             dialog.setContentView(view)
             dialog.show()
+
+            // TODO https://stackoverflow.com/questions/33319898/currency-input-with-2-decimal-format
+            // TODO https://stackoverflow.com/questions/5107901/better-way-to-format-currency-input-edittext/8275680
 
             /**
              * Gestione dei tab della transazione
@@ -188,9 +201,9 @@ class TransactionsFragment : Fragment() {
              * Gestione del dialog spinner per la selezione del conto della nuova transazione
              */
             val acc_spinner = view.findViewById<Spinner>(R.id.spn_transaction_type)
-            val acc_categories = accountListItems
-            var acc_category_selected = accountListItems[0]
-            val type_adapter = ArrayAdapter(context,R.layout.select_dialog_item_material,acc_categories)
+            val acc_categories = accountListId
+            var acc_category_selected = accountListId[0]
+            val type_adapter = ArrayAdapter(context,R.layout.select_dialog_item_material,accountListName)
             acc_spinner.adapter = type_adapter
 
             acc_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -227,8 +240,15 @@ class TransactionsFragment : Fragment() {
     private fun initializeData() {
         getAccountlist()
         getCategoryList("expense")
-        fetchTransaction()
+        fetchTransaction(getTodayDate(), "daily")
         initSwipe()
+    }
+
+    private fun getTodayDate(): String {
+        var format = SimpleDateFormat("yyyyMMdd") // Formato per il salvataggio della data su Firebase
+
+        var currentDate = Calendar.getInstance().time
+        return format.format(currentDate)
     }
 
     private fun initializeButtons() {
@@ -240,7 +260,34 @@ class TransactionsFragment : Fragment() {
         var bt_filter = view!!.findViewById<ImageButton>(R.id.btn_filter)
 
         btn_setDate.setOnClickListener {
-            Log.d("initButtons","btn_setDate")
+
+            // Viene settato il datepicker
+
+            var dateFormat = SimpleDateFormat("yyyyMMdd") // Formato per il salvataggio della data su Firebase
+
+            // TODO sostituire con getTodayDate
+            var periodDate = Calendar.getInstance().time
+            var date = dateFormat.format(periodDate)    // newTransactionDate con formato yyyyMMdd
+
+            //var periodDatetxt = date
+            //datePicker_btn.text = getDate(newTransactionDate.time)
+
+            val c = Calendar.getInstance()
+            val year = c.get(Calendar.YEAR)
+            val month = c.get(Calendar.MONTH)
+            val day = c.get(Calendar.DAY_OF_MONTH)
+
+            // TODO i valori iniziali della data sono quelli di oggi (credo)
+
+            val datePickerDialog = DatePickerDialog(activity, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+                periodDate = GregorianCalendar(year, monthOfYear, dayOfMonth).time
+
+                currentDateSelected = dateFormat.format(periodDate)
+
+                fetchTransaction(currentDateSelected,currentTabPeriod)
+            }, year, month, day)
+
+            datePickerDialog.show()
         }
 
         btn_filter.setOnClickListener {
@@ -248,11 +295,18 @@ class TransactionsFragment : Fragment() {
         }
     }
 
-    private fun fetchTransaction() {
+    /**
+     * Funzione che carica le transazioni salvate su Firebase e le inserisce nell'adapter (ordine decrescente in base alla data)
+     */
+    private fun fetchTransaction(periodDate: String, periodRange: String) {
+
         var userId = FirebaseAuth.getInstance().uid
         if (userId == null) {
             return
         } else {
+
+            setPeriodBarInfo(periodDate,periodRange)
+
             val ref = FirebaseDatabase.getInstance().getReference("/transaction").child(userId!!).orderByChild("date")
             ref.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
@@ -265,7 +319,7 @@ class TransactionsFragment : Fragment() {
                     p0.children.forEach {
                         val transaction = it.getValue(TransactionRowItem::class.java)
                         if (transaction != null) {
-                            adapter.add(TransactionItem(transaction))
+                            adapter.add(0,TransactionItem(transaction))
                         }
                     }
                     recycler_view_transaction.adapter = adapter
@@ -273,6 +327,29 @@ class TransactionsFragment : Fragment() {
 
             })
         }
+    }
+
+    private fun setPeriodBarInfo(periodDate: String, periodRange: String) {
+
+        val format = SimpleDateFormat("yyyyMMdd")
+        val theDate = format.parse(periodDate)
+        val myCal = GregorianCalendar()
+        myCal.setTime(theDate)
+
+        val day = myCal.get(Calendar.DAY_OF_MONTH)
+        val month = myCal.get(Calendar.MONTH)
+        val monthL = DateFormatSymbols().months[month].capitalize()
+        val year = myCal.get(Calendar.YEAR)
+
+        if (periodRange == "daily") {
+            txt_period_date.text = "$day $monthL $year"
+        } else if (periodRange == "monthly"){
+            txt_period_date.text = "$monthL $year"
+        } else {
+            txt_period_date.text = ""
+        }
+
+        // TODO impostare valore spesa e guadagno riferito a quel periodo
     }
 
 
@@ -377,8 +454,8 @@ class TransactionsFragment : Fragment() {
                     p0.children.forEach {
                         val account = it.getValue(AccountRowItem::class.java)
                         if (account != null) {
-                            accountListItems.add(account.id)
-                            accountItemList.add(account)
+                            accountListId.add(account.id)
+                            accountListName.add(account.name)
                             // TODO convertire in modo tale da avere i nomi e non l'id
                         }
                     }
@@ -388,6 +465,9 @@ class TransactionsFragment : Fragment() {
         }
     }
 
+    /**
+     * Funzione che salva in Firebase la nuova transazione
+     */
     private fun createNewTransaction(
         date: String,
         account: String,
@@ -404,7 +484,7 @@ class TransactionsFragment : Fragment() {
             reference.setValue(transactionValue)
                 .addOnSuccessListener {
                     Log.d(TAG,"Transaction created")
-                    fetchTransaction()
+                    fetchTransaction(getTodayDate(), "daily")
                 }
                 .addOnFailureListener {
                     Log.e(TAG, "Transaction NOT created")
@@ -414,6 +494,11 @@ class TransactionsFragment : Fragment() {
 
     }
 
+    /**
+     * Funzione che ritorna la data formattata da inserire come testo nel DatePicker
+     */
+
+    // TODO controllare se migliore https://stackoverflow.com/questions/56207152/format-month-of-date-to-string-of-3-first-letters-kotlin
     private fun getDate(date: Long): CharSequence {
         val dateFormat = SimpleDateFormat("dd.MM.yyyy")
         val dateF = Date(date)

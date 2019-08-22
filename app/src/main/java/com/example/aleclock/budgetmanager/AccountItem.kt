@@ -24,9 +24,6 @@ class AccountItem(val account:AccountRowItem): Item<ViewHolder>() {
     private fun getDate(date: Long): CharSequence {
         val dateFormat = SimpleDateFormat("dd.MM.yyyy")
         val dateF = Date(date)
-
-        Log.d("datadate",date.toString())
-
         return dateFormat.format(dateF)
     }
 

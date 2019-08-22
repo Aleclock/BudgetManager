@@ -33,7 +33,7 @@
                   android:layout_marginTop="8dp"
                   android:textSize="17sp"
                   android:textColor="@color/colorBlack"
-                  android:text="@string/account_amount"/>
+                  android:text="@string/account_amount_value"/>
 
     </android.support.constraint.ConstraintLayout>
 

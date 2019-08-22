@@ -22,6 +22,7 @@
     <string name="save_new_account">Crea conto</string>
     <string name="save_new_transaction">Aggiungi transazione</string>
     <string name="account_name">Nome account</string>
+    <string name="account_amount_value">0,00</string>
     <string name="account_amount">Importo</string>
     <string name="select_category">Seleziona categoria</string>
     <string name="creation_date">Data di creazione</string>
@@ -48,6 +49,8 @@
 
     <string name="expense">Uscita</string>
     <string name="income">Entrata</string>
+    <string name="incomes">Guadagni</string>
+    <string name="expenses">Spese</string>
     <string name="select_date">Seleziona data</string>
 
     <!-- Expense category -->
@@ -85,6 +88,6 @@
     <string name="category_income_lottery">Lotteria</string>
 
     <string name="daily">Giornaliero</string>
-    <string name="weekly">Settimanale</string>
     <string name="monthly">Mensile</string>
+    <string name="total">Totale</string>
 </resources>
