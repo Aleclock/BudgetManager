@@ -12,6 +12,7 @@ import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
+import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -28,6 +29,7 @@ import kotlinx.android.synthetic.main.fragment_transactions.*
 import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.stream.DoubleStream.concat
 import kotlin.collections.ArrayList
 
 
@@ -309,11 +311,17 @@ class TransactionsFragment : Fragment() {
     private fun fetchTransaction(periodDate: String, periodRange: String) {
 
         var userId = FirebaseAuth.getInstance().uid
+
+        var incomeAmount = 0f
+        var expenseAmount = 0f
+
         if (userId == null) {
             return
         } else {
 
-            setPeriodBarInfo(periodDate,periodRange)
+            setPeriodBarDate(periodDate,periodRange)
+
+            // Variabili per il conteggio delle spese/guadagni riferite al periodo mostrato (giornaliero/mensile)
 
             val ref = FirebaseDatabase.getInstance().getReference("/transaction").child(userId!!).orderByChild("date")
             ref.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -329,22 +337,39 @@ class TransactionsFragment : Fragment() {
                         if (transaction != null) {
                             if (periodRange == "daily") {
                                 val dailyDate = transaction.date.removePrefix("-")
-                                if (currentDateSelected == dailyDate)
+                                if (currentDateSelected == dailyDate) {
                                     adapter.add(0,TransactionItem(transaction))
+
+                                    when (transaction.transactionType) {
+                                        "expense"   -> expenseAmount -= transaction.amount
+                                        "income"    -> incomeAmount += transaction.amount
+                                    }
+                                }
                             } else if (periodRange == "monthly") {
                                 val monthDate = getMonth (transaction.date.removePrefix("-"))
                                 val monthCurrent = getMonth (currentDateSelected)
 
-                                if (monthCurrent == monthDate)
-                                    adapter.add(0,TransactionItem(transaction))
+                                if (monthCurrent == monthDate) {
+                                    adapter.add(0, TransactionItem(transaction))
+
+                                    when (transaction.transactionType) {
+                                        "expense"   -> expenseAmount -= transaction.amount
+                                        "income"    -> incomeAmount += transaction.amount
+                                    }
+                                }
                             } else {
                                 adapter.add(0,TransactionItem(transaction))
+
+                                when (transaction.transactionType) {
+                                    "expense"   -> expenseAmount -= transaction.amount
+                                    "income"    -> incomeAmount += transaction.amount
+                                }
                             }
                         }
                     }
                     recycler_view_transaction.adapter = adapter
+                    setPeriodBarAmount (incomeAmount, expenseAmount)
                 }
-
             })
         }
     }
@@ -357,9 +382,9 @@ class TransactionsFragment : Fragment() {
     }
 
     /**
-     * Funzione che imposta le informazioni (periodo, spese, guadagni) riferite al periodo (giorno,mese,totale) selezionato
+     * Funzione che imposta la date (periodo) riferite al periodo (giorno,mese,totale) selezionato
      */
-    private fun setPeriodBarInfo(periodDate: String, periodRange: String) {
+    private fun setPeriodBarDate(periodDate: String, periodRange: String) {
 
         val format = SimpleDateFormat("yyyyMMdd")
         val theDate = format.parse(periodDate)
@@ -381,6 +406,12 @@ class TransactionsFragment : Fragment() {
 
         // TODO impostare valore spesa e guadagno riferito a quel periodo
     }
+
+    private fun setPeriodBarAmount(income: Float, expense: Float) {
+        txt_total_expense_amount.text = TextUtils.concat(expense.toString(), "  €")
+        txt_total_income_amount.text = TextUtils.concat(income.toString(),"  €")
+    }
+
 
 
     // TODO Implementare questa funzione in una classe

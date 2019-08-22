@@ -52,31 +52,8 @@ class TransactionItem(val transaction: TransactionRowItem) : Item<ViewHolder>() 
 
     }
 
-    private fun getAccountName(account: String): String {
-        var userId = FirebaseAuth.getInstance().uid
-
-        var ref = FirebaseDatabase.getInstance().getReference("/account").child(userId!!)
-            ref.orderByChild("id").equalTo(account)
-
-        ref.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-            }
-
-            override fun onDataChange(p0: DataSnapshot) {
-                // p0 contiene tutti i dati
-                p0.children.forEach {
-                    val account = it.getValue(AccountRowItem::class.java)
-                    if (account != null) {
-                        var name = account.name
-                    }
-                }
-            }
-
-        })
-
-        // TODO https://stackoverflow.com/questions/51958307/upload-multiple-images-and-wait-for-completion-before-returning-android-and-fir
-        return ""
-    }
+    // TODO https://stackoverflow.com/questions/53848189/format-number-using-decimal-format-in-kotlin
+    // TODO https://stackoverflow.com/questions/51958307/upload-multiple-images-and-wait-for-completion-before-returning-android-and-fir
 
     fun getMonth(month: Int): String {
         return DateFormatSymbols().months[month]
