@@ -92,4 +92,6 @@
     <string name="monthly">Mensile</string>
     <string name="total">Totale</string>
     <string name="set_account_filter">Seleziona conti da filtrare</string>
+    <string name="transaction_created">Transazione creata con successo</string>
+    <string name="transaction_not_created">Impossibile creare la transazione. Riprovare</string>
 </resources>

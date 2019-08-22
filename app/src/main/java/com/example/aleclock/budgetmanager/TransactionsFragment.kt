@@ -23,9 +23,11 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.irozon.sneaker.Sneaker
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.fragment_transactions.*
+import java.lang.Math.abs
 import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
@@ -60,8 +62,9 @@ class TransactionsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // TODO caricare dati e poi settare gli ascoltatori
+
         initializeData()
-        initializeButtons()
+        initTitleBarButtons()
 
         /**
          * Gestione dei tab per la selezione del periodo (giornaliero, settimanale, mensile)
@@ -254,10 +257,6 @@ class TransactionsFragment : Fragment() {
         return format.format(currentDate)
     }
 
-    private fun initializeButtons() {
-        initTitleBarButtons()   // Imposta gli ascoltatori per i pulsanti setDate e filter
-    }
-
     private fun initTitleBarButtons() {
         var btn_setDate = view!!.findViewById<ImageButton>(R.id.btn_set_date)
         var bt_filter = view!!.findViewById<ImageButton>(R.id.btn_filter)
@@ -301,7 +300,10 @@ class TransactionsFragment : Fragment() {
          * Filter
          */
         btn_filter.setOnClickListener {
-
+            Sneaker.with(this)
+                .setTitle(getString(R.string.transaction_created))
+                .setDuration(2000)
+                .sneak(R.color.colorPrimary)
         }
     }
 
@@ -408,7 +410,7 @@ class TransactionsFragment : Fragment() {
     }
 
     private fun setPeriodBarAmount(income: Float, expense: Float) {
-        txt_total_expense_amount.text = TextUtils.concat(expense.toString(), "  €")
+        txt_total_expense_amount.text = TextUtils.concat(abs(expense).toString(), "  €")
         txt_total_income_amount.text = TextUtils.concat(income.toString(),"  €")
     }
 
@@ -546,10 +548,21 @@ class TransactionsFragment : Fragment() {
             reference.setValue(transactionValue)
                 .addOnSuccessListener {
                     Log.d("createNewTransaction","Transaction created")
+
+                    Sneaker.with(this)
+                        .setTitle(getString(R.string.transaction_created))
+                        .setDuration(2000)
+                        .sneak(R.color.colorPrimary)
+
                     fetchTransaction(currentDateSelected, currentTabPeriod)
                 }
                 .addOnFailureListener {
                     Log.e("createNewTransaction", "Transaction NOT created")
+
+                    Sneaker.with(this)
+                        .setTitle(getString(R.string.transaction_not_created))
+                        .setDuration(2000)
+                        .sneak(R.color.colorError)
                 }
 
         }

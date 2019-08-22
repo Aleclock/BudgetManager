@@ -13,6 +13,7 @@
     <color name="colorBlack">#000000</color>
     <color name="colorAccent">#ffffff</color>
     <color name="colorError">#EF5B5B</color>
+    <color name="colorThirdLight">#445E89</color>
 </resources>
 
 <!-- TODO sistemare colori (vedere come si vedono sul cellulare a-->
