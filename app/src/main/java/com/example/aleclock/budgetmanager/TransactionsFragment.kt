@@ -203,6 +203,7 @@ class TransactionsFragment : Fragment() {
             val acc_spinner = view.findViewById<Spinner>(R.id.spn_transaction_type)
             val acc_categories = accountListId
             var acc_category_selected = accountListId[0]
+            var acc_category_name_selected = accountListName[0]
             val type_adapter = ArrayAdapter(context,R.layout.select_dialog_item_material,accountListName)
             acc_spinner.adapter = type_adapter
 
@@ -213,6 +214,7 @@ class TransactionsFragment : Fragment() {
 
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                     acc_category_selected = acc_categories[position]
+                    acc_category_name_selected = accountListName[position]
                 }
 
             }
@@ -226,7 +228,9 @@ class TransactionsFragment : Fragment() {
                 else {
                     createNewTransaction(
                         "-$newTransactionDateTxt",
-                        acc_category_selected, cat_category_selected,
+                        acc_category_selected,
+                        acc_category_name_selected,
+                        cat_category_selected,
                         newTransactionAmount.toString(),
                         transactionType
                     )
@@ -470,7 +474,8 @@ class TransactionsFragment : Fragment() {
      */
     private fun createNewTransaction(
         date: String,
-        account: String,
+        accountId: String,
+        accountName: String,
         category: String,
         amount: String,
         transactionType: String) {
@@ -480,7 +485,7 @@ class TransactionsFragment : Fragment() {
         if (userId == null) return
         else {
             val reference = FirebaseDatabase.getInstance().getReference("/transaction").child(userId).push()
-            val transactionValue = TransactionRowItem(date, account, category, amount, transactionType)
+            val transactionValue = TransactionRowItem(date, accountId, accountName, category, amount, transactionType)
             reference.setValue(transactionValue)
                 .addOnSuccessListener {
                     Log.d(TAG,"Transaction created")

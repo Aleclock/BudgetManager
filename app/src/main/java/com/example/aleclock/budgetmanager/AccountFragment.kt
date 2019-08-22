@@ -134,6 +134,7 @@ class AccountFragment : Fragment() {
             }
         // TODO aggiungere banner di avvenuta creazione/errore
         // TODO decidere se aggiungere utenti con cui condividere il conto
+        // TODO aggiungere campi "amount","expense","income"
 
     }
 

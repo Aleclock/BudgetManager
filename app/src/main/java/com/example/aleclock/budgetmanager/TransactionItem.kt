@@ -25,7 +25,7 @@ class TransactionItem(val transaction: TransactionRowItem) : Item<ViewHolder>() 
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
         viewHolder.itemView.txt_transaction_category.text = transaction.category
-        viewHolder.itemView.txt_transaction_account.text = getAccountName(transaction.account)
+        viewHolder.itemView.txt_transaction_account.text = transaction.accountName
         
         //val accountName = getAccountName(transaction.account)
 

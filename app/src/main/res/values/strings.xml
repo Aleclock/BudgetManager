@@ -24,6 +24,7 @@
     <string name="account_name">Nome account</string>
     <string name="account_amount_value">0,00</string>
     <string name="account_amount">Importo</string>
+    <string name="account_balance">Saldo</string>
     <string name="select_category">Seleziona categoria</string>
     <string name="creation_date">Data di creazione</string>
 
