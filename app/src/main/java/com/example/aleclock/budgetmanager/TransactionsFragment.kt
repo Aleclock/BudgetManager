@@ -84,13 +84,13 @@ class TransactionsFragment : Fragment() {
                     when (p0.position) {
                         0 -> {
                             currentTabPeriod = "daily"
-                            fetchTransaction(currentDateSelected,currentTabPeriod) }
+                            fetchTransaction(currentDateSelected,currentTabPeriod)  }
                         1 -> {
                             currentTabPeriod = "monthly"
-                            fetchTransaction(currentDateSelected,currentTabPeriod)}
+                            fetchTransaction(currentDateSelected,currentTabPeriod)  }
                         2 -> {
                             currentTabPeriod = "total"
-                            fetchTransaction(currentDateSelected,currentTabPeriod)}
+                            fetchTransaction(currentDateSelected,currentTabPeriod)  }
                     }
                 }
             }
@@ -115,7 +115,7 @@ class TransactionsFragment : Fragment() {
             // TODO https://stackoverflow.com/questions/5107901/better-way-to-format-currency-input-edittext/8275680
 
             /**
-             * Gestione dei tab della transazione
+             * Gestione dei tab del dialog della nuova transazione
              */
             tabLayout = view?.findViewById<TabLayout>(R.id.tab_layout)
 
@@ -179,7 +179,6 @@ class TransactionsFragment : Fragment() {
              * Gestione del dialog spinner per la selezione della categoria della nuova transazione
              */
             val cat_spinner = view.findViewById<Spinner>(R.id.spn_transaction_category)
-            //val cat_categories = resources.getStringArray(R.array.category_array)
             val cat_categories = categoryListItems
             var cat_category_selected = cat_categories[0]
             val cat_adapter = ArrayAdapter(context,R.layout.select_dialog_item_material,cat_categories)
@@ -188,7 +187,6 @@ class TransactionsFragment : Fragment() {
 
             cat_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                 }
 
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -209,7 +207,6 @@ class TransactionsFragment : Fragment() {
 
             acc_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                 }
 
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -323,7 +320,19 @@ class TransactionsFragment : Fragment() {
                     p0.children.forEach {
                         val transaction = it.getValue(TransactionRowItem::class.java)
                         if (transaction != null) {
-                            adapter.add(0,TransactionItem(transaction))
+                            if (periodRange == "daily") {
+                                val dailyDate = transaction.date.removePrefix("-")
+                                if (currentDateSelected == dailyDate)
+                                    adapter.add(0,TransactionItem(transaction))
+                            } else if (periodRange == "monthly") {
+                                val monthDate = getMonth (transaction.date.removePrefix("-"))
+                                val monthCurrent = getMonth (currentDateSelected)
+
+                                if (monthCurrent == monthDate)
+                                    adapter.add(0,TransactionItem(transaction))
+                            } else {
+                                adapter.add(0,TransactionItem(transaction))
+                            }
                         }
                     }
                     recycler_view_transaction.adapter = adapter
@@ -333,6 +342,16 @@ class TransactionsFragment : Fragment() {
         }
     }
 
+    /**
+     * Funzione che converte la data in formato yyyyMMdd a yyyyMM
+     */
+    private fun getMonth(date: String): String {
+        return date.substring(0,6)
+    }
+
+    /**
+     * Funzione che imposta le informazioni (periodo, spese, guadagni) riferite al periodo (giorno,mese,totale) selezionato
+     */
     private fun setPeriodBarInfo(periodDate: String, periodRange: String) {
 
         val format = SimpleDateFormat("yyyyMMdd")
@@ -488,11 +507,11 @@ class TransactionsFragment : Fragment() {
             val transactionValue = TransactionRowItem(date, accountId, accountName, category, amount, transactionType)
             reference.setValue(transactionValue)
                 .addOnSuccessListener {
-                    Log.d(TAG,"Transaction created")
-                    fetchTransaction(getTodayDate(), "daily")
+                    Log.d("createNewTransaction","Transaction created")
+                    fetchTransaction(currentDateSelected, currentTabPeriod)
                 }
                 .addOnFailureListener {
-                    Log.e(TAG, "Transaction NOT created")
+                    Log.e("createNewTransaction", "Transaction NOT created")
                 }
 
         }

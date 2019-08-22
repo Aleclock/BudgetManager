@@ -71,7 +71,7 @@ class LoginActivity : AppCompatActivity() {
         if (email!!.isEmpty() || password!!.isEmpty()) {
             Toast.makeText(this, "Enter all details", Toast.LENGTH_SHORT).show()
         } else {
-            mProgressBar!!.setMessage("Login User...")
+            mProgressBar!!.setMessage("Logging ...")
             mProgressBar!!.show()
             Log.d(TAG, "Logging in user.")
             mAuth!!.signInWithEmailAndPassword(email!!, password!!)

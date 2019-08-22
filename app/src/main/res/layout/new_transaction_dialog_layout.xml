@@ -84,7 +84,7 @@
                     android:textSize="60sp"
                     android:textAlignment="center"
                     android:inputType="numberDecimal"
-                    android:digits="123456789,"
+                    android:digits="0123456789,"
                     android:background="@drawable/custom_edittext_gray"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/spn_transaction_category"
