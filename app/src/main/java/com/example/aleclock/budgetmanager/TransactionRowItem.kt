@@ -4,8 +4,8 @@ class TransactionRowItem (val date: String,
                         val accountId: String,
                         val accountName : String,
                         val category: String,
-                        val amount: String,
+                        val amount: Float,
                         val transactionType: String) {
 
-    constructor():this("","","","","","")
+    constructor():this("","","","", 0f,"")
 }

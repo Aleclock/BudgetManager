@@ -5,9 +5,12 @@ class AccountRowItem (val name:String,
                    val description: String,
                    val id:String,
                    val userId: String,
+                   val balance: Float,
+                   val income: Float,
+                   val expense: Float,
                    val timeStamp: Long) {
 
 
-    constructor():this("","","","","",-1)
+    constructor():this("","","","","",0f,0f,0f,-1)
 
 }

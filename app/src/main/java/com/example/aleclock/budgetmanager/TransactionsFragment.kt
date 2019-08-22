@@ -1,8 +1,9 @@
 package com.example.aleclock.budgetmanager
 
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
-import android.app.ProgressDialog
+import android.content.DialogInterface
 import android.graphics.*
 import android.os.Bundle
 import android.support.design.widget.BottomSheetDialog
@@ -34,8 +35,6 @@ class TransactionsFragment : Fragment() {
 
     var TAG = "TransactionsFragment"
 
-    private var mProgressBar: ProgressDialog? = null
-
     var tabLayout: TabLayout? = null
     var tabLayoutPeriod: TabLayout? = null
     var transactionType : String = ""
@@ -65,7 +64,7 @@ class TransactionsFragment : Fragment() {
         /**
          * Gestione dei tab per la selezione del periodo (giornaliero, settimanale, mensile)
          */
-        tabLayoutPeriod = view?.findViewById<TabLayout>(R.id.tab_layout_period)
+        tabLayoutPeriod = view.findViewById<TabLayout>(R.id.tab_layout_period)
         tabLayoutPeriod!!.addTab(tabLayoutPeriod!!.newTab().setText(R.string.daily))
         tabLayoutPeriod!!.addTab(tabLayoutPeriod!!.newTab().setText(R.string.monthly))
         tabLayoutPeriod!!.addTab(tabLayoutPeriod!!.newTab().setText(R.string.total))
@@ -97,6 +96,7 @@ class TransactionsFragment : Fragment() {
 
         })
 
+        // TODO se la lista degli account è vuota non si può creare una nuova transizione
         /**
          * Gestione del pulsante per la creazione di una nuova transazione
          */
@@ -219,7 +219,7 @@ class TransactionsFragment : Fragment() {
 
             val btn_create_transaction = view.findViewById<Button>(R.id.btn_create_transaction)
             btn_create_transaction.setOnClickListener {
-                val newTransactionAmount = view.findViewById<EditText>(R.id.et_amount_transaction).text
+                val newTransactionAmount = view.findViewById<EditText>(R.id.et_amount_transaction).text.toString()
                 if  (newTransactionAmount.toString() == "")
                     // TODO popup "Errore Inserire importo"
                 else {
@@ -228,7 +228,7 @@ class TransactionsFragment : Fragment() {
                         acc_category_selected,
                         acc_category_name_selected,
                         cat_category_selected,
-                        newTransactionAmount.toString(),
+                        newTransactionAmount.toFloat(),
                         transactionType
                     )
                     dialog.hide()
@@ -260,6 +260,10 @@ class TransactionsFragment : Fragment() {
         var btn_setDate = view!!.findViewById<ImageButton>(R.id.btn_set_date)
         var bt_filter = view!!.findViewById<ImageButton>(R.id.btn_filter)
 
+
+        /**
+         * DatePicker
+         */
         btn_setDate.setOnClickListener {
 
             // Viene settato il datepicker
@@ -291,8 +295,11 @@ class TransactionsFragment : Fragment() {
             datePickerDialog.show()
         }
 
+        /**
+         * Filter
+         */
         btn_filter.setOnClickListener {
-            Log.d("initButtons","btn_filter")
+
         }
     }
 
@@ -496,7 +503,7 @@ class TransactionsFragment : Fragment() {
         accountId: String,
         accountName: String,
         category: String,
-        amount: String,
+        amount: Float,
         transactionType: String) {
 
         val userId = FirebaseAuth.getInstance().uid

@@ -41,11 +41,11 @@
                 android:background="@drawable/custom_edittext_gray"
                 android:inputType="text"
                 android:layout_marginRight="8dp"
-                app:layout_constraintEnd_toStartOf="@+id/et_amount_account"
+                app:layout_constraintEnd_toStartOf="@+id/et_balance_account"
                 app:layout_constraintStart_toStartOf="parent"/>
 
         <EditText
-                android:id="@+id/et_amount_account"
+                android:id="@+id/et_balance_account"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:hint="@string/account_amount"
@@ -54,7 +54,7 @@
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:inputType="numberDecimal"
-                android:digits="123456789,"
+                android:digits="0123456789."
                 app:layout_constraintEnd_toEndOf="parent"/>
     </android.support.constraint.ConstraintLayout>
 

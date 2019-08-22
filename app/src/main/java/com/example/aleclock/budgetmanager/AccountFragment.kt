@@ -4,7 +4,7 @@ package com.example.aleclock.budgetmanager
 import android.os.Bundle
 import android.support.design.widget.BottomSheetDialog
 import android.support.v4.app.Fragment
-import android.support.v7.widget.RecyclerView
+import android.text.Editable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,12 +13,8 @@ import android.widget.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
-import kotlinx.android.synthetic.main.account_row_account_layout.view.*
 import kotlinx.android.synthetic.main.fragment_account.*
-import java.text.SimpleDateFormat
-import java.util.*
 
 class AccountFragment : Fragment() {
 
@@ -76,8 +72,9 @@ class AccountFragment : Fragment() {
 
             val btn = view.findViewById<Button>(R.id.btn_create_account)
             btn.setOnClickListener {
-                val newAccountName = view!!.findViewById<EditText>(R.id.et_name_account)
-                createNewAccount(newAccountName, category_selected)
+                val newAccountName = view!!.findViewById<EditText>(R.id.et_name_account).text
+                val newAccountBalance = view!!.findViewById<EditText>(R.id.et_balance_account).text
+                createNewAccount(newAccountName.toString(), category_selected, newAccountBalance.toString().toFloat())
                 dialog.hide()
             }
         }
@@ -113,17 +110,22 @@ class AccountFragment : Fragment() {
     }
 
     private fun createNewAccount(
-        editText: EditText,
-        accountCategory: String) {
-        val accountName = editText.text.toString()
+        newAccountName: String,
+        accountCategory: String,
+        newAccountBalance: Float
+    ) {
         val accountDescription = ""
         val userId = FirebaseAuth.getInstance().uid
+
+        val balance = newAccountBalance
+        val income = 0f
+        val expense = 0f
 
         if (userId == null) return
 
         // Crea il nodo "account"
         val reference = FirebaseDatabase.getInstance().getReference("/account").child(userId).push()
-        val accountValue = AccountRowItem(accountName,accountCategory,accountDescription,reference.key!!,userId,System.currentTimeMillis())
+        val accountValue = AccountRowItem(newAccountName,accountCategory,accountDescription,reference.key!!,userId, balance,income,expense,System.currentTimeMillis())
         reference.setValue(accountValue)
             .addOnSuccessListener {
                 Log.d(TAG,"Account created")

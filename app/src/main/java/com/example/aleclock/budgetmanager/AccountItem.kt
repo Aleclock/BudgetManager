@@ -1,5 +1,6 @@
 package com.example.aleclock.budgetmanager
 
+import android.text.TextUtils
 import android.util.Log
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
@@ -13,6 +14,7 @@ class AccountItem(val account:AccountRowItem): Item<ViewHolder>() {
         // Funzione chiamata per ogni elemento contenuto nella lista
         viewHolder.itemView.account_item_name.text = account.name
         viewHolder.itemView.account_item_category.text = account.category
+        viewHolder.itemView.txt_balance.text = TextUtils.concat("€  ", account.balance.toString())
 
         val date = getDate(account.timeStamp)
         viewHolder.itemView.txt_creation_date.text = date

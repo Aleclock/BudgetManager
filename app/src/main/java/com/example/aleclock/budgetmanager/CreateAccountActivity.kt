@@ -166,11 +166,16 @@ class CreateAccountActivity : AppCompatActivity() {
         val categories = resources.getStringArray(R.array.category_array)
         var accountCategory = categories[0]
 
+        val balance = 0f
+        val income = 0f
+        val expense = 0f
+
         if (userId == null) return
 
         // Crea il nodo "account"
         val reference = FirebaseDatabase.getInstance().getReference("/account").child(userId).push()
-        val accountValue = AccountRowItem(accountName,accountCategory,accountDescription,reference.key!!,userId,System.currentTimeMillis())
+        val accountValue = AccountRowItem(accountName,accountCategory,accountDescription,reference.key!!,userId,
+                                balance, income, expense, System.currentTimeMillis())
         reference.setValue(accountValue)
             .addOnSuccessListener {
                 Log.d(TAG,"Account created")

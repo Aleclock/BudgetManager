@@ -42,7 +42,7 @@ class TransactionItem(val transaction: TransactionRowItem) : Item<ViewHolder>() 
         viewHolder.itemView.txt_transaction_date_month.text = monthL
         Log.d("mesee", theDate.toString() +" , " + transaction.date.removePrefix("-"))
 
-        viewHolder.itemView.txt_transaction_amount.text = concat("€  ", transaction.amount)
+        viewHolder.itemView.txt_transaction_amount.text = concat("€  ", transaction.amount.toString())
         // TODO impostare colore in base al tipo
         if (transaction.transactionType == "expense") {
             // Colore rosso
