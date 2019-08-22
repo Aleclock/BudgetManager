@@ -18,9 +18,6 @@ class AccountItem(val account:AccountRowItem): Item<ViewHolder>() {
 
         val date = getDate(account.timeStamp)
         viewHolder.itemView.txt_creation_date.text = date
-
-        viewHolder.itemView.img_account.setImageResource(R.drawable.ic_add)
-
     }
 
     private fun getDate(date: Long): CharSequence {
