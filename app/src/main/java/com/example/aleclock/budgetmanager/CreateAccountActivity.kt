@@ -17,7 +17,6 @@ class CreateAccountActivity : AppCompatActivity() {
 
     // TODO https://www.behance.net/gallery/61857935/Daily-UI-01-05
     // TODO https://www.behance.net/gallery/82332567/Project-application?tracking_source=for_you_activity
-    // TODO https://developer.android.com/guide/navigation/navigation-swipe-view da vedere se farlo o no
     // TODO Sostituire progressDialog
 
     //UI elements

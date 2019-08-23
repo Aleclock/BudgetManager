@@ -99,31 +99,7 @@ class LoginActivity : AppCompatActivity() {
 
 
     companion object UserValue {
-
-        var user = FirebaseAuth.getInstance().currentUser
         var mAuth = FirebaseAuth.getInstance()
-
-
-
-        private var userFirstName: String? = null
-        private var userLastName: String? = null
-
-
-        // TODO in teoria da fuori posso accedere alle variabili del companion object. Quindi fare il listenere nel
-        //  oncreate e assegnare alle variabili del companion i valori trovati
-
-
-        fun getUserMail(): String? {
-            return user?.email
-        }
-
-        fun getUserFirstName(): String? {
-            return userFirstName
-        }
-
-        fun getUserLastName(): String? {
-            return userLastName
-        }
 
         fun signOut() {
             mAuth?.signOut()

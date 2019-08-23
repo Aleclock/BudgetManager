@@ -41,8 +41,6 @@ class MainActivity : AppCompatActivity() {
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .commit()
 
-        // TODO https://stackoverflow.com/questions/43246059/how-to-set-selected-item-in-bottomnavigationview
-
         bottomNavigation.setOnNavigationItemSelectedListener { item ->
 
             if (bottomNavigation.selectedItemId != item.itemId) {

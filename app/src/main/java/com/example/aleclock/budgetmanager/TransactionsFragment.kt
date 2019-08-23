@@ -226,7 +226,12 @@ class TransactionsFragment : Fragment() {
             btn_create_transaction.setOnClickListener {
                 val newTransactionAmount = view.findViewById<EditText>(R.id.et_amount_transaction).text.toString()
                 if  (newTransactionAmount.toString() == "")
-                    // TODO popup "Errore Inserire importo"
+                    Sneaker.with(this)
+                        .setTitle(getString(R.string.error_insert_amount))
+                        .setDuration(2000)
+                        .sneak(R.color.colorError)
+
+                // TODO migliorare
                 else {
                     createNewTransaction(
                         "-$newTransactionDateTxt",
@@ -301,9 +306,9 @@ class TransactionsFragment : Fragment() {
          */
         btn_filter.setOnClickListener {
             Sneaker.with(this)
-                .setTitle(getString(R.string.transaction_created))
+                .setTitle("Filtra le categorie")
                 .setDuration(2000)
-                .sneak(R.color.colorPrimary)
+                .sneak(R.color.colorGreen)
         }
     }
 
@@ -405,8 +410,6 @@ class TransactionsFragment : Fragment() {
         } else {
             txt_period_date.text = ""
         }
-
-        // TODO impostare valore spesa e guadagno riferito a quel periodo
     }
 
     private fun setPeriodBarAmount(income: Float, expense: Float) {
@@ -519,7 +522,6 @@ class TransactionsFragment : Fragment() {
                         if (account != null) {
                             accountListId.add(account.id)
                             accountListName.add(account.name)
-                            // TODO convertire in modo tale da avere i nomi e non l'id
                         }
                     }
                 }
@@ -554,6 +556,7 @@ class TransactionsFragment : Fragment() {
                         .setDuration(2000)
                         .sneak(R.color.colorPrimary)
 
+                    updateAccountBalance(accountId,transactionType,amount)
                     fetchTransaction(currentDateSelected, currentTabPeriod)
                 }
                 .addOnFailureListener {
@@ -567,6 +570,36 @@ class TransactionsFragment : Fragment() {
 
         }
 
+    }
+
+    /**
+     * Funzione che, dopo aver creato una transazione, aggiorna il valore del saldo dell'account
+     */
+    private fun updateAccountBalance(accountId: String, transactionType: String, amount: Float) {
+        val userId = FirebaseAuth.getInstance().uid
+
+        if (userId == null) return
+        else {
+            val balanceRef = FirebaseDatabase.getInstance().getReference("/account").child(userId).child(accountId).limitToFirst(1)
+            balanceRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    val account = p0.getValue(AccountRowItem::class.java)
+                    var balance = account!!.balance
+
+                    Log.d("updateAccountBalance",balance.toString())
+
+                    val reference = FirebaseDatabase.getInstance().getReference("/account").child(userId).child(accountId).child("balance")
+                    if (transactionType == "expense")   // Spesa
+                        reference.setValue(balance-amount)
+                    else                                // Guadagno
+                        reference.setValue(balance+amount)
+                }
+
+            })
+        }
     }
 
     /**

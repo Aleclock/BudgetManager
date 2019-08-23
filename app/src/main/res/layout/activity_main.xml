@@ -17,7 +17,6 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
-    <!-- TODO https://stackoverflow.com/questions/50145541/new-bottom-layout-from-google -->
     <android.support.design.widget.BottomNavigationView
             android:id="@+id/nav_bar"
             android:layout_width="match_parent"

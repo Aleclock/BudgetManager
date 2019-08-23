@@ -10,11 +10,11 @@
     <color name="colorThird">#2E4052</color>
     <color name="colorGreen">#BDD9BF</color>
     <color name="colorGreenDark">#87A878</color>
+    <color name="colorGreenDarker">#63A088</color>
     <color name="colorBlack">#000000</color>
     <color name="colorAccent">#ffffff</color>
     <color name="colorError">#EF5B5B</color>
-    <color name="colorThirdLight">#445E89</color>
+    <color name="colorThirdLight">#258EA6</color>
 </resources>
 
-<!-- TODO sistemare colori (vedere come si vedono sul cellulare a-->
 <!-- TODO cambiare colorSecondaryMedium-->
