@@ -1,9 +1,7 @@
 package com.example.aleclock.budgetmanager
 
 
-import android.app.AlertDialog
 import android.app.DatePickerDialog
-import android.content.DialogInterface
 import android.graphics.*
 import android.os.Bundle
 import android.support.design.widget.BottomSheetDialog
@@ -31,7 +29,6 @@ import java.lang.Math.abs
 import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.stream.DoubleStream.concat
 import kotlin.collections.ArrayList
 
 
@@ -322,6 +319,9 @@ class TransactionsFragment : Fragment() {
         var incomeAmount = 0f
         var expenseAmount = 0f
 
+        var incomeColor = resources.getColor(R.color.colorGreenDark)
+        var expenseColor = resources.getColor(R.color.colorError)
+
         if (userId == null) {
             return
         } else {
@@ -345,7 +345,7 @@ class TransactionsFragment : Fragment() {
                             if (periodRange == "daily") {
                                 val dailyDate = transaction.date.removePrefix("-")
                                 if (currentDateSelected == dailyDate) {
-                                    adapter.add(0,TransactionItem(transaction))
+                                    adapter.add(0,TransactionItem(transaction,incomeColor,expenseColor))
 
                                     when (transaction.transactionType) {
                                         "expense"   -> expenseAmount -= transaction.amount
@@ -357,7 +357,7 @@ class TransactionsFragment : Fragment() {
                                 val monthCurrent = getMonth (currentDateSelected)
 
                                 if (monthCurrent == monthDate) {
-                                    adapter.add(0, TransactionItem(transaction))
+                                    adapter.add(0, TransactionItem(transaction,incomeColor,expenseColor))
 
                                     when (transaction.transactionType) {
                                         "expense"   -> expenseAmount -= transaction.amount
@@ -365,7 +365,11 @@ class TransactionsFragment : Fragment() {
                                     }
                                 }
                             } else {
-                                adapter.add(0,TransactionItem(transaction))
+                                adapter.add(0,TransactionItem(
+                                    transaction,
+                                    incomeColor,
+                                    expenseColor
+                                ))
 
                                 when (transaction.transactionType) {
                                     "expense"   -> expenseAmount -= transaction.amount
@@ -612,4 +616,5 @@ class TransactionsFragment : Fragment() {
         val dateF = Date(date)
         return dateFormat.format(dateF)
     }
+
 }

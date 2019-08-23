@@ -3,12 +3,6 @@ package com.example.aleclock.budgetmanager
 import android.text.TextUtils.concat
 import android.text.TextUtils.substring
 import android.util.Log
-import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.transaction_row_layout.view.*
@@ -17,7 +11,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class TransactionItem(val transaction: TransactionRowItem) : Item<ViewHolder>() {
+class TransactionItem( val transaction: TransactionRowItem, incomeColor: Int, expenseColor: Int) : Item<ViewHolder>() {
+
+    var incomeColor = incomeColor
+    var expenseColor = expenseColor
 
     override fun getLayout(): Int {
         return R.layout.transaction_row_layout
@@ -26,8 +23,6 @@ class TransactionItem(val transaction: TransactionRowItem) : Item<ViewHolder>() 
     override fun bind(viewHolder: ViewHolder, position: Int) {
         viewHolder.itemView.txt_transaction_category.text = transaction.category
         viewHolder.itemView.txt_transaction_account.text = transaction.accountName
-        
-        //val accountName = getAccountName(transaction.account)
 
         val format = SimpleDateFormat("yyyyMMdd")
         val theDate = format.parse(transaction.date.removePrefix("-"))
@@ -43,12 +38,11 @@ class TransactionItem(val transaction: TransactionRowItem) : Item<ViewHolder>() 
         Log.d("mesee", theDate.toString() +" , " + transaction.date.removePrefix("-"))
 
         viewHolder.itemView.txt_transaction_amount.text = concat("€  ", transaction.amount.toString())
+        if (transaction.transactionType == "expense")
+            viewHolder.itemView.txt_transaction_amount.setTextColor(expenseColor)
+        else
+            viewHolder.itemView.txt_transaction_amount.setTextColor(incomeColor)
         // TODO impostare colore in base al tipo
-        if (transaction.transactionType == "expense") {
-            // Colore rosso
-        } else {
-            // Colore verde
-        }
 
     }
 
