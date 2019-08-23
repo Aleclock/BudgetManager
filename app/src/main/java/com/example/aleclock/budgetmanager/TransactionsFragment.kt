@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.text.TextUtils
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -242,7 +243,6 @@ class TransactionsFragment : Fragment() {
                 }
             }
         }
-
     }
 
     private fun initializeData() {
@@ -421,8 +421,6 @@ class TransactionsFragment : Fragment() {
         txt_total_income_amount.text = TextUtils.concat(income.toString(),"  €")
     }
 
-
-
     // TODO Implementare questa funzione in una classe
     private fun initSwipe() {
         val simpleItemTouchCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
@@ -448,34 +446,36 @@ class TransactionsFragment : Fragment() {
                     var icon : Bitmap
                     var itemView : View = viewHolder.itemView
                     var height = itemView.getBottom() - itemView.getTop()
-                    var width = height / 3
+                    //var width = height / 3
                     var p = Paint()
-                    val corners = 15f
 
+                    val corner = resources.getDimension(R.dimen.corners)
+
+                    val displayMetrics = DisplayMetrics()
+                    activity!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
+                    var width = displayMetrics.widthPixels
 
                     if (dX > 0) {
 
                     //Drawing for Swife Right
 
-                        p.setColor(resources.getColor(R.color.colorThird))
-                        background = RectF(itemView.left.toFloat(), itemView.top.toFloat(), dX/3 ,itemView.bottom.toFloat())
-                        c.drawRoundRect(background, corners, corners, p)
+                        p.setColor(resources.getColor(R.color.colorThirdLight))
+                        //background = RectF(itemView.left.toFloat(), itemView.top.toFloat(), itemView.left.toFloat() + dX/3 ,itemView.bottom.toFloat())
+                        background = RectF(-corner, itemView.top.toFloat(), dX/3 ,itemView.bottom.toFloat())
+                        c.drawRoundRect(background, corner, corner, p)
                     } else if (dX < 0){
 
                     //Drawing for Swife Left
 
                         p.setColor(resources.getColor(R.color.colorError))
                         // TODO il bordo destro è a filo con l'item a differenza dello swipe sinistro
-                        background = RectF(itemView.right.toFloat() + dX/3 + 30, itemView.top.toFloat(), itemView.right.toFloat() ,itemView.bottom.toFloat())
-                        c.drawRoundRect(background, corners, corners, p)
+                        background = RectF(width.toFloat() + dX/3, itemView.top.toFloat(), width.toFloat() + corner ,itemView.bottom.toFloat())
+                        c.drawRoundRect(background, corner, corner, p)
                     }
-
                 }
-
                 super.onChildDraw(c, recyclerView, viewHolder,  dX/3, dY, actionState, isCurrentlyActive)
             }
         }
-
         val itemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
         itemTouchHelper.attachToRecyclerView(recycler_view_transaction)
     }
@@ -571,9 +571,7 @@ class TransactionsFragment : Fragment() {
                         .setDuration(2000)
                         .sneak(R.color.colorError)
                 }
-
         }
-
     }
 
     /**
