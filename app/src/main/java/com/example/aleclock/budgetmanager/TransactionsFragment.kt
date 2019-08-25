@@ -228,6 +228,7 @@ class TransactionsFragment : Fragment() {
             val btn_create_transaction = view.findViewById<Button>(R.id.btn_create_transaction)
             btn_create_transaction.setOnClickListener {
                 val newTransactionAmount = view.findViewById<EditText>(R.id.et_amount_transaction).text.toString()
+                val newTransactionNote = view.findViewById<EditText>(R.id.et_description_transaction).text.toString()
                 if  (newTransactionAmount.toString() == "")
                     Sneaker.with(this)
                         .setTitle(getString(R.string.error_insert_amount))
@@ -242,6 +243,7 @@ class TransactionsFragment : Fragment() {
                         acc_category_name_selected,
                         cat_category_selected,
                         newTransactionAmount.toFloat(),
+                        newTransactionNote,
                         transactionType
                     )
                     dialog.hide()
@@ -581,6 +583,7 @@ class TransactionsFragment : Fragment() {
         accountName: String,
         category: String,
         amount: Float,
+        note : String,
         transactionType: String) {
 
         val userId = FirebaseAuth.getInstance().uid
@@ -589,7 +592,7 @@ class TransactionsFragment : Fragment() {
         else {
             val reference = FirebaseDatabase.getInstance().getReference("/transaction").child(userId).push()
 
-            val transactionValue = TransactionRowItem(date, accountId, reference.key!!, accountName, category, amount, transactionType)
+            val transactionValue = TransactionRowItem(date, accountId, reference.key!!, accountName, category, amount, note, transactionType)
             reference.setValue(transactionValue)
                 .addOnSuccessListener {
                     Log.d("createNewTransaction","Transaction created")

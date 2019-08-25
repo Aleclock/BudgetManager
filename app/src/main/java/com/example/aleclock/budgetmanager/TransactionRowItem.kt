@@ -10,7 +10,8 @@ class TransactionRowItem (val date: String,
                         val accountName : String,
                         val category: String,
                         val amount: Float,
+                        val note : String,
                         val transactionType: String) : Parcelable {
 
-    constructor():this("","","","","", 0f,"")
+    constructor():this("","","","","", 0f,"","")
 }

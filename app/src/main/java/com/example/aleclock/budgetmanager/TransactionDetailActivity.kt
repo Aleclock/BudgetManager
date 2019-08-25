@@ -12,6 +12,8 @@ import android.widget.TextView
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_transaction_detail.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class TransactionDetailActivity : AppCompatActivity() {
 
@@ -31,15 +33,30 @@ class TransactionDetailActivity : AppCompatActivity() {
 
         val adapter = GroupAdapter<ViewHolder>()
 
-        adapter.add(TransactionDetailItem("Data",transaction.date))
-        adapter.add(TransactionDetailItem("Data",transaction.date))
-        adapter.add(TransactionDetailItem("Data",transaction.date))
-        adapter.add(TransactionDetailItem("Data",transaction.date))
+        val date = getFormattedDate(transaction.date)
+        adapter.add(TransactionDetailItem("Data",date.toString()))
+        adapter.add(TransactionDetailItem("Conto",transaction.accountName))
+
+        if (transaction.note != "")
+            adapter.add(TransactionDetailItem("Note",transaction.note))
+
 
         recycleView.adapter = adapter
         recycleView.addItemDecoration(DividerItemDecoration(this,DividerItemDecoration.VERTICAL))
 
 
+    }
+
+    private fun getFormattedDate(date: String): Any {
+        val fromFormat = SimpleDateFormat("yyyyMMdd")
+        val theDate = fromFormat.parse(date.removePrefix("-"))
+        val myCal = GregorianCalendar()
+        myCal.setTime(theDate)
+
+        val toFormat = SimpleDateFormat("dd.MM.yyyy")
+        toFormat.setCalendar(myCal)
+        val toDate = toFormat.format(myCal.time)
+        return toDate
     }
 
     override fun onCreateView(name: String?, context: Context?, attrs: AttributeSet?): View? {
