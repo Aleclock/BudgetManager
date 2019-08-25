@@ -7,14 +7,15 @@
     <color name="colorSecondaryMedium">#636363</color>
     <color name="colorSecondaryDark">#343330</color>
     <color name="colorWhite">#FFFFFF</color>
-    <color name="colorThird">#2E4052</color>
     <color name="colorGreen">#BDD9BF</color>
     <color name="colorGreenDark">#87A878</color>
     <color name="colorGreenDarker">#63A088</color>
     <color name="colorBlack">#000000</color>
     <color name="colorAccent">#ffffff</color>
     <color name="colorError">#EF5B5B</color>
-    <color name="colorThirdLight">#258EA6</color>
+    <color name="colorThird">#2E4052</color>
+    <color name="colorThirdLighter">#9AD1D4</color>
+    <color name="colorThirdLight">#80CED7</color>
 </resources>
 
 <!-- TODO cambiare colorSecondaryMedium-->

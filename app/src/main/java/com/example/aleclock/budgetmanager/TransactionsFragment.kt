@@ -1,15 +1,17 @@
 package com.example.aleclock.budgetmanager
 
-
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.graphics.*
 import android.os.Bundle
+import android.os.Parcelable
 import android.support.design.widget.BottomSheetDialog
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
+import android.support.v7.widget.helper.ItemTouchHelper.ACTION_STATE_SWIPE
 import android.text.TextUtils
 import android.util.DisplayMetrics
 import android.util.Log
@@ -26,6 +28,7 @@ import com.irozon.sneaker.Sneaker
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.fragment_transactions.*
+import java.io.Serializable
 import java.lang.Math.abs
 import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
@@ -47,6 +50,8 @@ class TransactionsFragment : Fragment() {
 
     var currentTabPeriod : String = "daily"
     var currentDateSelected : String = getTodayDate()
+
+    val transactionArray = ArrayList<TransactionRowItem>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -322,6 +327,8 @@ class TransactionsFragment : Fragment() {
         var incomeColor = resources.getColor(R.color.colorGreenDark)
         var expenseColor = resources.getColor(R.color.colorError)
 
+        transactionArray.clear()
+
         if (userId == null) {
             return
         } else {
@@ -330,7 +337,7 @@ class TransactionsFragment : Fragment() {
 
             // Variabili per il conteggio delle spese/guadagni riferite al periodo mostrato (giornaliero/mensile)
 
-            val ref = FirebaseDatabase.getInstance().getReference("/transaction").child(userId!!).orderByChild("date")
+            val ref = FirebaseDatabase.getInstance().getReference("/transaction").child(userId).orderByChild("date")
             ref.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
                 }
@@ -342,34 +349,36 @@ class TransactionsFragment : Fragment() {
                     p0.children.forEach {
                         val transaction = it.getValue(TransactionRowItem::class.java)
                         if (transaction != null) {
+
                             if (periodRange == "daily") {
                                 val dailyDate = transaction.date.removePrefix("-")
                                 if (currentDateSelected == dailyDate) {
                                     adapter.add(0,TransactionItem(transaction,incomeColor,expenseColor))
+                                    transactionArray.add(0,transaction)
 
                                     when (transaction.transactionType) {
                                         "expense"   -> expenseAmount -= transaction.amount
                                         "income"    -> incomeAmount += transaction.amount
                                     }
                                 }
+
                             } else if (periodRange == "monthly") {
                                 val monthDate = getMonth (transaction.date.removePrefix("-"))
                                 val monthCurrent = getMonth (currentDateSelected)
 
                                 if (monthCurrent == monthDate) {
                                     adapter.add(0, TransactionItem(transaction,incomeColor,expenseColor))
+                                    transactionArray.add(0,transaction)
 
                                     when (transaction.transactionType) {
                                         "expense"   -> expenseAmount -= transaction.amount
                                         "income"    -> incomeAmount += transaction.amount
                                     }
                                 }
+
                             } else {
-                                adapter.add(0,TransactionItem(
-                                    transaction,
-                                    incomeColor,
-                                    expenseColor
-                                ))
+                                adapter.add(0,TransactionItem(transaction, incomeColor, expenseColor))
+                                transactionArray.add(0, transaction)
 
                                 when (transaction.transactionType) {
                                     "expense"   -> expenseAmount -= transaction.amount
@@ -400,7 +409,7 @@ class TransactionsFragment : Fragment() {
         val format = SimpleDateFormat("yyyyMMdd")
         val theDate = format.parse(periodDate)
         val myCal = GregorianCalendar()
-        myCal.setTime(theDate)
+        myCal.time = theDate
 
         val day = myCal.get(Calendar.DAY_OF_MONTH)
         val month = myCal.get(Calendar.MONTH)
@@ -423,63 +432,92 @@ class TransactionsFragment : Fragment() {
 
     // TODO Implementare questa funzione in una classe
     private fun initSwipe() {
+
         val simpleItemTouchCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+
             // Non è previsto il supporto per lo spostamento verticale
             override fun onMove(p0: RecyclerView, p1: RecyclerView.ViewHolder, p2: RecyclerView.ViewHolder): Boolean {
                 return false
             }
 
+            override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+                view!!.translationX = 0f
+                super.clearView(recyclerView, viewHolder)
+            }
+
             override fun onSwiped(p0: RecyclerView.ViewHolder, p1: Int) {
                 // po: viewHolder , p1: direction
-                val position = p0.adapterPosition
+                val position = p0.adapterPosition   // Mi ritorna la posizione dell'item nel RecyclerView
+
+                val displayMetrics = DisplayMetrics()
+                activity!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
+                var width = displayMetrics.widthPixels
+
                 if (p1 == ItemTouchHelper.LEFT) {
-                    Log.d("onSwiped", "left")
+                    // Remove item
+                    // TODO https://www.youtube.com/watch?v=gaeTFNqKA2M&list=PL0dzCUj1L5JE-jiBHjxlmXEkQkum_M3R-&index=10
                 } else if (p1 == ItemTouchHelper.RIGHT){
-                    Log.d("onSwiped", "right")
+                    val intent = Intent(context,TransactionDetailActivity::class.java)
+
+
+                    var adapter = p0.itemView.parent as RecyclerView
+                    adapter.adapter?.notifyDataSetChanged()
+
+                    var transaction = transactionArray[position]
+
+                    intent.putExtra("transaction" , transaction)
+
+                    startActivity(intent)
+
                 }
             }
 
-            var background: RectF = RectF()
-
             override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
-                if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-                    var icon : Bitmap
+
+                val displayMetrics = DisplayMetrics()
+                activity!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
+                var width = displayMetrics.widthPixels
+
+                // Gestione dello swipe (creazione del canvas/rect)
+
+                if (actionState == ACTION_STATE_SWIPE) {
+
+                    //Log.d("onChildDraw",(dX/2).toString() + ", " + width/2)
+
                     var itemView : View = viewHolder.itemView
-                    var height = itemView.getBottom() - itemView.getTop()
+                    var height = itemView.bottom - itemView.top
                     //var width = height / 3
                     var p = Paint()
 
-                    val corner = resources.getDimension(R.dimen.corners)
+                    var background = RectF()
 
-                    val displayMetrics = DisplayMetrics()
-                    activity!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
-                    var width = displayMetrics.widthPixels
+                    val corner = resources.getDimension(R.dimen.corners)
 
                     if (dX > 0) {
 
                     //Drawing for Swife Right
 
-                        p.setColor(resources.getColor(R.color.colorThirdLight))
+                        p.color = resources.getColor(R.color.colorPrimary)
                         //background = RectF(itemView.left.toFloat(), itemView.top.toFloat(), itemView.left.toFloat() + dX/3 ,itemView.bottom.toFloat())
-                        background = RectF(-corner, itemView.top.toFloat(), dX/3 ,itemView.bottom.toFloat())
+                        background = RectF(-corner, itemView.top.toFloat(), dX ,itemView.bottom.toFloat())
                         c.drawRoundRect(background, corner, corner, p)
                     } else if (dX < 0){
 
                     //Drawing for Swife Left
-
-                        p.setColor(resources.getColor(R.color.colorError))
+                        p.color = resources.getColor(R.color.colorError)
                         // TODO il bordo destro è a filo con l'item a differenza dello swipe sinistro
-                        background = RectF(width.toFloat() + dX/3, itemView.top.toFloat(), width.toFloat() + corner ,itemView.bottom.toFloat())
+                        background = RectF(width.toFloat() + dX, itemView.top.toFloat(), width.toFloat() + corner ,itemView.bottom.toFloat())
                         c.drawRoundRect(background, corner, corner, p)
                     }
                 }
-                super.onChildDraw(c, recyclerView, viewHolder,  dX/3, dY, actionState, isCurrentlyActive)
+
+                super.onChildDraw(c, recyclerView, viewHolder,  dX, dY, actionState, isCurrentlyActive)
             }
         }
+
         val itemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
         itemTouchHelper.attachToRecyclerView(recycler_view_transaction)
     }
-
 
     /**
      * Funzione che scarica da Firebase le categorie delle transizioni del singolo utente
@@ -550,7 +588,8 @@ class TransactionsFragment : Fragment() {
         if (userId == null) return
         else {
             val reference = FirebaseDatabase.getInstance().getReference("/transaction").child(userId).push()
-            val transactionValue = TransactionRowItem(date, accountId, accountName, category, amount, transactionType)
+
+            val transactionValue = TransactionRowItem(date, accountId, reference.key!!, accountName, category, amount, transactionType)
             reference.setValue(transactionValue)
                 .addOnSuccessListener {
                     Log.d("createNewTransaction","Transaction created")

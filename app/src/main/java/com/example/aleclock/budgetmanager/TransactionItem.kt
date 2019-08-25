@@ -1,26 +1,31 @@
 package com.example.aleclock.budgetmanager
 
+import android.content.Context
+import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.text.TextUtils.concat
 import android.text.TextUtils.substring
 import android.util.Log
+import android.view.MotionEvent
+import android.view.View
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
+import kotlinx.android.synthetic.main.fragment_transactions.*
 import kotlinx.android.synthetic.main.transaction_row_layout.view.*
 import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.HashMap
 
 
-class TransactionItem( val transaction: TransactionRowItem, incomeColor: Int, expenseColor: Int) : Item<ViewHolder>() {
-
-    var incomeColor = incomeColor
-    var expenseColor = expenseColor
+class TransactionItem( val transaction: TransactionRowItem, val incomeColor: Int, val expenseColor: Int) : Item<ViewHolder>() {
 
     override fun getLayout(): Int {
         return R.layout.transaction_row_layout
     }
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
+
         viewHolder.itemView.txt_transaction_category.text = transaction.category
         viewHolder.itemView.txt_transaction_account.text = transaction.accountName
 
@@ -42,8 +47,6 @@ class TransactionItem( val transaction: TransactionRowItem, incomeColor: Int, ex
             viewHolder.itemView.txt_transaction_amount.setTextColor(expenseColor)
         else
             viewHolder.itemView.txt_transaction_amount.setTextColor(incomeColor)
-        // TODO impostare colore in base al tipo
-
     }
 
     // TODO https://stackoverflow.com/questions/53848189/format-number-using-decimal-format-in-kotlin
@@ -52,5 +55,4 @@ class TransactionItem( val transaction: TransactionRowItem, incomeColor: Int, ex
     fun getMonth(month: Int): String {
         return DateFormatSymbols().months[month]
     }
-
 }
