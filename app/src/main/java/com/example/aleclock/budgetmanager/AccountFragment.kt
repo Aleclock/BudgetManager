@@ -30,11 +30,6 @@ class AccountFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        /*val dividerItemDecoration = DividerItemDecoration(recycler_view_account.context,layoutManager.orientation)
-        recycler_view_account.addItemDecoration(dividerItemDecoration)*/
-
-        /*val img_account = view.findViewById<Spinner>(R.id.img_account)
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view_account)*/
 
         fetchAccount()
         // TODO se premo velocemente la schermata "account" l'app va in crash perchè il recyclerview è NULL

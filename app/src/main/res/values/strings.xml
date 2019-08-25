@@ -94,4 +94,5 @@
     <string name="transaction_created">Transazione creata con successo</string>
     <string name="transaction_not_created">Impossibile creare la transazione. Riprovare</string>
     <string name="error_insert_amount">Prego inserire l\'importo della transazione</string>
+    <string name="transaction_detail">Dettaglio transazione</string>
 </resources>
