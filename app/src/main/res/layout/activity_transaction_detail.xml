@@ -48,7 +48,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/transaction_detail_category_amount"
-            android:background="@drawable/custom_transaction_detail"
             app:layout_constraintTop_toBottomOf="@+id/transaction_detail_titleBar"
             android:layout_marginTop="30dp"
             android:layout_marginStart="40dp"
