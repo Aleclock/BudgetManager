@@ -4,7 +4,7 @@
     <item android:title="@string/transazioni"
         android:id="@+id/transaction"
         android:icon="@drawable/ic_action_transition"/>
-    <item android:title="@string/stats"
+    <item android:title="@string/chart"
         android:id="@+id/graph"
         android:icon="@drawable/ic_action_stats"/>
     <item android:title="@string/account"

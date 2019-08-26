@@ -86,7 +86,7 @@ class TransactionsFragment : Fragment() {
 
             override fun onTabSelected(p0: TabLayout.Tab?) {
                 // Retrieve transaction data from Firebase
-                fetchTransaction(getTodayDate(), "daily")
+                //fetchTransaction(getTodayDate(), "daily")
                 if (p0 != null) {
                     when (p0.position) {
                         0 -> {
@@ -268,7 +268,7 @@ class TransactionsFragment : Fragment() {
 
     private fun initTitleBarButtons() {
         var btn_setDate = view!!.findViewById<ImageButton>(R.id.btn_set_date)
-        var bt_filter = view!!.findViewById<ImageButton>(R.id.btn_filter)
+        var btn_filter = view!!.findViewById<ImageButton>(R.id.btn_period_filter)
 
 
         /**
@@ -456,11 +456,10 @@ class TransactionsFragment : Fragment() {
                 var width = displayMetrics.widthPixels
 
                 if (p1 == ItemTouchHelper.LEFT) {
-                    // Remove item
+                    // TODO Remove item
                     // TODO https://www.youtube.com/watch?v=gaeTFNqKA2M&list=PL0dzCUj1L5JE-jiBHjxlmXEkQkum_M3R-&index=10
                 } else if (p1 == ItemTouchHelper.RIGHT){
                     val intent = Intent(context,TransactionDetailActivity::class.java)
-
 
                     var adapter = p0.itemView.parent as RecyclerView
                     adapter.adapter?.notifyDataSetChanged()
@@ -468,9 +467,7 @@ class TransactionsFragment : Fragment() {
                     var transaction = transactionArray[position]
 
                     intent.putExtra("transaction" , transaction)
-
                     startActivity(intent)
-
                 }
             }
 

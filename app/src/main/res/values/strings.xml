@@ -13,7 +13,7 @@
 
     <!-- Menu -->
     <string name="transazioni">Transazioni</string>
-    <string name="stats">Grafici</string>
+    <string name="chart">Grafici</string>
     <string name="account">Conti</string>
     <string name="setting">Impostazioni</string>
 
@@ -42,9 +42,11 @@
 
     <string name="spinner_title_account">Seleziona categoria conto</string>
     <string name="spinner_title_category">Seleziona categoria</string>
+    <string name="select_period">Seleziona periodo</string>
     <string name="spinner_title_type">Seleziona conto</string>
     <string name="addTransaction">Nuova transazione</string>
     <string name="filter">Filtra</string>
+
 
 
     <string name="expense">Uscita</string>
@@ -90,6 +92,7 @@
 
     <string name="daily">Giornaliero</string>
     <string name="monthly">Mensile</string>
+    <string name="yearly">Annuale</string>
     <string name="total">Totale</string>
     <string name="set_account_filter">Seleziona conti da filtrare</string>
     <string name="transaction_created">Transazione creata con successo</string>

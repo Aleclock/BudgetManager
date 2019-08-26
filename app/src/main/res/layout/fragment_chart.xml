@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context=".GraphFragment">
+
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/chart_titleBar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="15dp">
+
+        <TextView
+                android:text="@string/chart"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:id="@+id/transactionTitle"
+                android:textColor="@color/colorSecondaryDark"
+                android:textSize="30sp"
+                android:layout_marginStart="32dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btn_set_date"/>
+
+        <ImageButton
+                android:id="@+id/btn_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_filter"
+                android:background="@drawable/custom_trasparent_button"
+                android:layout_gravity="center_vertical|center_horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="24dp"
+                android:contentDescription="@string/filter"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:padding="10dp"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+    <android.support.design.widget.TabLayout android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tab_layout_type"
+            app:layout_constraintTop_toBottomOf="@+id/chart_titleBar">
+
+    </android.support.design.widget.TabLayout>
+
+    <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pieChart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toBottomOf="@+id/tab_layout_type"
+            android:layout_marginTop="32dp" />
+
+
+</android.support.constraint.ConstraintLayout>

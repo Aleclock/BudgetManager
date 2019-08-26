@@ -15,11 +15,6 @@ import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
 
-    private val TAG = "MainActivity"
-    private var userText: TextView? = null
-    private var userName: String? = null
-    private var userMail: String? = null
-
     lateinit var transactionsFragment : TransactionsFragment
     lateinit var graphFragment: GraphFragment
     lateinit var accountFragment: AccountFragment
