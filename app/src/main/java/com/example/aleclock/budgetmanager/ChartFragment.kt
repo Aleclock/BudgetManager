@@ -2,7 +2,9 @@ package com.example.aleclock.budgetmanager
 
 
 import android.app.AlertDialog
+import android.app.DatePickerDialog
 import android.graphics.Color
+import android.media.Image
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
@@ -19,13 +21,14 @@ import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.*
-import com.github.mikephil.charting.utils.ColorTemplate
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.irozon.sneaker.Sneaker
+import kotlinx.android.synthetic.main.fragment_transactions.*
+import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -55,6 +58,7 @@ class GraphFragment : Fragment() {
         val barChart = view.findViewById<BarChart>(R.id.negative_positive_chart)
 
 
+        setDateBar(currentDateSelected,selectedPeriod)
         initTitleBarButtons(pieChart,barChart)
         getEntry(selectedPeriod,selectedCategory,pieChart,barChart)
 
@@ -190,7 +194,7 @@ class GraphFragment : Fragment() {
                         }
                     }
 
-                    // Qui ha caricato tutti i valori
+                    // Qui ha caricato tutti i valori e quindi richiamo le funzioni per disegnare i grafici
                     setupPieChartData (pieChart,categoryList)
 
                     setupPositiveNegativeData(barChart, listToData(expenseList, incomeList))
@@ -239,23 +243,21 @@ class GraphFragment : Fragment() {
      */
     private fun setupPieChartData(pieChart: PieChart, categoryList: HashMap<String, Float>) {
 
-        // Impostazione della legenda
+    // Impostazione della legenda
 
         val legend = pieChart.legend
-        legend.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
+        legend.verticalAlignment = Legend.LegendVerticalAlignment.TOP
         legend.horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT
         legend.orientation = Legend.LegendOrientation.VERTICAL
         legend.setDrawInside(false)
         legend.xEntrySpace = 7f
         legend.yEntrySpace = 0f
-
-
         pieChart.setUsePercentValues(true)
         pieChart.rotationAngle = 0f
         pieChart.isRotationEnabled = true
         pieChart.animateY(1400, Easing.EaseInOutQuad)
-        pieChart.setExtraOffsets(30f, 0f, 30f, 5f)
-        pieChart.setDrawCenterText(true)
+        pieChart.setExtraOffsets(50f, 0f, 50f, 5f)
+        pieChart.setDrawCenterText(false)
 
         pieChart.setTransparentCircleColor(Color.WHITE)
         pieChart.setTransparentCircleAlpha(110)
@@ -274,15 +276,12 @@ class GraphFragment : Fragment() {
         dataSet.sliceSpace = 3f
         dataSet.selectionShift = 5f
 
-        // TODO https://stackoverflow.com/questions/33627551/android-get-color-list-from-resource
+    // Impostazione della palette colori
 
         val colors = java.util.ArrayList<Int>()
-
-        for (c in ColorTemplate.VORDIPLOM_COLORS)
-            colors.add(c)
-
-        for (c in ColorTemplate.COLORFUL_COLORS)
-            colors.add(c)
+        val colorTemplate = resources.getStringArray(R.array.CustomTemplate2)
+        for (c in colorTemplate)
+            colors.add(Color.parseColor(c))
 
         dataSet.colors = colors
 
@@ -296,6 +295,7 @@ class GraphFragment : Fragment() {
 
         pieChart.data = data
         pieChart.centerTextRadiusPercent = 5f
+        pieChart.setDrawEntryLabels(false)
         pieChart.setEntryLabelTextSize(12f)
         pieChart.setEntryLabelColor(Color.BLACK)
         pieChart.description.isEnabled = false
@@ -373,11 +373,12 @@ class GraphFragment : Fragment() {
      */
     private fun initTitleBarButtons(pieChart: PieChart, barChart: BarChart) {
         var btnFilter = view!!.findViewById<ImageButton>(R.id.btn_filter)
+        var btnDate = view!!.findViewById<ImageButton>(R.id.btn_chart_date)
         btnFilter.setOnClickListener {
 
             val items = arrayOf(getString(R.string.monthly), getString(R.string.yearly))
 
-            val title = view!!.findViewById<TextView>(R.id.transactionTitle)
+            val title = view!!.findViewById<TextView>(R.id.chartPeriod)
 
             val alert = AlertDialog.Builder(context)
             alert.setTitle(getString(R.string.select_period))
@@ -385,23 +386,60 @@ class GraphFragment : Fragment() {
                 when (item) {
                     0 -> {
                         selectedPeriod = "monthly"
-                        title.text = resources.getString(R.string.chart_monthly)
-                        getEntry(selectedPeriod, selectedCategory, pieChart, barChart)
+                        title.text = resources.getString(R.string.monthly)
                     }
                     1 -> {
                         selectedPeriod = "yearly"
-                        title.text = resources.getString(R.string.chart_yearly)
-                        getEntry(selectedPeriod, selectedCategory, pieChart, barChart)
+                        title.text = resources.getString(R.string.yearly)
                     }
                 }
+                setDateBar(currentDateSelected,selectedPeriod)
+                getEntry(selectedPeriod, selectedCategory, pieChart, barChart)
             }
             alert.show()
         }
+
+        btnDate.setOnClickListener {
+            var dateFormat = SimpleDateFormat("yyyyMMdd") // Formato per il salvataggio della data su Firebase
+
+            val year = getYear(currentDateSelected).toInt()
+            var month = getMonthIndex(currentDateSelected)-1
+            val day = getDayIndex(currentDateSelected)
+
+            val datePickerDialog = DatePickerDialog(activity, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+                val periodDate = GregorianCalendar(year, monthOfYear, dayOfMonth).time
+
+                currentDateSelected = dateFormat.format(periodDate)
+
+                setDateBar(currentDateSelected,selectedPeriod)
+                getEntry(selectedPeriod, selectedCategory, pieChart, barChart)
+            }, year, month, day)
+
+            datePickerDialog.show()
+        }
+    }
+
+    private fun setDateBar(date: String?, period: String) {
+        var txt = view!!.findViewById<TextView>(R.id.txt_graph_period_date)
+
+        val format = SimpleDateFormat("yyyyMMdd")
+        val theDate = format.parse(date)
+        val myCal = GregorianCalendar()
+        myCal.time = theDate
+
+        //val day = myCal.get(Calendar.DAY_OF_MONTH)
+        val month = myCal.get(Calendar.MONTH)
+        val monthL = DateFormatSymbols().months[month].capitalize()
+        val year = myCal.get(Calendar.YEAR)
+
+        if (period == "monthly")
+            txt.text = "$monthL $year"
+        else
+            txt.text = "$year"
     }
 
     private fun getTodayDate(): String {
         var format = SimpleDateFormat("yyyyMMdd") // Formato per il salvataggio della data su Firebase
-
         var currentDate = Calendar.getInstance().time
         return format.format(currentDate)
     }

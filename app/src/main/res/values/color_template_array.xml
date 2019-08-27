@@ -1,29 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <array name="CustomTemplate">
-        <item>@color/colorPrimary</item>
-        <item>@color/colorPrimaryMedium</item>
-        <item>@color/colorPrimaryDark</item>
-        <item>@color/colorWhite</item>
-        <item>@color/colorSecondaryMedium</item>
-        <item>@color/colorSecondaryDark</item>
-        <item>@color/colorPrimary</item>
-        <item>@color/colorPrimaryMedium</item>
-        <item>@color/colorPrimaryDark</item>
-        <item>@color/colorWhite</item>
-        <item>@color/colorSecondaryMedium</item>
-        <item>@color/colorSecondaryDark</item>
-        <item>@color/colorPrimary</item>
-        <item>@color/colorPrimaryMedium</item>
-        <item>@color/colorPrimaryDark</item>
-        <item>@color/colorWhite</item>
-        <item>@color/colorSecondaryMedium</item>
-        <item>@color/colorSecondaryDark</item>
-        <item>@color/colorPrimary</item>
-        <item>@color/colorPrimaryMedium</item>
-        <item>@color/colorPrimaryDark</item>
-        <item>@color/colorWhite</item>
-        <item>@color/colorSecondaryMedium</item>
-        <item>@color/colorSecondaryDark</item>
-    </array>
+    <string-array name="CustomTemplate1">
+        <item>#447c69</item>
+        <item>#e16552</item>
+        <item>#74c493</item>
+        <item>#e9d78e</item>
+        <item>#e0598b</item>
+        <item>#7c9fb0</item>
+        <item>#5698c4</item>
+        <item>#9abf88</item>
+        <item>#be5168</item>
+        <item>#e4bf80</item>
+        <item>#e2975d</item>
+        <item>#f19670</item>
+        <item>#c94a53</item>
+        <item>#a34974</item>
+        <item>#993767</item>
+        <item>#65387d</item>
+        <item>#4e2472</item>
+        <item>#9163b6</item>
+        <item>#e279a3</item>
+        <item>#8e8c6d</item>
+        <item>#51574a</item>
+    </string-array>
+
+    <string-array name="CustomTemplate2">
+        <item>#A3B9C9</item>
+        <item>#F26A8D</item>
+        <item>#ACE894</item>
+        <item>#ABDAE1</item>
+        <item>#FED65E</item>
+        <item>#BEB7A4</item>
+        <item>#23395B</item>
+        <item>#A94443</item>
+        <item>#9265A2</item>
+        <item>#E0B295</item>
+        <item>#273043</item>
+        <item>#439775</item>
+        <item>#E5B061</item>
+    </string-array>
 </resources>
