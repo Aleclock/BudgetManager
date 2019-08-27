@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="CustomTemplate">
+        <item>@color/colorPrimary</item>
+        <item>@color/colorPrimaryMedium</item>
+        <item>@color/colorPrimaryDark</item>
+        <item>@color/colorWhite</item>
+        <item>@color/colorSecondaryMedium</item>
+        <item>@color/colorSecondaryDark</item>
+        <item>@color/colorPrimary</item>
+        <item>@color/colorPrimaryMedium</item>
+        <item>@color/colorPrimaryDark</item>
+        <item>@color/colorWhite</item>
+        <item>@color/colorSecondaryMedium</item>
+        <item>@color/colorSecondaryDark</item>
+        <item>@color/colorPrimary</item>
+        <item>@color/colorPrimaryMedium</item>
+        <item>@color/colorPrimaryDark</item>
+        <item>@color/colorWhite</item>
+        <item>@color/colorSecondaryMedium</item>
+        <item>@color/colorSecondaryDark</item>
+        <item>@color/colorPrimary</item>
+        <item>@color/colorPrimaryMedium</item>
+        <item>@color/colorPrimaryDark</item>
+        <item>@color/colorWhite</item>
+        <item>@color/colorSecondaryMedium</item>
+        <item>@color/colorSecondaryDark</item>
+    </array>
+</resources>

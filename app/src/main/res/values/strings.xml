@@ -14,6 +14,8 @@
     <!-- Menu -->
     <string name="transazioni">Transazioni</string>
     <string name="chart">Grafici</string>
+    <string name="chart_monthly">Grafici - Mensile</string>
+    <string name="chart_yearly">Grafici - Annuale</string>
     <string name="account">Conti</string>
     <string name="setting">Impostazioni</string>
 
@@ -99,4 +101,5 @@
     <string name="transaction_not_created">Impossibile creare la transazione. Riprovare</string>
     <string name="error_insert_amount">Prego inserire l\'importo della transazione</string>
     <string name="transaction_detail">Dettaglio transazione</string>
+    <string name="data_loading">Caricamento dei dati</string>
 </resources>
