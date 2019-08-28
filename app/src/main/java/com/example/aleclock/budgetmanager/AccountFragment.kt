@@ -4,7 +4,6 @@ package com.example.aleclock.budgetmanager
 import android.os.Bundle
 import android.support.design.widget.BottomSheetDialog
 import android.support.v4.app.Fragment
-import android.text.Editable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -39,7 +38,6 @@ class AccountFragment : Fragment() {
             val dialog = context?.let { it1 -> BottomSheetDialog(it1) }
             val view = layoutInflater.inflate(R.layout.new_account_dialog_layout, null)
 
-            // Aggiunge l'animazione di entrata e di uscita al popup
             dialog?.window?.attributes!!.windowAnimations = R.style.DialogAnimation
 
             dialog.setContentView(view)
@@ -91,13 +89,11 @@ class AccountFragment : Fragment() {
                     p0.children.forEach {
                         val account = it.getValue(AccountRowItem::class.java)
                         if (account != null) {
-                            adapter.add(AccountItem(account))
+                            adapter.add(AccountItem(account,context!!, view!!,recycler_view_account,activity))
                         }
                     }
-
                     recycler_view_account.adapter = adapter
                 }
-
             })
         }
     }

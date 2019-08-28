@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context=".AccountFragment">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/fragment_account_constraint"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".AccountFragment">
 
     <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -51,6 +53,49 @@
             app:layoutManager="android.support.v7.widget.LinearLayoutManager"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp">
+
+        <android.support.design.widget.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_back_selected"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btn_remove_account"
+                android:visibility="invisible"
+                android:backgroundTint="@color/colorWhite"
+                app:backgroundTint="@color/colorSecondary"
+                android:tint="@color/colorPrimaryMedium"
+                android:src="@drawable/ic_close"
+                android:layout_marginEnd="10dp"
+                app:borderWidth="1dp"
+                app:elevation="0dp"/>
+
+        <android.support.design.widget.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_remove_account"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/btn_back_selected"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="invisible"
+                android:backgroundTint="@color/colorError"
+                app:backgroundTint="@color/colorSecondary"
+                android:tint="@color/colorWhite"
+                android:src="@drawable/ic_delete"
+                android:layout_marginStart="10dp"
+                app:borderWidth="1dp"
+                app:elevation="0dp"/>
+
+    </android.support.constraint.ConstraintLayout>
 
 
 </android.support.constraint.ConstraintLayout>

@@ -67,7 +67,7 @@ class TransactionsFragment : Fragment() {
         /**
          * Gestione dei tab per la selezione del periodo (giornaliero, settimanale, mensile)
          */
-        tabLayoutPeriod = view.findViewById<TabLayout>(R.id.tab_layout_period)
+        tabLayoutPeriod = view.findViewById(R.id.tab_layout_period)
         tabLayoutPeriod!!.addTab(tabLayoutPeriod!!.newTab().setText(R.string.daily))
         tabLayoutPeriod!!.addTab(tabLayoutPeriod!!.newTab().setText(R.string.monthly))
         tabLayoutPeriod!!.addTab(tabLayoutPeriod!!.newTab().setText(R.string.total))
@@ -118,7 +118,7 @@ class TransactionsFragment : Fragment() {
             /**
              * Gestione dei tab del dialog della nuova transazione
              */
-            tabLayout = view?.findViewById<TabLayout>(R.id.tab_layout)
+            tabLayout = view?.findViewById(R.id.tab_layout)
 
             tabLayout!!.addTab(tabLayout!!.newTab().setText(R.string.expense))
             tabLayout!!.addTab(tabLayout!!.newTab().setText(R.string.income))

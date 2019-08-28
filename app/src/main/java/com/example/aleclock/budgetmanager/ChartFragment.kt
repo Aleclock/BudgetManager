@@ -61,7 +61,7 @@ class GraphFragment : Fragment() {
         /**
          * Gestione dei tab per la selezione del periodo (giornaliero, settimanale, mensile)
          */
-        tabLayoutType = view.findViewById<TabLayout>(R.id.tab_layout_type)
+        tabLayoutType = view.findViewById(R.id.tab_layout_type)
         tabLayoutType!!.addTab(tabLayoutType!!.newTab().setText(R.string.expenses))
         tabLayoutType!!.addTab(tabLayoutType!!.newTab().setText(R.string.incomes))
         tabLayoutType!!.tabGravity = TabLayout.GRAVITY_FILL
