@@ -259,7 +259,6 @@ class TransactionsFragment : Fragment() {
 
     private fun getTodayDate(): String {
         var format = SimpleDateFormat("yyyyMMdd") // Formato per il salvataggio della data su Firebase
-
         var currentDate = Calendar.getInstance().time
         return format.format(currentDate)
     }
@@ -290,7 +289,6 @@ class TransactionsFragment : Fragment() {
             val month = c.get(Calendar.MONTH)
             val day = c.get(Calendar.DAY_OF_MONTH)
 
-            // TODO i valori iniziali della data sono quelli di oggi (credo)
 
             val datePickerDialog = DatePickerDialog(activity, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
                 periodDate = GregorianCalendar(year, monthOfYear, dayOfMonth).time
@@ -361,7 +359,6 @@ class TransactionsFragment : Fragment() {
                                         "income"    -> incomeAmount += transaction.amount
                                     }
                                 }
-
                             } else if (periodRange == "monthly") {
                                 val monthDate = getMonth (transaction.date.removePrefix("-"))
                                 val monthCurrent = getMonth (currentDateSelected)
@@ -416,13 +413,9 @@ class TransactionsFragment : Fragment() {
         val monthL = DateFormatSymbols().months[month].capitalize()
         val year = myCal.get(Calendar.YEAR)
 
-        if (periodRange == "daily") {
-            txt_period_date.text = "$day $monthL $year"
-        } else if (periodRange == "monthly"){
-            txt_period_date.text = "$monthL $year"
-        } else {
-            txt_period_date.text = ""
-        }
+        if (periodRange == "daily") {           txt_period_date.text = "$day $monthL $year"
+        } else if (periodRange == "monthly"){   txt_period_date.text = "$monthL $year"
+        } else {                                txt_period_date.text = ""   }
     }
 
     private fun setPeriodBarAmount(income: Float, expense: Float) {
@@ -453,10 +446,12 @@ class TransactionsFragment : Fragment() {
                 if (p1 == ItemTouchHelper.LEFT) {
                     removeTransaction(transactionArray[position])
                     transactionArray.removeAt(position)
+
+                    /*  Per aggiornare il recyclerview dovrebbero andare le seguenti funzioni ma non funziona
                     adapter.adapter!!.notifyItemRemoved(position)
-                    adapter.adapter!!.notifyItemRangeChanged(position, adapter.adapter!!.itemCount - position)
-                    //fetchTransaction(currentDateSelected, currentTabPeriod)
-                    // TODO https://www.youtube.com/watch?v=gaeTFNqKA2M&list=PL0dzCUj1L5JE-jiBHjxlmXEkQkum_M3R-&index=10
+                    adapter.adapter!!.notifyItemRangeChanged(position, adapter.adapter!!.itemCount - position)*/
+
+                    fetchTransaction(currentDateSelected, currentTabPeriod)
                 } else if (p1 == ItemTouchHelper.RIGHT){
                     val intent = Intent(context,TransactionDetailActivity::class.java)
                     var transaction = transactionArray[position]
@@ -472,39 +467,34 @@ class TransactionsFragment : Fragment() {
                 activity!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
                 var width = displayMetrics.widthPixels
 
-                // Gestione dello swipe (creazione del canvas/rect)
+            // Gestione dello swipe (creazione del canvas/rect)
 
                 if (actionState == ACTION_STATE_SWIPE) {
-
-                    //Log.d("onChildDraw",(dX/2).toString() + ", " + width/2)
 
                     var itemView : View = viewHolder.itemView
                     var height = itemView.bottom - itemView.top
                     //var width = height / 3
                     var p = Paint()
 
-                    var background = RectF()
-
+                    var background: RectF
                     val corner = resources.getDimension(R.dimen.corners)
 
                     if (dX > 0) {
 
-                    //Drawing for Swife Right
-
+                //Drawing for Swife Right
                         p.color = resources.getColor(R.color.colorPrimary)
                         //background = RectF(itemView.left.toFloat(), itemView.top.toFloat(), itemView.left.toFloat() + dX/3 ,itemView.bottom.toFloat())
                         background = RectF(-corner, itemView.top.toFloat(), dX ,itemView.bottom.toFloat())
                         c.drawRoundRect(background, corner, corner, p)
                     } else if (dX < 0){
 
-                    //Drawing for Swife Left
+                //Drawing for Swife Left
                         p.color = resources.getColor(R.color.colorError)
                         // TODO il bordo destro è a filo con l'item a differenza dello swipe sinistro
                         background = RectF(width.toFloat() + dX, itemView.top.toFloat(), width.toFloat() + corner ,itemView.bottom.toFloat())
                         c.drawRoundRect(background, corner, corner, p)
                     }
                 }
-
                 super.onChildDraw(c, recyclerView, viewHolder,  dX, dY, actionState, isCurrentlyActive)
             }
         }
@@ -520,6 +510,9 @@ class TransactionsFragment : Fragment() {
             val ref = FirebaseDatabase.getInstance().getReference("/transaction").child(userId).child(transactionId)
             ref.removeValue()
         }
+
+        updateAccountBalance(transaction.accountId,transaction.transactionType,transaction.amount,"restore")
+        // TODO quando si rimuove un elemento va aggiornato il contatore del bilancio dell'account
     }
 
     /**
@@ -543,7 +536,6 @@ class TransactionsFragment : Fragment() {
                             categoryListItems.add(transactionCategory.name)
                         }
                     }
-
                 }
             })
         }
@@ -596,19 +588,15 @@ class TransactionsFragment : Fragment() {
             val transactionValue = TransactionRowItem(date, accountId, reference.key!!, accountName, category, amount, note, transactionType)
             reference.setValue(transactionValue)
                 .addOnSuccessListener {
-                    Log.d("createNewTransaction","Transaction created")
-
                     Sneaker.with(this)
                         .setTitle(getString(R.string.transaction_created))
                         .setDuration(2000)
                         .sneak(R.color.colorPrimary)
 
-                    updateAccountBalance(accountId,transactionType,amount)
+                    updateAccountBalance(accountId, transactionType, amount, "update")
                     fetchTransaction(currentDateSelected, currentTabPeriod)
                 }
                 .addOnFailureListener {
-                    Log.e("createNewTransaction", "Transaction NOT created")
-
                     Sneaker.with(this)
                         .setTitle(getString(R.string.transaction_not_created))
                         .setDuration(2000)
@@ -620,7 +608,12 @@ class TransactionsFragment : Fragment() {
     /**
      * Funzione che, dopo aver creato una transazione, aggiorna il valore del saldo dell'account
      */
-    private fun updateAccountBalance(accountId: String, transactionType: String, amount: Float) {
+    private fun updateAccountBalance(
+        accountId: String,
+        transactionType: String,
+        amount: Float,
+        action: String
+    ) {
         val userId = FirebaseAuth.getInstance().uid
 
         if (userId == null) return
@@ -634,15 +627,20 @@ class TransactionsFragment : Fragment() {
                     val account = p0.getValue(AccountRowItem::class.java)
                     var balance = account!!.balance
 
-                    Log.d("updateAccountBalance",balance.toString())
-
                     val reference = FirebaseDatabase.getInstance().getReference("/account").child(userId).child(accountId).child("balance")
-                    if (transactionType == "expense")   // Spesa
-                        reference.setValue(balance-amount)
-                    else                                // Guadagno
-                        reference.setValue(balance+amount)
-                }
 
+                    if (action == "restore") {      // restore (ripristinare saldo già accreditato)
+                        if (transactionType == "expense")   // Spesa
+                            reference.setValue(balance+amount)
+                        else                                // Guadagno
+                            reference.setValue(balance-amount)
+                    } else {                        // update (aggiornare saldo non accreditato)
+                        if (transactionType == "expense")   // Spesa
+                            reference.setValue(balance-amount)
+                        else                                // Guadagno
+                            reference.setValue(balance+amount)
+                    }
+                }
             })
         }
     }
