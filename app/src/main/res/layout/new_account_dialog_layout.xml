@@ -48,7 +48,7 @@
                 android:id="@+id/et_balance_account"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:hint="@string/account_amount"
+                android:hint="@string/account_balance"
                 android:textSize="15sp"
                 android:background="@drawable/custom_edittext_gray"
                 android:paddingLeft="15dp"

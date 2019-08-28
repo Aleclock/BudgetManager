@@ -3,6 +3,7 @@ package com.example.aleclock.budgetmanager
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.*
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.design.widget.BottomSheetDialog
 import android.support.design.widget.FloatingActionButton
@@ -13,7 +14,6 @@ import android.support.v7.widget.helper.ItemTouchHelper
 import android.support.v7.widget.helper.ItemTouchHelper.ACTION_STATE_SWIPE
 import android.text.TextUtils
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,9 +35,6 @@ import kotlin.collections.ArrayList
 
 
 class TransactionsFragment : Fragment() {
-
-    var TAG = "TransactionsFragment"
-
     var tabLayout: TabLayout? = null
     var tabLayoutPeriod: TabLayout? = null
     var transactionType : String = ""
@@ -83,8 +80,6 @@ class TransactionsFragment : Fragment() {
             }
 
             override fun onTabSelected(p0: TabLayout.Tab?) {
-                // Retrieve transaction data from Firebase
-                //fetchTransaction(getTodayDate(), "daily")
                 if (p0 != null) {
                     when (p0.position) {
                         0 -> {
@@ -106,8 +101,8 @@ class TransactionsFragment : Fragment() {
         /**
          * Gestione del pulsante per la creazione di una nuova transazione
          */
-        var add_transaction_btn = view.findViewById<FloatingActionButton>(R.id.btn_add_transaction)
-        add_transaction_btn.setOnClickListener {
+        val btnAddTransaction = view.findViewById<FloatingActionButton>(R.id.btn_add_transaction)
+        btnAddTransaction.setOnClickListener {
             val dialog = context?.let { it1 -> BottomSheetDialog(it1) }
             val view = layoutInflater.inflate(R.layout.new_transaction_dialog_layout, null)
 
@@ -151,10 +146,11 @@ class TransactionsFragment : Fragment() {
             /**
              * Gestione del pulsante per il dataPicker
              */
-            var datePicker_btn = view!!.findViewById<Button>(R.id.btn_date_picker)
+            val datePicker_btn = view!!.findViewById<Button>(R.id.btn_date_picker)
 
-            var dateFormat = SimpleDateFormat("yyyyMMdd") // Formato per il salvataggio della data su Firebase
+            val dateFormat = SimpleDateFormat("yyyyMMdd") // Formato per il salvataggio della data su Firebase
 
+            // TODO sostituire con getTodayDate o con la data selezionata corrente
             var newTransactionDate = Calendar.getInstance().time
             var date = dateFormat.format(newTransactionDate)    // newTransactionDate con formato yyyyMMdd
 
@@ -258,15 +254,14 @@ class TransactionsFragment : Fragment() {
     }
 
     private fun getTodayDate(): String {
-        var format = SimpleDateFormat("yyyyMMdd") // Formato per il salvataggio della data su Firebase
-        var currentDate = Calendar.getInstance().time
+        val format = SimpleDateFormat("yyyyMMdd") // Formato per il salvataggio della data su Firebase
+        val currentDate = Calendar.getInstance().time
         return format.format(currentDate)
     }
 
     private fun initTitleBarButtons() {
-        var btn_setDate = view!!.findViewById<ImageButton>(R.id.btn_set_date)
-        var btn_filter = view!!.findViewById<ImageButton>(R.id.btn_period_filter)
-
+        val btn_setDate = view!!.findViewById<ImageButton>(R.id.btn_set_date)
+        val btn_filter = view!!.findViewById<ImageButton>(R.id.btn_period_filter)
 
         /**
          * DatePicker
@@ -275,7 +270,7 @@ class TransactionsFragment : Fragment() {
 
             // Viene settato il datepicker
 
-            var dateFormat = SimpleDateFormat("yyyyMMdd") // Formato per il salvataggio della data su Firebase
+            val dateFormat = SimpleDateFormat("yyyyMMdd") // Formato per il salvataggio della data su Firebase
 
             // TODO sostituire con getTodayDate
             var periodDate = Calendar.getInstance().time
@@ -317,13 +312,13 @@ class TransactionsFragment : Fragment() {
      */
     private fun fetchTransaction(periodDate: String, periodRange: String) {
 
-        var userId = FirebaseAuth.getInstance().uid
+        val userId = FirebaseAuth.getInstance().uid
 
         var incomeAmount = 0f
         var expenseAmount = 0f
 
-        var incomeColor = resources.getColor(R.color.colorGreenDark)
-        var expenseColor = resources.getColor(R.color.colorError)
+        val incomeColor = resources.getColor(R.color.colorGreenDark)
+        val expenseColor = resources.getColor(R.color.colorError)
 
         transactionArray.clear()
 
@@ -423,7 +418,7 @@ class TransactionsFragment : Fragment() {
         txt_total_income_amount.text = TextUtils.concat(income.toString(),"  €")
     }
 
-    // TODO Implementare questa funzione in una classe
+    // TODO Implementare questa funzione in una classe https://medium.com/@kitek/recyclerview-swipe-to-delete-easier-than-you-thought-cff67ff5e5f6
     private fun initSwipe() {
 
         val simpleItemTouchCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
@@ -441,7 +436,7 @@ class TransactionsFragment : Fragment() {
             override fun onSwiped(p0: RecyclerView.ViewHolder, p1: Int) {
                 // po: viewHolder , p1: direction
                 val position = p0.adapterPosition   // Mi ritorna la posizione dell'item nel RecyclerView
-                var adapter = p0.itemView.parent as RecyclerView
+                val adapter = p0.itemView.parent as RecyclerView
 
                 if (p1 == ItemTouchHelper.LEFT) {
                     removeTransaction(transactionArray[position])
@@ -454,7 +449,7 @@ class TransactionsFragment : Fragment() {
                     fetchTransaction(currentDateSelected, currentTabPeriod)
                 } else if (p1 == ItemTouchHelper.RIGHT){
                     val intent = Intent(context,TransactionDetailActivity::class.java)
-                    var transaction = transactionArray[position]
+                    val transaction = transactionArray[position]
                     intent.putExtra("transaction" , transaction)
                     startActivity(intent)
                     adapter.adapter!!.notifyDataSetChanged()
@@ -465,61 +460,62 @@ class TransactionsFragment : Fragment() {
 
                 val displayMetrics = DisplayMetrics()
                 activity!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
-                var width = displayMetrics.widthPixels
+                val width = displayMetrics.widthPixels
 
             // Gestione dello swipe (creazione del canvas/rect)
 
                 if (actionState == ACTION_STATE_SWIPE) {
 
-                    var itemView : View = viewHolder.itemView
+                    val itemView : View = viewHolder.itemView
                     var height = itemView.bottom - itemView.top
                     //var width = height / 3
-                    var p = Paint()
+                    val p = Paint()
 
-                    var background: RectF
+                    val background: RectF
+                    val icon: Drawable
                     val corner = resources.getDimension(R.dimen.corners)
 
                     if (dX > 0) {
 
                 //Drawing for Swife Right
                         p.color = resources.getColor(R.color.colorPrimary)
+                        icon = resources.getDrawable(R.drawable.ic_info)
                         //background = RectF(itemView.left.toFloat(), itemView.top.toFloat(), itemView.left.toFloat() + dX/3 ,itemView.bottom.toFloat())
                         background = RectF(-corner, itemView.top.toFloat(), dX ,itemView.bottom.toFloat())
                         c.drawRoundRect(background, corner, corner, p)
+                        icon.draw(c)
                     } else if (dX < 0){
 
                 //Drawing for Swife Left
                         p.color = resources.getColor(R.color.colorError)
-                        // TODO il bordo destro è a filo con l'item a differenza dello swipe sinistro
+                        icon = resources.getDrawable(R.drawable.ic_delete)
                         background = RectF(width.toFloat() + dX, itemView.top.toFloat(), width.toFloat() + corner ,itemView.bottom.toFloat())
                         c.drawRoundRect(background, corner, corner, p)
+                        icon.draw(c)
                     }
                 }
                 super.onChildDraw(c, recyclerView, viewHolder,  dX, dY, actionState, isCurrentlyActive)
             }
         }
-
         val itemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
         itemTouchHelper.attachToRecyclerView(recycler_view_transaction)
     }
 
     private fun removeTransaction(transaction: TransactionRowItem) {
         val transactionId = transaction.transactionId
-        var userId = FirebaseAuth.getInstance().uid
+        val userId = FirebaseAuth.getInstance().uid
         if (userId != null) {
             val ref = FirebaseDatabase.getInstance().getReference("/transaction").child(userId).child(transactionId)
             ref.removeValue()
         }
-
         updateAccountBalance(transaction.accountId,transaction.transactionType,transaction.amount,"restore")
-        // TODO quando si rimuove un elemento va aggiornato il contatore del bilancio dell'account
     }
 
     /**
      * Funzione che scarica da Firebase le categorie delle transizioni del singolo utente
      */
     private fun getCategoryList(type: String) {
-        var userId = FirebaseAuth.getInstance().uid
+        val userId = FirebaseAuth.getInstance().uid
         if (userId == null) return
         else {
             categoryListItems.clear()
@@ -562,7 +558,6 @@ class TransactionsFragment : Fragment() {
                         }
                     }
                 }
-
             })
         }
     }
@@ -625,7 +620,7 @@ class TransactionsFragment : Fragment() {
 
                 override fun onDataChange(p0: DataSnapshot) {
                     val account = p0.getValue(AccountRowItem::class.java)
-                    var balance = account!!.balance
+                    val balance = account!!.balance
 
                     val reference = FirebaseDatabase.getInstance().getReference("/account").child(userId).child(accountId).child("balance")
 

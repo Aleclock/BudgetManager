@@ -1,6 +1,5 @@
 package com.example.aleclock.budgetmanager
 
-import android.util.Log
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.transaction_activity_item_layout.view.*

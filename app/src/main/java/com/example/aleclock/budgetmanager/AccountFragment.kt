@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.irozon.sneaker.Sneaker
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.fragment_account.*
@@ -55,7 +56,6 @@ class AccountFragment : Fragment() {
 
             spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                 }
 
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -73,8 +73,6 @@ class AccountFragment : Fragment() {
                 dialog.hide()
             }
         }
-
-        // TODO https://www.youtube.com/watch?v=eu_6gIpQPg8&list=PL0dzCUj1L5JE-jiBHjxlmXEkQkum_M3R-&index=6
     }
 
     private fun fetchAccount() {
@@ -124,15 +122,19 @@ class AccountFragment : Fragment() {
         reference.setValue(accountValue)
             .addOnSuccessListener {
                 Log.d(TAG,"Account created")
+                Sneaker.with(this)
+                    .setTitle(getString(R.string.account_created))
+                    .setDuration(2000)
+                    .sneak(R.color.colorPrimary)
                 fetchAccount()
+
             }
             .addOnFailureListener {
-                Log.e(TAG, "Account NOT created")
+                Sneaker.with(this)
+                    .setTitle(getString(R.string.account_not_created))
+                    .setDuration(2000)
+                    .sneak(R.color.colorError)
             }
-        // TODO aggiungere banner di avvenuta creazione/errore
-        // TODO decidere se aggiungere utenti con cui condividere il conto
-        // TODO aggiungere campi "amount","expense","income"
-
     }
 
 }

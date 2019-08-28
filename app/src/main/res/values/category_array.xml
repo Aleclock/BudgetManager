@@ -12,5 +12,3 @@
         <item>@string/category_insurance</item>
     </string-array>
 </resources>
-
-<!-- TODO valutare se ha senso mantenere degli id per ogni categoria in modo da standardizzare -->

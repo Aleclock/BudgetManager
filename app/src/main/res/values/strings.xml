@@ -99,6 +99,8 @@
     <string name="set_account_filter">Seleziona conti da filtrare</string>
     <string name="transaction_created">Transazione creata con successo</string>
     <string name="transaction_not_created">Impossibile creare la transazione. Riprovare</string>
+    <string name="account_created">Conto creato con successo</string>
+    <string name="account_not_created">Impossibile creare il conto. Riprovare</string>
     <string name="error_insert_amount">Prego inserire l\'importo della transazione</string>
     <string name="transaction_detail">Dettaglio transazione</string>
     <string name="data_loading">Caricamento dei dati</string>

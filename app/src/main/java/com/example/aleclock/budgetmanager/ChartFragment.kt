@@ -4,12 +4,9 @@ package com.example.aleclock.budgetmanager
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.graphics.Color
-import android.media.Image
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
-import android.text.TextUtils.concat
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +24,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.irozon.sneaker.Sneaker
-import kotlinx.android.synthetic.main.fragment_transactions.*
 import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
@@ -61,8 +57,6 @@ class GraphFragment : Fragment() {
         setDateBar(currentDateSelected,selectedPeriod)
         initTitleBarButtons(pieChart,barChart)
         getEntry(selectedPeriod,selectedCategory,pieChart,barChart)
-
-        // TODO https://spin.atomicobject.com/2018/12/03/kotlin-horizontal-picker-spinner/
 
         /**
          * Gestione dei tab per la selezione del periodo (giornaliero, settimanale, mensile)
@@ -111,7 +105,7 @@ class GraphFragment : Fragment() {
         s.sneak(R.color.colorThirdLighter)
 
 
-        var userId = FirebaseAuth.getInstance().uid
+        val userId = FirebaseAuth.getInstance().uid
         if (userId == null) {
         } else {
             // Credo abbia senso scaricare tutti i dati in una volta sola e poi gestirli
@@ -125,8 +119,8 @@ class GraphFragment : Fragment() {
                     val categoryList = HashMap<String, Float>() // Mappa per il grafico a torta
 
                     // Inizializza un array di Float di dimensioni quelle necessarie con valore 0
-                    var expenseList = FloatArray(getXTotal(selectedPeriod,currentDateSelected)){0f }
-                    var incomeList = FloatArray(getXTotal(selectedPeriod,currentDateSelected)){0f }
+                    val expenseList = FloatArray(getXTotal(selectedPeriod,currentDateSelected)){0f }
+                    val incomeList = FloatArray(getXTotal(selectedPeriod,currentDateSelected)){0f }
 
                     p0.children.forEach {
                         val transaction = it.getValue(TransactionRowItem::class.java)
@@ -141,7 +135,7 @@ class GraphFragment : Fragment() {
 
                             // Bar chart
                                     val xValue = getDayIndex(transaction.date.removePrefix("-"))
-                                    var yValue = transaction.amount
+                                    val yValue = transaction.amount
 
                                     if (transaction.transactionType == "expense") {
                                         //yValue *= (-1)  // In modo tale da renderlo negativo (in quanto spesa)
@@ -171,7 +165,7 @@ class GraphFragment : Fragment() {
 
                             // Bar chart
                                     val xValue = getMonthIndex(transaction.date.removePrefix("-"))
-                                    var yValue = transaction.amount
+                                    val yValue = transaction.amount
 
                                     if (transaction.transactionType == "expense") {
                                         expenseList[xValue] -= yValue
@@ -224,15 +218,15 @@ class GraphFragment : Fragment() {
      *  -   se periodo = anno : il numero di mesi dell'anno (12)
      */
     private fun getXTotal(period: String, date: String): Int {
-        var index : Int
+        val index : Int
 
-        if (period == "monthly") {                              // Calcolo numero dei giorni del mese
-            var calendar = Calendar.getInstance()
+        index = if (period == "monthly") {                        // Calcolo numero dei giorni del mese
+            val calendar = Calendar.getInstance()
             calendar.set(Calendar.YEAR, getYear(date).toInt())
             calendar.set(Calendar.MONTH, getMonthIndex(date)-1)   // -1 perchè la numerazione dei mesi parte da 0
-            index = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+            calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
         } else                                                  // Numero dei mesi 12
-            index = 12
+            12
 
         return index
     }
@@ -348,11 +342,11 @@ class GraphFragment : Fragment() {
         val values = java.util.ArrayList<BarEntry>()
         val colors = java.util.ArrayList<Int>()
 
-        var red = resources.getColor(R.color.colorError)
-        var green = resources.getColor(R.color.colorGreen)
+        val red = resources.getColor(R.color.colorError)
+        val green = resources.getColor(R.color.colorGreen)
 
         data.forEach {
-            var bEntry = BarEntry(it.xValue,it.yValue)
+            val bEntry = BarEntry(it.xValue,it.yValue)
             values.add(bEntry)
             if (it.yValue >= 0)
                 colors.add(green)
@@ -374,8 +368,8 @@ class GraphFragment : Fragment() {
      * Funzione che inizializza gli ascoltatori per i pulsanti presenti nella barra del titolo (pulsante filtro periodo)
      */
     private fun initTitleBarButtons(pieChart: PieChart, barChart: BarChart) {
-        var btnFilter = view!!.findViewById<ImageButton>(R.id.btn_filter)
-        var btnDate = view!!.findViewById<ImageButton>(R.id.btn_chart_date)
+        val btnFilter = view!!.findViewById<ImageButton>(R.id.btn_filter)
+        val btnDate = view!!.findViewById<ImageButton>(R.id.btn_chart_date)
         btnFilter.setOnClickListener {
 
             val items = arrayOf(getString(R.string.monthly), getString(R.string.yearly))
@@ -402,10 +396,10 @@ class GraphFragment : Fragment() {
         }
 
         btnDate.setOnClickListener {
-            var dateFormat = SimpleDateFormat("yyyyMMdd") // Formato per il salvataggio della data su Firebase
+            val dateFormat = SimpleDateFormat("yyyyMMdd") // Formato per il salvataggio della data su Firebase
 
             val year = getYear(currentDateSelected).toInt()
-            var month = getMonthIndex(currentDateSelected)-1
+            val month = getMonthIndex(currentDateSelected)-1
             val day = getDayIndex(currentDateSelected)
 
             val datePickerDialog = DatePickerDialog(activity, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
@@ -422,7 +416,7 @@ class GraphFragment : Fragment() {
     }
 
     private fun setDateBar(date: String?, period: String) {
-        var txt = view!!.findViewById<TextView>(R.id.txt_graph_period_date)
+        val txt = view!!.findViewById<TextView>(R.id.txt_graph_period_date)
 
         val format = SimpleDateFormat("yyyyMMdd")
         val theDate = format.parse(date)
@@ -441,8 +435,8 @@ class GraphFragment : Fragment() {
     }
 
     private fun getTodayDate(): String {
-        var format = SimpleDateFormat("yyyyMMdd") // Formato per il salvataggio della data su Firebase
-        var currentDate = Calendar.getInstance().time
+        val format = SimpleDateFormat("yyyyMMdd") // Formato per il salvataggio della data su Firebase
+        val currentDate = Calendar.getInstance().time
         return format.format(currentDate)
     }
 
