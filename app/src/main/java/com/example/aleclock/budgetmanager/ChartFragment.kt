@@ -318,6 +318,7 @@ class GraphFragment : Fragment() {
         barChart.description.isEnabled = false
         barChart.axisRight.isEnabled = false
         barChart.legend.isEnabled = false
+        barChart.renderer = RoundedBarChartRenderer(barChart, barChart.animator, barChart.viewPortHandler, 30f)
 
     // Asse X
         val xAxis = barChart.xAxis
