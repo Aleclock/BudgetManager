@@ -4,7 +4,6 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.*
 import android.os.Bundle
-import android.os.Parcelable
 import android.support.design.widget.BottomSheetDialog
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.TabLayout
@@ -28,7 +27,6 @@ import com.irozon.sneaker.Sneaker
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.fragment_transactions.*
-import java.io.Serializable
 import java.lang.Math.abs
 import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
@@ -450,24 +448,21 @@ class TransactionsFragment : Fragment() {
             override fun onSwiped(p0: RecyclerView.ViewHolder, p1: Int) {
                 // po: viewHolder , p1: direction
                 val position = p0.adapterPosition   // Mi ritorna la posizione dell'item nel RecyclerView
-
-                val displayMetrics = DisplayMetrics()
-                activity!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
-                var width = displayMetrics.widthPixels
+                var adapter = p0.itemView.parent as RecyclerView
 
                 if (p1 == ItemTouchHelper.LEFT) {
-                    // TODO Remove item
+                    removeTransaction(transactionArray[position])
+                    transactionArray.removeAt(position)
+                    adapter.adapter!!.notifyItemRemoved(position)
+                    adapter.adapter!!.notifyItemRangeChanged(position, adapter.adapter!!.itemCount - position)
+                    //fetchTransaction(currentDateSelected, currentTabPeriod)
                     // TODO https://www.youtube.com/watch?v=gaeTFNqKA2M&list=PL0dzCUj1L5JE-jiBHjxlmXEkQkum_M3R-&index=10
                 } else if (p1 == ItemTouchHelper.RIGHT){
                     val intent = Intent(context,TransactionDetailActivity::class.java)
-
-                    var adapter = p0.itemView.parent as RecyclerView
-                    adapter.adapter?.notifyDataSetChanged()
-
                     var transaction = transactionArray[position]
-
                     intent.putExtra("transaction" , transaction)
                     startActivity(intent)
+                    adapter.adapter!!.notifyDataSetChanged()
                 }
             }
 
@@ -516,6 +511,15 @@ class TransactionsFragment : Fragment() {
 
         val itemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
         itemTouchHelper.attachToRecyclerView(recycler_view_transaction)
+    }
+
+    private fun removeTransaction(transaction: TransactionRowItem) {
+        val transactionId = transaction.transactionId
+        var userId = FirebaseAuth.getInstance().uid
+        if (userId != null) {
+            val ref = FirebaseDatabase.getInstance().getReference("/transaction").child(userId).child(transactionId)
+            ref.removeValue()
+        }
     }
 
     /**

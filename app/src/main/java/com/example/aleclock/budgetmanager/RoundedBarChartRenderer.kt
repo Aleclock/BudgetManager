@@ -143,7 +143,7 @@ class RoundedBarChartRenderer(chart: BarDataProvider,
                 RectF(
                     buffer.buffer[j], buffer.buffer[j + 1], buffer.buffer[j + 2],
                     buffer.buffer[j + 3]
-                ), mRadius, 0f, mRenderPaint
+                ), mRadius, mRadius, mRenderPaint
             )
 
             if (drawBorder) {
@@ -151,7 +151,7 @@ class RoundedBarChartRenderer(chart: BarDataProvider,
                     RectF(
                         buffer.buffer[j], buffer.buffer[j + 1], buffer.buffer[j + 2],
                         buffer.buffer[j + 3]
-                    ), mRadius, 0f, mBarBorderPaint
+                    ), mRadius, mRadius, mBarBorderPaint
                 )
             }
             j += 4
