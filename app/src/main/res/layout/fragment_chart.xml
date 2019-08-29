@@ -17,21 +17,23 @@
             android:layout_marginTop="15dp">
 
         <TextView
-                android:text="@string/chart"
+                android:id="@+id/chartTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:id="@+id/chartTitle"
-                android:textColor="@color/colorSecondaryDark"
-                android:textSize="30sp"
                 android:layout_marginStart="32dp"
-                app:layout_constraintStart_toStartOf="parent"/>
+                android:text="@string/chart"
+                android:textColor="@color/colorSecondaryDark"
+                android:textSize="23sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/chartPeriod"
                 android:textColor="@color/colorSecondaryMedium"
-                android:textSize="20sp"
+                android:textSize="15sp"
                 android:text="@string/monthly"
                 android:layout_marginStart="20dp"
                 app:layout_constraintStart_toEndOf="@+id/chartTitle"
