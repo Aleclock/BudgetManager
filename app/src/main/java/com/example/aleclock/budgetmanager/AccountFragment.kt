@@ -89,7 +89,7 @@ class AccountFragment : Fragment() {
                     p0.children.forEach {
                         val account = it.getValue(AccountRowItem::class.java)
                         if (account != null) {
-                            adapter.add(AccountItem(account,context!!, view!!,recycler_view_account,activity))
+                            adapter.add(AccountItem(account,context!!, view!!,activity,adapter))
                         }
                     }
                     recycler_view_account.adapter = adapter

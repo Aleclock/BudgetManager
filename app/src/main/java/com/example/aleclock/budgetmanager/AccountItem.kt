@@ -10,6 +10,7 @@ import android.view.animation.AnimationUtils
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.irozon.sneaker.Sneaker
+import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.account_row_account_layout.view.*
@@ -20,8 +21,8 @@ class AccountItem(
     val account: AccountRowItem,
     val context: Context,
     val view: View,
-    val recyclerView: RecyclerView,
-    val fragment: FragmentActivity?
+    val fragment: FragmentActivity?,
+    val adapter: GroupAdapter<ViewHolder>
 ): Item<ViewHolder>() {
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
@@ -52,13 +53,16 @@ class AccountItem(
             btnBack.visibility = View.VISIBLE
 
             btnDelete.setOnClickListener {
-                removeItem(account,viewHolder.adapterPosition,recyclerView)
+                removeItem(account)
+
+                val pos = viewHolder.adapterPosition
+                adapter.remove(viewHolder.item)
+                adapter.notifyItemRemoved(pos)
 
                 btnDelete.startAnimation(animationOut)
                 btnBack.startAnimation(animationOut)
                 btnDelete.visibility = View.INVISIBLE
                 btnBack.visibility = View.INVISIBLE
-                viewHolder.itemView.setBackgroundDrawable(context.resources.getDrawable(R.drawable.custom_account_deleted_layout))
             }
 
             btnBack.setOnClickListener {
@@ -72,11 +76,7 @@ class AccountItem(
         }
     }
 
-    private fun removeItem(
-        account: AccountRowItem,
-        position: Int,
-        recyclerView: RecyclerView
-    ) {
+    private fun removeItem(account: AccountRowItem) {
         val accountId = account.id
         val userId = FirebaseAuth.getInstance().uid
         if (userId != null) {

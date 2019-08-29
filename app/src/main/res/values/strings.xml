@@ -105,7 +105,7 @@
     <string name="error_insert_amount">Prego inserire l\'importo della transazione</string>
     <string name="transaction_detail">Dettaglio transazione</string>
     <string name="data_loading">Caricamento dei dati</string>
-    <string name="account_deleted">Conto eliminato con successo. Ricaricare per aggiornare la lista</string>
+    <string name="account_deleted">Conto eliminato con successo</string>
     <string name="account_not_deleted">Impossibile eliminare il conto. Riprovare</string>
 
     <!-- Stringhe per le impostazioni -->
