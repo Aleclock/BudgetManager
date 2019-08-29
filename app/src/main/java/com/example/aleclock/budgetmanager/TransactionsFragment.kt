@@ -14,6 +14,7 @@ import android.support.v7.widget.helper.ItemTouchHelper
 import android.support.v7.widget.helper.ItemTouchHelper.ACTION_STATE_SWIPE
 import android.text.TextUtils
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -61,6 +62,7 @@ class TransactionsFragment : Fragment() {
 
         // TODO caricare dati e poi settare gli ascoltatori
 
+        //setDefaultTransactionCategory()
         initializeData()
         initTitleBarButtons()
 
@@ -667,6 +669,50 @@ class TransactionsFragment : Fragment() {
         val dateFormat = SimpleDateFormat("dd.MM.yyyy")
         val dateF = Date(date)
         return dateFormat.format(dateF)
+    }
+
+
+
+
+
+
+    private fun setDefaultTransactionCategory() {
+        val userId = FirebaseAuth.getInstance().uid
+        val TAG = "Pippo"
+
+        if (userId == null) return
+
+        // Expense
+
+        var reference = FirebaseDatabase.getInstance().getReference("/transactionCategory").child(userId).child("expense")
+
+        val expense_categories = resources.getStringArray(R.array.category_expense_array)
+        expense_categories.forEach {
+            var categoryItem = TransactionCategoryItem(it,"expense",reference.key!!)
+            reference.push().setValue(categoryItem)
+                .addOnSuccessListener {
+                    Log.d(TAG,"Expense default category added")
+                }
+                .addOnFailureListener {
+                    Log.d(TAG, "Expense default category NOT added")
+                }
+        }
+
+        // Income
+
+        reference = FirebaseDatabase.getInstance().getReference("/transactionCategory").child(userId).child("income")
+
+        val income_categories = resources.getStringArray(R.array.category_income_array)
+        income_categories.forEach {
+            var categoryItem = TransactionCategoryItem(it,"expense",reference.key!!)
+            reference.push().setValue(categoryItem)
+                .addOnSuccessListener {
+                    Log.d(TAG,"Expense default category added")
+                }
+                .addOnFailureListener {
+                    Log.d(TAG, "Expense default category NOT added")
+                }
+        }
     }
 
 }

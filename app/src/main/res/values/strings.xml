@@ -109,8 +109,11 @@
     <string name="account_not_deleted">Impossibile eliminare il conto. Riprovare</string>
 
     <!-- Stringhe per le impostazioni -->
-    <string name="category_expense">Categoria uscite</string>
+    <string name="category_expense">Categorie uscite</string>
     <string name="category_income">Categorie entrate</string>
     <string name="language">Lingua</string>
-    <string name="category_account_list">Categoria entrate</string>
+    <string name="addCategory">Aggiungi categoria</string>
+    <string name="category_name">Nome categoria</string>
+    <string name="save_new_category">Crea categoria</string>
+    <string name="mandatory_name_category">Il nome della categoria è un campo obbligatorio</string>
 </resources>

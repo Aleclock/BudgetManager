@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="#A6000000"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <android.support.constraint.ConstraintLayout android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/custom_dialog">
+
+
+        <TextView android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorSecondaryDark"
+                android:text="@string/addCategory"
+                android:padding="16dp"
+                android:textSize="20sp"
+                app:layout_constraintTop_toTopOf="parent"
+                android:id="@+id/textView"/>
+
+        <android.support.constraint.ConstraintLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/container_et"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="60dp">
+
+            <EditText
+                    android:id="@+id/et_name_transaction_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/category_name"
+                    android:textSize="15sp"
+                    android:background="@drawable/custom_edittext_gray"
+                    android:inputType="text"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+
+        </android.support.constraint.ConstraintLayout>
+
+        <Button
+                android:id="@+id/btn_create_transaction_category"
+                android:layout_alignParentBottom="true"
+                app:layout_constraintTop_toBottomOf="@+id/container_et"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:text="@string/save_new_category"
+                android:textSize="15sp"
+                android:textAllCaps="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorSecondaryDark"
+                android:background="@drawable/custom_stroke_button"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginStart="70dp"
+                android:layout_marginEnd="70dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:stateListAnimator="@null"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>

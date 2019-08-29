@@ -129,7 +129,7 @@ class CreateAccountActivity : AppCompatActivity() {
 
         val expense_categories = resources.getStringArray(R.array.category_expense_array)
         expense_categories.forEach {
-            var categoryItem = TransactionCategoryItem(it,"expense")
+            var categoryItem = TransactionCategoryItem(it,"expense",reference.key!!)
             reference.push().setValue(categoryItem)
                 .addOnSuccessListener {
                     Log.d(TAG,"Expense default category added")
@@ -145,7 +145,7 @@ class CreateAccountActivity : AppCompatActivity() {
 
         val income_categories = resources.getStringArray(R.array.category_income_array)
         income_categories.forEach {
-            var categoryItem = TransactionCategoryItem(it,"expense")
+            var categoryItem = TransactionCategoryItem(it,"expense",reference.key!!)
             reference.push().setValue(categoryItem)
                 .addOnSuccessListener {
                     Log.d(TAG,"Expense default category added")

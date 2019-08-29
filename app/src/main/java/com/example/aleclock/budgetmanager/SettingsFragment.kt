@@ -1,18 +1,15 @@
 package com.example.aleclock.budgetmanager
 
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.*
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ListView
-import com.xwray.groupie.OnItemClickListener
-import java.math.RoundingMode.valueOf
+
 
 
 /**
@@ -49,7 +46,7 @@ class SettingsFragment : Fragment() {
                     startActivity(intent)
                 }
                 1 -> {
-                    val intent = Intent(context,ExpenseCategoryActivity::class.java)
+                    val intent = Intent(context,IncomeCategoryActivity::class.java)
                     startActivity(intent)
                 }
                 2 -> {
@@ -61,7 +58,7 @@ class SettingsFragment : Fragment() {
         /**
          * Logout
          */
-        val btnLogout = view!!.findViewById<Button>(R.id.btn_logout)
+        val btnLogout = view.findViewById<Button>(R.id.btn_logout)
         btnLogout!!.setOnClickListener { logoutUser() }
     }
 

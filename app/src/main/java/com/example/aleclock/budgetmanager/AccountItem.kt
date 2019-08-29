@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.View
 import android.view.animation.AnimationUtils
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.irozon.sneaker.Sneaker
 import com.xwray.groupie.Item
@@ -77,7 +78,7 @@ class AccountItem(
         recyclerView: RecyclerView
     ) {
         val accountId = account.id
-        val userId = account.userId
+        val userId = FirebaseAuth.getInstance().uid
         if (userId != null) {
             val ref = FirebaseDatabase.getInstance().getReference("/account").child(userId).child(accountId)
             ref.removeValue()
