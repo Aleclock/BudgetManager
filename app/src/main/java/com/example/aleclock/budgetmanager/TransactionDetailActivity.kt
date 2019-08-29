@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.RecyclerView
+import android.text.TextUtils.concat
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageButton
@@ -32,7 +33,7 @@ class TransactionDetailActivity : AppCompatActivity() {
         var txtCategory = findViewById<TextView>(R.id.transaction_detail_category)
         var recycleView = findViewById<RecyclerView>(R.id.recycler_view_transaction_detail)
 
-        txtAmount.text = transaction.amount.toString()
+        txtAmount.text = concat(transaction.amount.toString(), " €")
         txtCategory.text = transaction.category
 
 

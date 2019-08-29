@@ -467,9 +467,9 @@ class TransactionsFragment : Fragment() {
                 if (actionState == ACTION_STATE_SWIPE) {
 
                     val itemView : View = viewHolder.itemView
-                    var height = itemView.bottom - itemView.top
-                    //var width = height / 3
+                    val margin = 150
                     val p = Paint()
+
 
                     val background: RectF
                     val icon: Drawable
@@ -480,6 +480,15 @@ class TransactionsFragment : Fragment() {
                 //Drawing for Swife Right
                         p.color = resources.getColor(R.color.colorPrimary)
                         icon = resources.getDrawable(R.drawable.ic_info)
+
+                        val top = itemView.top + (itemView.height - icon.intrinsicHeight) / 2
+                        //val left = itemView.width - icon.intrinsicWidth - (itemView.height - icon.intrinsicHeight) / 2
+                        val right = dX.toInt() - margin
+                        val left = right - icon.intrinsicWidth
+                        val bottom = top + icon.intrinsicHeight
+
+                        icon.setBounds(left, top, right, bottom)
+
                         //background = RectF(itemView.left.toFloat(), itemView.top.toFloat(), itemView.left.toFloat() + dX/3 ,itemView.bottom.toFloat())
                         background = RectF(-corner, itemView.top.toFloat(), dX ,itemView.bottom.toFloat())
                         c.drawRoundRect(background, corner, corner, p)
@@ -489,6 +498,15 @@ class TransactionsFragment : Fragment() {
                 //Drawing for Swife Left
                         p.color = resources.getColor(R.color.colorError)
                         icon = resources.getDrawable(R.drawable.ic_delete)
+
+                        val top = itemView.top + (itemView.height - icon.intrinsicHeight) / 2
+                        val left = width + dX.toInt() + margin
+                        val right = left + icon.intrinsicHeight
+                        val bottom = top + icon.intrinsicHeight
+
+                        icon.setBounds(left, top, right, bottom)
+
+
                         background = RectF(width.toFloat() + dX, itemView.top.toFloat(), width.toFloat() + corner ,itemView.bottom.toFloat())
                         c.drawRoundRect(background, corner, corner, p)
                         icon.draw(c)

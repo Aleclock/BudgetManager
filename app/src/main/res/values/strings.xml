@@ -33,8 +33,8 @@
     <!-- Category -->
     <string name="category_cash">Contanti</string>
     <string name="category_account">Conti</string>
-    <string name="category_credit_card">Carte di credito</string>
-    <string name="category_debit_card">Carte di debito</string>
+    <string name="category_credit_card">Carta di credito</string>
+    <string name="category_debit_card">Carta di debito</string>
     <string name="category_savings">Risparmi</string>
     <string name="category_cash_electronic">Cash elettronico</string>
     <string name="category_investment">Investimenti</string>
