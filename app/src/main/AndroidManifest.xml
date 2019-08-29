@@ -9,12 +9,24 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".TransactionDetailActivity"></activity>
+        <activity android:name=".TransactionDetailActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value=".MainActivity"/>
+        </activity>
 
         <activity android:name=".MainActivity" />
+
+        <activity android:name=".ExpenseCategoryActivity">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".MainActivity"/>
+        </activity>
+        <activity android:name=".IncomeCategoryActivity">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".MainActivity"/>
+        </activity>
         <activity
                 android:name=".LoginActivity"
                 android:noHistory="true" />

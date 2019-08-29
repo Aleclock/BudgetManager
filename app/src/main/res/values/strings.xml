@@ -107,4 +107,10 @@
     <string name="data_loading">Caricamento dei dati</string>
     <string name="account_deleted">Conto eliminato con successo. Ricaricare per aggiornare la lista</string>
     <string name="account_not_deleted">Impossibile eliminare il conto. Riprovare</string>
+
+    <!-- Stringhe per le impostazioni -->
+    <string name="category_expense">Categoria uscite</string>
+    <string name="category_income">Categorie entrate</string>
+    <string name="language">Lingua</string>
+    <string name="category_account_list">Categoria entrate</string>
 </resources>
