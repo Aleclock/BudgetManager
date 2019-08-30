@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BudgetManager</string>
+    <string name="yearly">Yearly</string>
+    <string name="transazioni">Transactions</string>
+    <string name="transaction_note">Note</string>
+    <string name="transaction_not_created">Impossible</string>
+    <string name="transaction_detail">Transaction detail</string>
+    <string name="transaction_created">Transaction created</string>
+    <string name="total">Total</string>
+    <string name="spinner_title_type">Select account</string>
+    <string name="spinner_title_category">Select category</string>
+    <string name="spinner_title_account">Select account category</string>
+    <string name="setting">Settings</string>
+    <string name="set_account_filter">Select account to filter</string>
+    <string name="select_period">Select period</string>
+    <string name="select_date">Select date</string>
+    <string name="select_category">Select category</string>
+    <string name="save_new_transaction">Add transaction</string>
+    <string name="save_new_category">Create category</string>
+    <string name="save_new_account">Create account</string>
+    <string name="password">Password</string>
+    <string name="monthly">Monthly</string>
+    <string name="mandatory_name_category">Name category needed</string>
+    <string name="logout">Logout</string>
+    <string name="logoDescription">Logo</string>
+    <string name="login_title">Login</string>
+    <string name="last_name">Last name</string>
+    <string name="language">Language</string>
+    <string name="incomes">Income</string>
+    <string name="income">Income</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="first_name">First name</string>
+    <string name="filter">Filter</string>
+    <string name="expenses">Expense</string>
+    <string name="expense">Expense</string>
+    <string name="error_insert_amount">Please insert amount</string>
+    <string name="email">Email</string>
+    <string name="data_loading">Loading data</string>
+    <string name="daily">Daily</string>
+    <string name="creation_date">Creation date</string>
+</resources>

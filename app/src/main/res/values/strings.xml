@@ -3,8 +3,8 @@
 
     <string name="email">Email</string>
     <string name="password">Password</string>
-    <string name="first_name">First Name</string>
-    <string name="last_name">Last Name</string>
+    <string name="first_name">Nome</string>
+    <string name="last_name">Cognome</string>
     <string name="login_title">Login</string>
     <string name="create_act">Create Account</string>
     <string name="logout">Logout</string>
@@ -116,4 +116,5 @@
     <string name="category_name">Nome categoria</string>
     <string name="save_new_category">Crea categoria</string>
     <string name="mandatory_name_category">Il nome della categoria è un campo obbligatorio</string>
+    <string name="choose_language" type="id">Seleziona lingua</string>
 </resources>

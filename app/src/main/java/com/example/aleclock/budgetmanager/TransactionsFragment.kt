@@ -443,11 +443,6 @@ class TransactionsFragment : Fragment() {
                 if (p1 == ItemTouchHelper.LEFT) {
                     removeTransaction(transactionArray[position])
                     transactionArray.removeAt(position)
-
-                    /*  Per aggiornare il recyclerview dovrebbero andare le seguenti funzioni ma non funziona
-                    adapter.adapter!!.notifyItemRemoved(position)
-                    adapter.adapter!!.notifyItemRangeChanged(position, adapter.adapter!!.itemCount - position)*/
-
                     fetchTransaction(currentDateSelected, currentTabPeriod)
                 } else if (p1 == ItemTouchHelper.RIGHT){
                     val intent = Intent(context,TransactionDetailActivity::class.java)

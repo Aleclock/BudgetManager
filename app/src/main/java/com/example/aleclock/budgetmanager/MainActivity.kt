@@ -1,28 +1,23 @@
 package com.example.aleclock.budgetmanager
 
 import android.content.Context
-import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
-import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
-import android.util.Log
-import android.view.View
-import android.widget.Button
-import android.widget.TextView
-import com.google.firebase.auth.FirebaseAuth
+import android.support.v7.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var transactionsFragment : TransactionsFragment
-    lateinit var graphFragment: GraphFragment
-    lateinit var accountFragment: AccountFragment
-    lateinit var settingsFragment: SettingsFragment
+    private lateinit var transactionsFragment : TransactionsFragment
+    private lateinit var graphFragment: GraphFragment
+    private lateinit var accountFragment: AccountFragment
+    private lateinit var settingsFragment: SettingsFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        loadLocate()
 
         /**
          * Fragment bottom navigation
@@ -80,6 +75,12 @@ class MainActivity : AppCompatActivity() {
 
             true
         }
+    }
+
+    private fun loadLocate() {
+        val sharedPreferences = getSharedPreferences("Settings",Context.MODE_PRIVATE)
+        val language = sharedPreferences.getString("langSel","")
+        SettingsFragment.setLocate(language,this)
     }
 
 
