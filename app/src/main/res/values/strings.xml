@@ -117,4 +117,5 @@
     <string name="save_new_category">Crea categoria</string>
     <string name="mandatory_name_category">Il nome della categoria è un campo obbligatorio</string>
     <string name="choose_language" type="id">Seleziona lingua</string>
+    <string name="no_internet">Connessione assente</string>
 </resources>

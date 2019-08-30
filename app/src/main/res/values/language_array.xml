@@ -3,12 +3,6 @@
     <string-array name="language_array">
         <item>Italiano</item>
         <item>English</item>
-        <item>Lingua</item>
-        <item>Lingua</item>
-        <item>Lingua</item>
-        <item>Lingua</item>
-        <item>Lingua</item>
-        <item>Lingua</item>
-        <item>Lingua</item>
+        <item>Deutch</item>
     </string-array>
 </resources>

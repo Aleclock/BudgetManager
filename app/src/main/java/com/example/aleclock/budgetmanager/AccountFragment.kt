@@ -48,7 +48,7 @@ class AccountFragment : Fragment() {
              */
             val spinner = view.findViewById<Spinner>(R.id.spn_category_new_account)
             val categories = resources.getStringArray(R.array.category_array)
-            var category_selected = categories[0]
+            var categorySelected = categories[0]
             val adapter = ArrayAdapter(context,R.layout.select_dialog_item_material,categories)
             spinner.adapter = adapter
 
@@ -57,7 +57,7 @@ class AccountFragment : Fragment() {
                 }
 
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    category_selected = categories[position]
+                    categorySelected = categories[position]
                 }
 
             }
@@ -65,16 +65,16 @@ class AccountFragment : Fragment() {
 
             val btn = view.findViewById<Button>(R.id.btn_create_account)
             btn.setOnClickListener {
-                val newAccountName = view!!.findViewById<EditText>(R.id.et_name_account).text
-                val newAccountBalance = view!!.findViewById<EditText>(R.id.et_balance_account).text
-                createNewAccount(newAccountName.toString(), category_selected, newAccountBalance.toString().toFloat())
+                val newAccountName = view.findViewById<EditText>(R.id.et_name_account).text
+                val newAccountBalance = view.findViewById<EditText>(R.id.et_balance_account).text
+                createNewAccount(newAccountName.toString(), categorySelected, newAccountBalance.toString().toFloat())
                 dialog.hide()
             }
         }
     }
 
     private fun fetchAccount() {
-        var userId = FirebaseAuth.getInstance().uid
+        val userId = FirebaseAuth.getInstance().uid
         if (userId == null) {
             return
         } else {
