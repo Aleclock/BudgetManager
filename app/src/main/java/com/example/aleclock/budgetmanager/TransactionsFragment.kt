@@ -27,7 +27,6 @@ import com.google.firebase.database.ValueEventListener
 import com.irozon.sneaker.Sneaker
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
-import kotlinx.android.synthetic.main.fragment_transactions.*
 import java.lang.Math.abs
 import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
@@ -220,12 +219,14 @@ class TransactionsFragment : Fragment() {
 
             }
 
+            // PLACES AUTOCOMPLETE
 
-            val btn_create_transaction = view.findViewById<Button>(R.id.btn_create_transaction)
-            btn_create_transaction.setOnClickListener {
+
+            val btnCreateTransaction = view.findViewById<Button>(R.id.btn_create_transaction)
+            btnCreateTransaction.setOnClickListener {
                 val newTransactionAmount = view.findViewById<EditText>(R.id.et_amount_transaction).text.toString()
                 val newTransactionNote = view.findViewById<EditText>(R.id.et_description_transaction).text.toString()
-                if  (newTransactionAmount.toString() == "")
+                if  (newTransactionAmount == "")
                     Sneaker.with(this)
                         .setTitle(getString(R.string.error_insert_amount))
                         .setDuration(2000)
@@ -381,7 +382,8 @@ class TransactionsFragment : Fragment() {
                             }
                         }
                     }
-                    recycler_view_transaction.adapter = adapter
+                    val recyclerView = view!!.findViewById<RecyclerView>(R.id.recycler_view_transaction)
+                    recyclerView.adapter = adapter
                     setPeriodBarAmount (incomeAmount, expenseAmount)
                 }
             })
@@ -410,14 +412,17 @@ class TransactionsFragment : Fragment() {
         val monthL = DateFormatSymbols().months[month].capitalize()
         val year = myCal.get(Calendar.YEAR)
 
-        if (periodRange == "daily") {           txt_period_date.text = "$day $monthL $year"
-        } else if (periodRange == "monthly"){   txt_period_date.text = "$monthL $year"
-        } else {                                txt_period_date.text = ""   }
+        val txtPeriodDate = view!!.findViewById<TextView>(R.id.txt_period_date)
+
+        if (periodRange == "daily") {           txtPeriodDate.text = "$day $monthL $year"
+        } else if (periodRange == "monthly"){   txtPeriodDate.text = "$monthL $year"
+        } else {                                txtPeriodDate.text = ""   }
     }
 
     private fun setPeriodBarAmount(income: Float, expense: Float) {
-        txt_total_expense_amount.text = TextUtils.concat(abs(expense).toString(), "  €")
-        txt_total_income_amount.text = TextUtils.concat(income.toString(),"  €")
+        val txtTotIncomeAmount = view!!.findViewById<TextView>(R.id.txt_total_income_amount)
+        txtTotIncomeAmount.text = TextUtils.concat(abs(expense).toString(), "  €")
+        txtTotIncomeAmount.text = TextUtils.concat(income.toString(),"  €")
     }
 
     // TODO Implementare questa funzione in una classe https://medium.com/@kitek/recyclerview-swipe-to-delete-easier-than-you-thought-cff67ff5e5f6
@@ -513,7 +518,8 @@ class TransactionsFragment : Fragment() {
             }
         }
         val itemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
-        itemTouchHelper.attachToRecyclerView(recycler_view_transaction)
+        val recyclerView = view!!.findViewById<RecyclerView>(R.id.recycler_view_transaction)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
     private fun removeTransaction(transaction: TransactionRowItem) {
@@ -595,7 +601,7 @@ class TransactionsFragment : Fragment() {
         else {
             val reference = FirebaseDatabase.getInstance().getReference("/transaction").child(userId).push()
 
-            val transactionValue = TransactionRowItem(date, accountId, reference.key!!, accountName, category, amount, note, transactionType)
+            val transactionValue = TransactionRowItem(date, accountId, reference.key!!, accountName, category, amount, note, transactionType,userId)
             reference.setValue(transactionValue)
                 .addOnSuccessListener {
                     Sneaker.with(this)

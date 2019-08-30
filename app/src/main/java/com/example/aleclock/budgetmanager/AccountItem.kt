@@ -38,7 +38,7 @@ class AccountItem(
         val btnDelete = view.findViewById<FloatingActionButton>(R.id.btn_remove_account)
         val btnBack = view.findViewById<FloatingActionButton>(R.id.btn_back_selected)
 
-        // TODO https://stackoverflow.com/questions/46609356/recyclerview-on-item-selection-with-long-click?noredirect=1&lq=1
+        // https://stackoverflow.com/questions/46609356/recyclerview-on-item-selection-with-long-click?noredirect=1&lq=1
         viewHolder.itemView.setOnLongClickListener{
 
             val animationIn = AnimationUtils.loadAnimation(context, R.anim.slide_up)

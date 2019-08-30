@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 
+// https://www.youtube.com/watch?v=AKXKPQrd2qQ
 class ConnectionReceiver: BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent?) {

@@ -88,16 +88,16 @@ class MainActivity : AppCompatActivity(), ConnectionReceiver.ConnectionReceiverL
     override fun onNetworkConnectionChanged(isConnected: Boolean) {
 
         val s = Sneaker.with(this)
-            .setTitle(getString(R.string.no_internet))
 
         if (isConnected) {
             s.hide()
+            s.setTitle(getString(R.string.connection_established))
             s.sneak(R.color.colorGreen)
             s.autoHide(true)
             s.setDuration(2000)
-            Log.d("net","togli")
         } else {
             s.autoHide(false)
+            .setTitle(getString(R.string.connection_no))
             s.sneak(R.color.colorError)
         }
     }

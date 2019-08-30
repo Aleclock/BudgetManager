@@ -48,7 +48,7 @@ class GraphFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        // TODO https://github.com/PhilJay/MPAndroidChart
+        // https://github.com/PhilJay/MPAndroidChart
 
         val pieChart = view.findViewById<PieChart>(R.id.pieChart)
         val barChart = view.findViewById<BarChart>(R.id.negative_positive_chart)

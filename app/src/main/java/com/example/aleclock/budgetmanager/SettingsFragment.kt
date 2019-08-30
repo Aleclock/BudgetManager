@@ -17,11 +17,6 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import kotlin.system.exitProcess
 
-
-/**
- * A simple [Fragment] subclass.
- *
- */
 class SettingsFragment : Fragment() {
 
 

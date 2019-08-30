@@ -11,8 +11,9 @@ class TransactionRowItem (val date: String,
                         val category: String,
                         val amount: Float,
                         val note : String,
-                        val transactionType: String) : Parcelable {
+                        val transactionType: String,
+                        val userId : String) : Parcelable {
 
     // TODO aggiungere userId
-    constructor():this("","","","","", 0f,"","")
+    constructor():this("","","","","", 0f,"","","")
 }
