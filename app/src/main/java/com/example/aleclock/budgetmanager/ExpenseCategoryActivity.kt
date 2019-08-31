@@ -40,7 +40,7 @@ class ExpenseCategoryActivity : AppCompatActivity()  {
             val dialog = BottomSheetDialog(this)
             val view = layoutInflater.inflate(R.layout.new_transaction_category_dialog, null)
 
-            dialog?.window?.attributes!!.windowAnimations = R.style.DialogAnimation
+            dialog.window?.attributes!!.windowAnimations = R.style.DialogAnimation
 
             dialog.setContentView(view)
             dialog.show()

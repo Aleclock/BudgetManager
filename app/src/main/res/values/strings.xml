@@ -14,8 +14,6 @@
     <!-- Menu -->
     <string name="transazioni">Transazioni</string>
     <string name="chart">Grafici</string>
-    <string name="chart_monthly">Grafici - Mensile</string>
-    <string name="chart_yearly">Grafici - Annuale</string>
     <string name="account">Conti</string>
     <string name="setting">Impostazioni</string>
 

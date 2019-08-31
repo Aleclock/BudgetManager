@@ -36,15 +36,15 @@
                 android:src="@drawable/ic_date"
                 android:background="@drawable/custom_trasparent_button"
                 android:layout_gravity="center_vertical|center_horizontal"
-                app:layout_constraintEnd_toStartOf="@+id/btn_period_filter"
+                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="12dp"
                 android:contentDescription="@string/filter"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:padding="10dp"/>
 
-        <ImageButton
-                android:id="@+id/btn_period_filter"
+<!--        <ImageButton
+                android:id="@+id/btn_refresh"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_filter"
@@ -55,7 +55,7 @@
                 android:contentDescription="@string/filter"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:padding="10dp"/>
+                android:padding="10dp"/>-->
 
     </android.support.constraint.ConstraintLayout>
 

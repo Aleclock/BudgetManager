@@ -402,7 +402,7 @@ class GraphFragment : Fragment() {
             val month = getMonthIndex(currentDateSelected)-1
             val day = getDayIndex(currentDateSelected)
 
-            val datePickerDialog = DatePickerDialog(activity, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+            val datePickerDialog = DatePickerDialog(activity, DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
                 val periodDate = GregorianCalendar(year, monthOfYear, dayOfMonth).time
 
                 currentDateSelected = dateFormat.format(periodDate)

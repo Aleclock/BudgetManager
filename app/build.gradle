@@ -30,6 +30,12 @@ repositories {
     maven { url 'https://jitpack.io' }
 }
 
+buildscript {
+    repositories {
+        google()
+    }
+}
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -52,6 +58,7 @@ dependencies {
     implementation "com.xwray:groupie:2.1.0"
     implementation 'com.irozon.sneaker:sneaker:2.0.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation "com.google.android.libraries.places:places:1.1.0"
 }
 
 apply plugin: 'com.google.gms.google-services'

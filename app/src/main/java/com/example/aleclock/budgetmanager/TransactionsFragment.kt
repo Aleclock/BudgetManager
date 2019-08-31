@@ -41,10 +41,12 @@ class TransactionsFragment : Fragment() {
 
     var accountListId = ArrayList<String>()
     var accountListName = ArrayList<String>()
-    var categoryListItems = ArrayList<String>()
 
     var currentTabPeriod : String = "daily"
     var currentDateSelected : String = getTodayDate()
+
+    var transactionCategoryEx = ArrayList<String>()
+    var transactionCategoryIn = ArrayList<String>()
 
     val transactionArray = ArrayList<TransactionRowItem>()
 
@@ -113,6 +115,25 @@ class TransactionsFragment : Fragment() {
             dialog.setContentView(view)
             dialog.show()
 
+            /**
+             * Gestione del dialog spinner per la selezione della categoria della nuova transazione
+             */
+            val cat_spinner = view.findViewById<Spinner>(R.id.spn_transaction_category)
+            var transactionCategories = transactionCategoryEx
+            var transactionCategoriesSel = transactionCategories[0]
+            var categoryAdapter = ArrayAdapter(context,R.layout.select_dialog_item_material,transactionCategories)
+            cat_spinner.adapter = categoryAdapter
+
+            cat_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    transactionCategoriesSel = transactionCategories[position]
+                }
+
+            }
+
             // TODO https://stackoverflow.com/questions/33319898/currency-input-with-2-decimal-format
             // TODO https://stackoverflow.com/questions/5107901/better-way-to-format-currency-input-edittext/8275680
 
@@ -133,11 +154,20 @@ class TransactionsFragment : Fragment() {
                 }
 
                 override fun onTabSelected(p0: TabLayout.Tab?) {
-                    // TODO quando cambia il tab la categoria selezionata dev'essere rimossa
                     if (p0 != null) {
                         when (p0.position) {
-                            0 -> getCategoryList("expense")
-                            1 -> getCategoryList("income")
+                            0 -> {
+                                transactionCategories = transactionCategoryEx
+                                transactionCategoriesSel = transactionCategories[0]
+                                categoryAdapter = ArrayAdapter(context,R.layout.select_dialog_item_material,transactionCategories)
+                                cat_spinner.adapter = categoryAdapter
+                            }
+                            1 -> {
+                                transactionCategories = transactionCategoryIn
+                                transactionCategoriesSel = transactionCategories[0]
+                                categoryAdapter = ArrayAdapter(context,R.layout.select_dialog_item_material,transactionCategories)
+                                cat_spinner.adapter = categoryAdapter
+                            }
                         }
                     }
                 }
@@ -178,25 +208,6 @@ class TransactionsFragment : Fragment() {
                 datePickerDialog.show()
             }
 
-            /**
-             * Gestione del dialog spinner per la selezione della categoria della nuova transazione
-             */
-            val cat_spinner = view.findViewById<Spinner>(R.id.spn_transaction_category)
-            val cat_categories = categoryListItems
-            var cat_category_selected = cat_categories[0]
-            val cat_adapter = ArrayAdapter(context,R.layout.select_dialog_item_material,cat_categories)
-
-            cat_spinner.adapter = cat_adapter
-
-            cat_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                }
-
-                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    cat_category_selected = cat_categories[position]
-                }
-
-            }
 
             /**
              * Gestione del dialog spinner per la selezione del conto della nuova transazione
@@ -238,7 +249,7 @@ class TransactionsFragment : Fragment() {
                         "-$newTransactionDateTxt",
                         acc_category_selected,
                         acc_category_name_selected,
-                        cat_category_selected,
+                        transactionCategoriesSel,
                         newTransactionAmount.toFloat(),
                         newTransactionNote,
                         transactionType
@@ -251,7 +262,8 @@ class TransactionsFragment : Fragment() {
 
     private fun initializeData() {
         getAccountlist()
-        getCategoryList("expense")
+        transactionCategoryEx = getCategoryList("expense")
+        transactionCategoryIn = getCategoryList("income")
         fetchTransaction(getTodayDate(), "daily")
         initSwipe()
     }
@@ -264,7 +276,7 @@ class TransactionsFragment : Fragment() {
 
     private fun initTitleBarButtons() {
         val btn_setDate = view!!.findViewById<ImageButton>(R.id.btn_set_date)
-        val btn_filter = view!!.findViewById<ImageButton>(R.id.btn_period_filter)
+        //val btn_filter = view!!.findViewById<ImageButton>(R.id.btn_period_filter)
 
         /**
          * DatePicker
@@ -302,12 +314,12 @@ class TransactionsFragment : Fragment() {
         /**
          * Filter
          */
-        btn_filter.setOnClickListener {
+/*        btn_filter.setOnClickListener {
             Sneaker.with(this)
                 .setTitle("Filtra le categorie")
                 .setDuration(2000)
                 .sneak(R.color.colorGreen)
-        }
+        }*/
     }
 
     /**
@@ -535,11 +547,11 @@ class TransactionsFragment : Fragment() {
     /**
      * Funzione che scarica da Firebase le categorie delle transizioni del singolo utente
      */
-    private fun getCategoryList(type: String) {
+    private fun getCategoryList(type: String) : ArrayList<String> {
         val userId = FirebaseAuth.getInstance().uid
-        if (userId == null) return
+        if (userId == null) return ArrayList(0)
         else {
-            categoryListItems.clear()
+            var categoryList = ArrayList<String>()
             transactionType = type
             val ref = FirebaseDatabase.getInstance().getReference("/transactionCategory").child(userId).child(type)
             ref.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -550,11 +562,13 @@ class TransactionsFragment : Fragment() {
                     p0.children.forEach {
                         val transactionCategory = it.getValue(TransactionCategoryItem::class.java)
                         if (transactionCategory != null) {
-                            categoryListItems.add(transactionCategory.name)
+                            categoryList.add(transactionCategory.name)
                         }
                     }
                 }
             })
+
+            return categoryList
         }
     }
 
