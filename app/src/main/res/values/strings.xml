@@ -118,4 +118,6 @@
 
     <string name="connection_no">Connessione assente</string>
     <string name="connection_established">Connessione stabilita correttamente</string>
+    <string name="wait_category_loading">Caricamento delle categorie in corso. Prego aspettare</string>
+    <string name="error_no_account">Prima di aggiungere una transazione è necessario creare un conto</string>
 </resources>
