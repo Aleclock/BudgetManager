@@ -27,6 +27,7 @@ import com.google.firebase.database.ValueEventListener
 import com.irozon.sneaker.Sneaker
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
+import me.abhinay.input.CurrencyEditText
 import java.lang.Math.abs
 import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
@@ -159,12 +160,14 @@ class TransactionsFragment : Fragment() {
                             0 -> {
                                 transactionCategories = transactionCategoryEx
                                 transactionCategoriesSel = transactionCategories[0]
+                                transactionType = "expense"
                                 categoryAdapter = ArrayAdapter(context,R.layout.select_dialog_item_material,transactionCategories)
                                 cat_spinner.adapter = categoryAdapter
                             }
                             1 -> {
                                 transactionCategories = transactionCategoryIn
                                 transactionCategoriesSel = transactionCategories[0]
+                                transactionType = "income"
                                 categoryAdapter = ArrayAdapter(context,R.layout.select_dialog_item_material,transactionCategories)
                                 cat_spinner.adapter = categoryAdapter
                             }
@@ -232,25 +235,24 @@ class TransactionsFragment : Fragment() {
 
             // PLACES AUTOCOMPLETE
 
+            val newTransactionAmount = view.findViewById<EditText>(R.id.et_amount_transaction)
+
 
             val btnCreateTransaction = view.findViewById<Button>(R.id.btn_create_transaction)
             btnCreateTransaction.setOnClickListener {
-                val newTransactionAmount = view.findViewById<EditText>(R.id.et_amount_transaction).text.toString()
                 val newTransactionNote = view.findViewById<EditText>(R.id.et_description_transaction).text.toString()
-                if  (newTransactionAmount == "")
+                if  (newTransactionAmount.text.toString() == "")
                     Sneaker.with(this)
                         .setTitle(getString(R.string.error_insert_amount))
                         .setDuration(2000)
                         .sneak(R.color.colorError)
-
-                // TODO migliorare
                 else {
                     createNewTransaction(
                         "-$newTransactionDateTxt",
                         acc_category_selected,
                         acc_category_name_selected,
                         transactionCategoriesSel,
-                        newTransactionAmount.toFloat(),
+                        newTransactionAmount.text.toString().toFloat(),
                         newTransactionNote,
                         transactionType
                     )
@@ -264,6 +266,7 @@ class TransactionsFragment : Fragment() {
         getAccountlist()
         transactionCategoryEx = getCategoryList("expense")
         transactionCategoryIn = getCategoryList("income")
+        transactionType = "expense"
         fetchTransaction(getTodayDate(), "daily")
         initSwipe()
     }
@@ -394,8 +397,8 @@ class TransactionsFragment : Fragment() {
                             }
                         }
                     }
-                    val recyclerView = view!!.findViewById<RecyclerView>(R.id.recycler_view_transaction)
-                    recyclerView.adapter = adapter
+                    val recyclerView = view?.findViewById<RecyclerView>(R.id.recycler_view_transaction)
+                    recyclerView?.adapter = adapter
                     setPeriodBarAmount (incomeAmount, expenseAmount)
                 }
             })
@@ -433,7 +436,8 @@ class TransactionsFragment : Fragment() {
 
     private fun setPeriodBarAmount(income: Float, expense: Float) {
         val txtTotIncomeAmount = view!!.findViewById<TextView>(R.id.txt_total_income_amount)
-        txtTotIncomeAmount.text = TextUtils.concat(abs(expense).toString(), "  €")
+        val txtTotExpenseAmount = view!!.findViewById<TextView>(R.id.txt_total_expense_amount)
+        txtTotExpenseAmount.text = TextUtils.concat(abs(expense).toString(), "  €")
         txtTotIncomeAmount.text = TextUtils.concat(income.toString(),"  €")
     }
 
@@ -552,7 +556,6 @@ class TransactionsFragment : Fragment() {
         if (userId == null) return ArrayList(0)
         else {
             var categoryList = ArrayList<String>()
-            transactionType = type
             val ref = FirebaseDatabase.getInstance().getReference("/transactionCategory").child(userId).child(type)
             ref.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
