@@ -2,6 +2,7 @@ package com.example.aleclock.budgetmanager
 
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -55,7 +56,7 @@ class TransactionsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_transactions, container, false)
     }
 

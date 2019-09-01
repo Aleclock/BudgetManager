@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
-import android.telecom.ConnectionService
 import android.util.Log
 import com.irozon.sneaker.Sneaker
 
@@ -17,6 +16,7 @@ class MainActivity : AppCompatActivity(), ConnectionReceiver.ConnectionReceiverL
     private lateinit var graphFragment: GraphFragment
     private lateinit var accountFragment: AccountFragment
     private lateinit var settingsFragment: SettingsFragment
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity(), ConnectionReceiver.ConnectionReceiverL
             .replace(R.id.frame_layout, transactionsFragment)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .commit()
+
 
         bottomNavigation.setOnNavigationItemSelectedListener { item ->
 
