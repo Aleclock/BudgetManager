@@ -76,6 +76,8 @@
                     app:layout_constraintBottom_toTopOf="@+id/et_amount_transaction"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
+            <!--android:inputType="numberDecimal"-->
+
             <EditText
                     android:id="@+id/et_amount_transaction"
                     android:layout_width="match_parent"
@@ -83,7 +85,6 @@
                     android:hint="@string/account_amount_value"
                     android:textSize="60sp"
                     android:textAlignment="center"
-                    android:inputType="numberDecimal"
                     android:digits="0123456789."
                     android:background="@drawable/custom_edittext_gray"
                     app:layout_constraintStart_toStartOf="parent"
