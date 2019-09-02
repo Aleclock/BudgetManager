@@ -59,19 +59,19 @@ class AccountFragment : Fragment() {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                     categorySelected = categories[position]
                 }
-
             }
+
+            // Amount text Formatter
+            val newAccountBalance = view.findViewById<EditText>(R.id.et_balance_account)
+            newAccountBalance.addTextChangedListener(MoneyTextWatcher(newAccountBalance))
 
 
             val btn = view.findViewById<Button>(R.id.btn_create_account)
             btn.setOnClickListener {
                 val newAccountName = view.findViewById<EditText>(R.id.et_name_account).text
-                val newAccountBalance = view.findViewById<EditText>(R.id.et_balance_account)
 
-                // Amount text Formatter
-                newAccountBalance.addTextChangedListener(MoneyTextWatcher(newAccountBalance))
                 val balance = newAccountBalance.text.substring(2, newAccountBalance.text.length)
-
+                    .replace(",","")
                 createNewAccount(newAccountName.toString(), categorySelected, balance.toFloat())
                 dialog.hide()
             }

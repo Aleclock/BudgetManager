@@ -298,6 +298,8 @@ class TransactionsFragment : Fragment() {
                     else {
 
                         val amount = newTransactionAmount.text.substring(2, newTransactionAmount.text.length)
+                            .replace(",","")
+
                         createNewTransaction(
                             "-$newTransactionDateTxt",
                             acc_category_selected,

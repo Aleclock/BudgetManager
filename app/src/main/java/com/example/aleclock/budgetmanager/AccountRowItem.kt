@@ -15,5 +15,5 @@ class AccountRowItem (val name:String,
                    val expense: Float,
                    val timeStamp: Long) {
 
-    constructor():this("","","","","",0f,0f,0f,-1)
+    constructor():this("","","","","", 0f,0f,0f,-1)
 }
