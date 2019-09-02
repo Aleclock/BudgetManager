@@ -22,7 +22,7 @@
     <string name="save_new_account">Crea conto</string>
     <string name="save_new_transaction">Aggiungi transazione</string>
     <string name="account_name">Nome account</string>
-    <string name="account_amount_value">0.0 €</string>
+    <string name="account_amount_value">€ 0.0</string>
     <string name="account_amount">Importo</string>
     <string name="account_balance">Saldo</string>
     <string name="select_category">Seleziona categoria</string>
@@ -120,4 +120,7 @@
     <string name="connection_established">Connessione stabilita correttamente</string>
     <string name="wait_category_loading">Caricamento delle categorie in corso. Prego aspettare</string>
     <string name="error_no_account">Prima di aggiungere una transazione è necessario creare un conto</string>
+
+
+    <string name="euro">€</string>
 </resources>

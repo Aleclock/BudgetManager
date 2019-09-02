@@ -1,9 +1,15 @@
 package com.example.aleclock.budgetmanager
 
 import android.text.Editable
+import android.text.TextUtils.concat
 import android.text.TextWatcher
+import android.util.Log
 import android.widget.EditText
 import java.text.NumberFormat
+import java.util.*
+import java.util.Collections.replaceAll
+
+
 
 
 class MoneyTextWatcher(val editText : EditText) : TextWatcher {
@@ -14,14 +20,18 @@ class MoneyTextWatcher(val editText : EditText) : TextWatcher {
         if(s.toString() != current){
             editText.removeTextChangedListener(this)
 
-            // val cleanString = s.toString().replace("[$,.]", "")
-
-            var replaceable = String.format("[%s,.]", NumberFormat.getCurrencyInstance().getCurrency().getSymbol());
-            var cleanString = s.toString().replace(replaceable, "")
-
+/*          US DOLLAR CODE
+            val cleanString = s.toString().replace("""[$,.]""".toRegex(), "")
             val parsed = cleanString.toDouble()
-            val formatted = NumberFormat.getCurrencyInstance().format((parsed/100))
+            val formatted = NumberFormat.getCurrencyInstance(Locale.US).format((parsed/100))*/
 
+            // EURO CODE
+            val cleanString = s.toString().replace("""[,. €]""".toRegex(), "")
+            Log.d("textChanged", s.toString() + " , " + cleanString)
+            val parsed = cleanString.toDouble()
+            val formatted = concat ("€ " ,(parsed/100).toString()).toString()
+
+            //Log.d("textChanged", s.toString() + " , " + cleanString + " , " + parsed + ", " + formatted)
 
 
             current = formatted

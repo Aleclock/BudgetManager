@@ -66,8 +66,13 @@ class AccountFragment : Fragment() {
             val btn = view.findViewById<Button>(R.id.btn_create_account)
             btn.setOnClickListener {
                 val newAccountName = view.findViewById<EditText>(R.id.et_name_account).text
-                val newAccountBalance = view.findViewById<EditText>(R.id.et_balance_account).text
-                createNewAccount(newAccountName.toString(), categorySelected, newAccountBalance.toString().toFloat())
+                val newAccountBalance = view.findViewById<EditText>(R.id.et_balance_account)
+
+                // Amount text Formatter
+                newAccountBalance.addTextChangedListener(MoneyTextWatcher(newAccountBalance))
+                val balance = newAccountBalance.text.substring(2, newAccountBalance.text.length)
+
+                createNewAccount(newAccountName.toString(), categorySelected, balance.toFloat())
                 dialog.hide()
             }
         }

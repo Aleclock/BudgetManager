@@ -281,7 +281,9 @@ class TransactionsFragment : Fragment() {
 
                 // PLACES AUTOCOMPLETE
 
+                // Amount text Formatter
                 val newTransactionAmount = view.findViewById<EditText>(R.id.et_amount_transaction)
+                newTransactionAmount.addTextChangedListener(MoneyTextWatcher(newTransactionAmount))
 
 
                 val btnCreateTransaction = view.findViewById<Button>(R.id.btn_create_transaction)
@@ -294,12 +296,14 @@ class TransactionsFragment : Fragment() {
                             .setDuration(2000)
                             .sneak(R.color.colorError)
                     else {
+
+                        val amount = newTransactionAmount.text.substring(2, newTransactionAmount.text.length)
                         createNewTransaction(
                             "-$newTransactionDateTxt",
                             acc_category_selected,
                             acc_category_name_selected,
                             transactionCategoriesSel,
-                            newTransactionAmount.text.toString().toFloat(),
+                            amount.toFloat(),
                             newTransactionNote,
                             transactionType
                         )
