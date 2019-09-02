@@ -1,12 +1,12 @@
 <resources>
-    <string name="app_name">BudgetManager</string>
+    <string name="app_name">Easy Budget</string>
 
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="first_name">Nome</string>
     <string name="last_name">Cognome</string>
     <string name="login_title">Login</string>
-    <string name="create_act">Sign up</string>
+    <string name="create_act">Registrati</string>
     <string name="logout">Logout</string>
     <string name="addAccount">Aggiungi conto</string>
     <string name="logoDescription">Logo</string>
@@ -29,15 +29,15 @@
     <string name="creation_date">Data di creazione</string>
 
     <!-- Category -->
-    <string name="category_cash">Contanti</string>
-    <string name="category_account">Conti</string>
-    <string name="category_credit_card">Carta di credito</string>
-    <string name="category_debit_card">Carta di debito</string>
-    <string name="category_savings">Risparmi</string>
-    <string name="category_cash_electronic">Cash elettronico</string>
-    <string name="category_investment">Investimenti</string>
-    <string name="category_loans">Prestiti</string>
-    <string name="category_insurance">Assicurazioni</string>
+    <string name="category_account_cash">Contanti</string>
+    <string name="category_account_account">Conti</string>
+    <string name="category_account_credit_card">Carta di credito</string>
+    <string name="category_account_debit_card">Carta di debito</string>
+    <string name="category_account_savings">Risparmi</string>
+    <string name="category_account_cash_electronic">Cash elettronico</string>
+    <string name="category_account_investment">Investimenti</string>
+    <string name="category_account_loans">Prestiti</string>
+    <string name="category_account_insurance">Assicurazioni</string>
 
 
     <string name="spinner_title_account">Seleziona categoria conto</string>
@@ -129,4 +129,5 @@
     <string name="creating_account_failed">Creazione account fallita: riprovare.</string>
     <string name="error_fill_fields">Prego inserire tutti i valori richiesti</string>
     <string name="creating_account">Creazione account in corso</string>
+    <string name="places_api">AIzaSyApWpjpWDFhae8JuAVU9L-HfrM8lcYm-lw</string>
 </resources>
