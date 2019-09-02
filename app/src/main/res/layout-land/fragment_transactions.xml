@@ -4,6 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:orientation="vertical"
         android:layout_width="match_parent"
+        android:background="@color/colorError"
         android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:context=".TransactionsFragment">
 
@@ -44,26 +45,26 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:padding="10dp"/>
 
-<!--        <ImageButton
-                android:id="@+id/btn_refresh"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_filter"
-                android:background="@drawable/custom_trasparent_button"
-                android:layout_gravity="center_vertical|center_horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="24dp"
-                android:contentDescription="@string/filter"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:padding="10dp"/>-->
+        <!--        <ImageButton
+                        android:id="@+id/btn_refresh"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_filter"
+                        android:background="@drawable/custom_trasparent_button"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginEnd="24dp"
+                        android:contentDescription="@string/filter"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:padding="10dp"/>-->
 
     </android.support.constraint.ConstraintLayout>
 
     <android.support.design.widget.TabLayout android:layout_width="match_parent"
-                                             android:layout_height="wrap_content"
-                                             android:id="@+id/tab_layout_period"
-                                             app:layout_constraintTop_toBottomOf="@+id/transaction_titleBar">
+            android:layout_height="wrap_content"
+            android:id="@+id/tab_layout_period"
+            app:layout_constraintTop_toBottomOf="@+id/transaction_titleBar">
 
     </android.support.design.widget.TabLayout>
 
@@ -146,18 +147,18 @@
 
 
     <android.support.design.widget.FloatingActionButton android:layout_width="wrap_content"
-                                                        android:layout_height="wrap_content"
-                                                        android:id="@+id/btn_add_transaction"
-                                                        app:layout_constraintBottom_toBottomOf="parent"
-                                                        app:layout_constraintStart_toStartOf="parent"
-                                                        app:layout_constraintEnd_toEndOf="parent"
-                                                        android:backgroundTint="@color/colorWhite"
-                                                        app:backgroundTint="@color/colorSecondary"
-                                                        android:tint="@color/colorPrimaryMedium"
-                                                        android:src="@drawable/ic_add"
-                                                        android:layout_marginBottom="10dp"
-                                                        app:borderWidth="1dp"
-                                                        app:elevation="0dp"/>
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_add_transaction"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:backgroundTint="@color/colorWhite"
+            app:backgroundTint="@color/colorSecondary"
+            android:tint="@color/colorPrimaryMedium"
+            android:src="@drawable/ic_add"
+            android:layout_marginBottom="10dp"
+            app:borderWidth="1dp"
+            app:elevation="0dp"/>
 
 
 

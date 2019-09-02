@@ -13,6 +13,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.support.v7.widget.helper.ItemTouchHelper.ACTION_STATE_SWIPE
+import android.text.Layout
 import android.text.TextUtils
 import android.util.DisplayMetrics
 import android.util.Log
@@ -56,7 +57,6 @@ class TransactionsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         return inflater.inflate(R.layout.fragment_transactions, container, false)
     }
 

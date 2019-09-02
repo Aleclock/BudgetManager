@@ -7,7 +7,7 @@ import java.text.NumberFormat
 import java.util.*
 
 
-class MoneyTextWatcher(val editText : EditText) : TextWatcher {
+class MoneyTextWatcher(private val editText : EditText) : TextWatcher {
 
     private var current = ""
 
