@@ -12,6 +12,8 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.irozon.sneaker.Sneaker
+import kotlinx.android.synthetic.main.activity_create_account.*
 
 class CreateAccountActivity : AppCompatActivity() {
 
@@ -31,6 +33,7 @@ class CreateAccountActivity : AppCompatActivity() {
     private var mAuth: FirebaseAuth? = null
 
     private val TAG = "CreateAccountActivity"
+
     //global variables
     private var firstName: String? = null
     private var lastName: String? = null
@@ -52,9 +55,14 @@ class CreateAccountActivity : AppCompatActivity() {
         btnCreateAccount = findViewById<View>(R.id.btn_register) as Button
         mProgressBar = ProgressDialog(this)
         mDatabase = FirebaseDatabase.getInstance()
-        mDatabaseReference = mDatabase!!.reference!!.child("Users")
+        mDatabaseReference = mDatabase!!.reference.child("Users")
         mAuth = FirebaseAuth.getInstance()
         btnCreateAccount!!.setOnClickListener { createNewAccount() }
+
+        btn_back.setOnClickListener {
+            val intent = Intent(this,LoginActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun createNewAccount() {
@@ -65,12 +73,19 @@ class CreateAccountActivity : AppCompatActivity() {
         password = etPassword?.text.toString()
 
         if (firstName!!.isEmpty() || lastName!!.isEmpty() || email!!.isEmpty() || password!!.isEmpty()) {
-            Toast.makeText(this, "Enter all details", Toast.LENGTH_SHORT).show()
+            Sneaker.with(this)
+                .setTitle(getString(R.string.error_fill_fields))
+                .setDuration(2000)
+                .sneak(R.color.colorError)
             return
         } else {
 
-        mProgressBar!!.setMessage("Registering User...")
-        mProgressBar!!.show()
+            val s = Sneaker.with(this)
+                .autoHide(false)
+                .setTitle(getString(R.string.creating_account))
+
+            s.sneak(R.color.colorThirdLighter)
+
 
         // TODO verificare se crasha ancora dopo la creazione di un account
         // Creazione di un nuovo account
@@ -80,22 +95,19 @@ class CreateAccountActivity : AppCompatActivity() {
                 mProgressBar!!.hide()
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
-                    Toast.makeText(this@CreateAccountActivity, "Account created.",
-                        Toast.LENGTH_SHORT).show()
                     Log.d(TAG, "createUserWithEmail:success")
                     val userId = mAuth!!.currentUser!!.uid
 
-                    //Verify Email
-                    //verifyEmail();
-                    //update user profile information
-
                     saveUserToFirebaseDatabase(userId)
                     updateUserInfoAndUI()
+                    s.hide()
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.e(TAG, "createUserWithEmail:failure", task.exception)
-                    Toast.makeText(this@CreateAccountActivity, "Authentication failed.",
-                        Toast.LENGTH_SHORT).show()
+                    Sneaker.with(this)
+                        .setTitle(getString(R.string.creating_account_failed))
+                        .setDuration(2000)
+                        .sneak(R.color.colorError)
                 }
             }
         }

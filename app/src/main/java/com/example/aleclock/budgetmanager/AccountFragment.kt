@@ -83,7 +83,7 @@ class AccountFragment : Fragment() {
         if (userId == null) {
             return
         } else {
-            val ref = FirebaseDatabase.getInstance().getReference("/account").child(userId!!)
+            val ref = FirebaseDatabase.getInstance().getReference("/account").child(userId)
             ref.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
                 }

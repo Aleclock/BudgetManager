@@ -14,6 +14,7 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
+import com.irozon.sneaker.Sneaker
 
 class LoginActivity : AppCompatActivity() {
 
@@ -28,7 +29,6 @@ class LoginActivity : AppCompatActivity() {
     private var etPassword: EditText? = null
     private var btnLogin: Button? = null
     private var btnCreateAccount: Button? = null
-    private var mProgressBar: ProgressDialog? = null
     //Firebase references
     private var mAuth: FirebaseAuth? = null
     private var user: FirebaseUser? = null
@@ -52,7 +52,6 @@ class LoginActivity : AppCompatActivity() {
         etPassword = findViewById<View>(R.id.et_password) as EditText
         btnLogin = findViewById<View>(R.id.btn_login) as Button
         btnCreateAccount = findViewById<View>(R.id.btn_register_account) as Button
-        mProgressBar = ProgressDialog(this)
         /*tvForgotPassword!!
             .setOnClickListener { startActivity(Intent(this@LoginActivity,
                 ForgotPasswordActivity::class.java)) }*/
@@ -68,24 +67,34 @@ class LoginActivity : AppCompatActivity() {
         email = etEmail?.text.toString()
         password = etPassword?.text.toString()
 
+
         if (email!!.isEmpty() || password!!.isEmpty()) {
-            Toast.makeText(this, "Enter all details", Toast.LENGTH_SHORT).show()
+            Sneaker.with(this)
+                .setTitle(getString(R.string.error_fill_fields))
+                .setDuration(2000)
+                .sneak(R.color.colorError)
         } else {
-            mProgressBar!!.setMessage("Logging ...")
-            mProgressBar!!.show()
+            val s = Sneaker.with(this)
+                .autoHide(false)
+                .setTitle(getString(R.string.logging))
+
+            s.sneak(R.color.colorThirdLighter)
+
             Log.d(TAG, "Logging in user.")
             mAuth!!.signInWithEmailAndPassword(email!!, password!!)
                 .addOnCompleteListener(this) { task ->
-                    mProgressBar!!.hide()
                     if (task.isSuccessful) {
-                        // Sign in success, update UI with signed-in user's information
                         Log.d(TAG, "signInWithEmail:success")
                         updateUI()
+                        s.hide()
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.e(TAG, "signInWithEmail:failure", task.exception)
-                        Toast.makeText(this@LoginActivity, "Authentication failed.",
-                            Toast.LENGTH_SHORT).show()
+                        s.hide()
+                        Sneaker.with(this)
+                            .setTitle(getString(R.string.login_failed))
+                            .setDuration(2000)
+                            .sneak(R.color.colorError)
                     }
                 }
         }

@@ -6,7 +6,7 @@
     <string name="first_name">Nome</string>
     <string name="last_name">Cognome</string>
     <string name="login_title">Login</string>
-    <string name="create_act">Create Account</string>
+    <string name="create_act">Sign up</string>
     <string name="logout">Logout</string>
     <string name="addAccount">Aggiungi conto</string>
     <string name="logoDescription">Logo</string>
@@ -123,4 +123,10 @@
 
 
     <string name="euro">€</string>
+    <string name="create_account_title">Crea nuovo account</string>
+    <string name="logging">Login in corso</string>
+    <string name="login_failed">Login fallito: riprovare.</string>
+    <string name="creating_account_failed">Creazione account fallita: riprovare.</string>
+    <string name="error_fill_fields">Prego inserire tutti i valori richiesti</string>
+    <string name="creating_account">Creazione account in corso</string>
 </resources>

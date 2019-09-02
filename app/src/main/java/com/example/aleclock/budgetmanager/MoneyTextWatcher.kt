@@ -7,6 +7,9 @@ import java.text.NumberFormat
 import java.util.*
 
 
+// https://stackoverflow.com/questions/33319898/currency-input-with-2-decimal-format
+// https://stackoverflow.com/questions/5107901/better-way-to-format-currency-input-edittext/8275680
+
 class MoneyTextWatcher(private val editText : EditText) : TextWatcher {
 
     private var current = ""

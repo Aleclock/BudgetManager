@@ -2,7 +2,6 @@ package com.example.aleclock.budgetmanager
 
 import android.app.DatePickerDialog
 import android.content.Intent
-import android.content.res.Configuration
 import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -13,7 +12,6 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.support.v7.widget.helper.ItemTouchHelper.ACTION_STATE_SWIPE
-import android.text.Layout
 import android.text.TextUtils
 import android.util.DisplayMetrics
 import android.util.Log
@@ -158,9 +156,6 @@ class TransactionsFragment : Fragment() {
                     }
 
                 }
-
-                // TODO https://stackoverflow.com/questions/33319898/currency-input-with-2-decimal-format
-                // TODO https://stackoverflow.com/questions/5107901/better-way-to-format-currency-input-edittext/8275680
 
                 /**
                  * Gestione dei tab del dialog della nuova transazione
@@ -633,7 +628,7 @@ class TransactionsFragment : Fragment() {
      * Funzione che scarica da Firebase la lista degli account/conti attivi dell'utente
      */
     private fun getAccountlist() {
-        var userId = FirebaseAuth.getInstance().uid
+        val userId = FirebaseAuth.getInstance().uid
         if (userId == null) return
         else {
             val ref = FirebaseDatabase.getInstance().getReference("/account").child(userId)
@@ -744,13 +739,13 @@ class TransactionsFragment : Fragment() {
     }
 
 
-
-
-
-
+    /**
+     * Funzione che genera automaticamente delle categorie delle transazioni. Utilizzata inizialmente dopo aver creato l'account.
+     * In questo caso è possibile aggiungerle anche se l'account è già stato creato
+     */
     private fun setDefaultTransactionCategory() {
         val userId = FirebaseAuth.getInstance().uid
-        val TAG = "Pippo"
+        val tag = "defaultTransactionCat"
 
         if (userId == null) return
 
@@ -758,15 +753,15 @@ class TransactionsFragment : Fragment() {
 
         var reference = FirebaseDatabase.getInstance().getReference("/transactionCategory").child(userId).child("expense")
 
-        val expense_categories = resources.getStringArray(R.array.category_expense_array)
-        expense_categories.forEach {
-            var categoryItem = TransactionCategoryItem(it,"expense",reference.key!!)
+        val expenseCategories = resources.getStringArray(R.array.category_expense_array)
+        expenseCategories.forEach {
+            val categoryItem = TransactionCategoryItem(it,"expense",reference.key!!)
             reference.push().setValue(categoryItem)
                 .addOnSuccessListener {
-                    Log.d(TAG,"Expense default category added")
+                    Log.d(tag,"Expense default category added")
                 }
                 .addOnFailureListener {
-                    Log.d(TAG, "Expense default category NOT added")
+                    Log.d(tag, "Expense default category NOT added")
                 }
         }
 
@@ -774,17 +769,16 @@ class TransactionsFragment : Fragment() {
 
         reference = FirebaseDatabase.getInstance().getReference("/transactionCategory").child(userId).child("income")
 
-        val income_categories = resources.getStringArray(R.array.category_income_array)
-        income_categories.forEach {
-            var categoryItem = TransactionCategoryItem(it,"expense",reference.key!!)
+        val incomeCategories = resources.getStringArray(R.array.category_income_array)
+        incomeCategories.forEach {
+            val categoryItem = TransactionCategoryItem(it,"expense",reference.key!!)
             reference.push().setValue(categoryItem)
                 .addOnSuccessListener {
-                    Log.d(TAG,"Expense default category added")
+                    Log.d(tag,"Expense default category added")
                 }
                 .addOnFailureListener {
-                    Log.d(TAG, "Expense default category NOT added")
+                    Log.d(tag, "Expense default category NOT added")
                 }
         }
     }
-
 }
