@@ -63,7 +63,7 @@ class TransactionsFragment : Fragment() {
 
         // TODO caricare dati e poi settare gli ascoltatori
 
-        //setDefaultTransactionCategory()
+        setDefaultTransactionCategory()
         initializeData()
         initTitleBarButtons()
 
@@ -751,14 +751,13 @@ class TransactionsFragment : Fragment() {
 
         // Expense
 
-        var reference = FirebaseDatabase.getInstance().getReference("/transactionCategory").child(userId).child("expense")
-
         val expenseCategories = resources.getStringArray(R.array.category_expense_array)
         expenseCategories.forEach {
+            val reference = FirebaseDatabase.getInstance().getReference("/transactionCategory").child(userId).child("expense").push()
             val categoryItem = TransactionCategoryItem(it,"expense",reference.key!!)
-            reference.push().setValue(categoryItem)
+            reference.setValue(categoryItem)
                 .addOnSuccessListener {
-                    Log.d(tag,"Expense default category added")
+                    Log.d(tag,reference.key!!)
                 }
                 .addOnFailureListener {
                     Log.d(tag, "Expense default category NOT added")
@@ -767,10 +766,9 @@ class TransactionsFragment : Fragment() {
 
         // Income
 
-        reference = FirebaseDatabase.getInstance().getReference("/transactionCategory").child(userId).child("income")
-
         val incomeCategories = resources.getStringArray(R.array.category_income_array)
         incomeCategories.forEach {
+            val reference = FirebaseDatabase.getInstance().getReference("/transactionCategory").child(userId).child("income")
             val categoryItem = TransactionCategoryItem(it,"expense",reference.key!!)
             reference.push().setValue(categoryItem)
                 .addOnSuccessListener {

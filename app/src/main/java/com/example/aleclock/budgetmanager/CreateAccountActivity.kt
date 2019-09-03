@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -139,8 +138,8 @@ class CreateAccountActivity : AppCompatActivity() {
 
         var reference = FirebaseDatabase.getInstance().getReference("/transactionCategory").child(userId).child("expense")
 
-        val expense_categories = resources.getStringArray(R.array.category_expense_array)
-        expense_categories.forEach {
+        val expenseCategories = resources.getStringArray(R.array.category_expense_array)
+        expenseCategories.forEach {
             var categoryItem = TransactionCategoryItem(it,"expense",reference.key!!)
             reference.push().setValue(categoryItem)
                 .addOnSuccessListener {
