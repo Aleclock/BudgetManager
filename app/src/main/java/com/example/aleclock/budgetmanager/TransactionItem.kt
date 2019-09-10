@@ -42,8 +42,6 @@ class TransactionItem(private val transaction: TransactionRowItem,
             viewHolder.itemView.txt_transaction_amount.setTextColor(incomeColor)
     }
 
-    // TODO https://stackoverflow.com/questions/53848189/format-number-using-decimal-format-in-kotlin
-
     private fun getMonth(month: Int): String {
         return DateFormatSymbols().months[month]
     }

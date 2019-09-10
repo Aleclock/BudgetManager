@@ -63,7 +63,7 @@ class TransactionsFragment : Fragment() {
 
         // TODO caricare dati e poi settare gli ascoltatori
 
-        setDefaultTransactionCategory()
+        //setDefaultTransactionCategory()
         initializeData()
         initTitleBarButtons()
 
@@ -398,7 +398,7 @@ class TransactionsFragment : Fragment() {
             // Variabili per il conteggio delle spese/guadagni riferite al periodo mostrato (giornaliero/mensile)
 
             val ref = FirebaseDatabase.getInstance().getReference("/transaction").child(userId).orderByChild("date")
-            ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            ref.addValueEventListener(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
                 }
 
@@ -410,10 +410,12 @@ class TransactionsFragment : Fragment() {
                         val transaction = it.getValue(TransactionRowItem::class.java)
                         if (transaction != null) {
 
+                            val item = TransactionItem(transaction,incomeColor,expenseColor)
+
                             if (periodRange == "daily") {
                                 val dailyDate = transaction.date.removePrefix("-")
                                 if (currentDateSelected == dailyDate) {
-                                    adapter.add(0,TransactionItem(transaction,incomeColor,expenseColor))
+                                    adapter.add(0,item)
                                     transactionArray.add(0,transaction)
 
                                     when (transaction.transactionType) {
@@ -426,7 +428,7 @@ class TransactionsFragment : Fragment() {
                                 val monthCurrent = getMonth (currentDateSelected)
 
                                 if (monthCurrent == monthDate) {
-                                    adapter.add(0, TransactionItem(transaction,incomeColor,expenseColor))
+                                    adapter.add(0, item)
                                     transactionArray.add(0,transaction)
 
                                     when (transaction.transactionType) {
@@ -436,7 +438,7 @@ class TransactionsFragment : Fragment() {
                                 }
 
                             } else {
-                                adapter.add(0,TransactionItem(transaction, incomeColor, expenseColor))
+                                adapter.add(0,item)
                                 transactionArray.add(0, transaction)
 
                                 when (transaction.transactionType) {
@@ -676,7 +678,7 @@ class TransactionsFragment : Fragment() {
                         .sneak(R.color.colorPrimary)
 
                     updateAccountBalance(accountId, transactionType, amount, "update")
-                    fetchTransaction(currentDateSelected, currentTabPeriod)
+                   //fetchTransaction(currentDateSelected, currentTabPeriod)
                 }
                 .addOnFailureListener {
                     Sneaker.with(this)

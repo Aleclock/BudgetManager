@@ -17,7 +17,6 @@ class ConnectionReceiver: BroadcastReceiver() {
 
     interface ConnectionReceiverListener {
         fun onNetworkConnectionChanged(isConnected : Boolean)
-
     }
 
     private fun checkConnection(context: Context): Boolean {

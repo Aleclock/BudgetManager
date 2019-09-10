@@ -206,8 +206,8 @@ class GraphFragment : Fragment() {
     private fun listToData(expenseList: FloatArray, incomeList: FloatArray): ArrayList<Data> {
         val data = java.util.ArrayList<Data>()
         for (x in expenseList.indices) {
-            data.add(Data(x.toFloat(),expenseList[x],x.toString()))
-            data.add(Data(x.toFloat(),incomeList[x],x.toString()))
+            data.add(Data(x.toFloat(),expenseList[x], x.toString()))
+            data.add(Data(x.toFloat(),incomeList[x], x.toString()))
         }
         return data
     }

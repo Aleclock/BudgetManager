@@ -40,7 +40,7 @@ class SettingsFragment : Fragment() {
         val listView = view.findViewById<ListView>(R.id.setting_listview)
         val arrayAdapter: ArrayAdapter<String> = ArrayAdapter(context,android.R.layout.simple_list_item_1,contact)
         listView.adapter = arrayAdapter
-        listView.setOnItemClickListener { parent, view, position, id ->
+        listView.setOnItemClickListener { _, _, _, id ->
             when(id.toInt()) {
                 0 -> {
                     val intent = Intent(context,ExpenseCategoryActivity::class.java)
@@ -129,7 +129,7 @@ class SettingsFragment : Fragment() {
 
     companion object {
 
-        fun setLocate(lang: String,context : Context) {
+        fun setLocate(lang: String, context : Context) {
             val locale = Locale(lang)
             Locale.setDefault(locale)
             val config = Configuration()

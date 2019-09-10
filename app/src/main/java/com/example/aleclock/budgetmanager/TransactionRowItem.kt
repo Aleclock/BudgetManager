@@ -14,6 +14,5 @@ class TransactionRowItem (val date: String,
                         val transactionType: String,
                         val userId : String) : Parcelable {
 
-    // TODO aggiungere userId
     constructor():this("","","","","", 0f,"","","")
 }
