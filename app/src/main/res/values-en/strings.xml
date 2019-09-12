@@ -39,7 +39,6 @@
     <string name="data_loading">Loading data</string>
     <string name="daily">Daily</string>
     <string name="creation_date">Creation date</string>
-    <string name="places_api">AIzaSyApWpjpWDFhae8JuAVU9L-HfrM8lcYm-lw</string>
     <string name="account">Account</string>
     <string name="account_amount">Amount</string>
     <string name="account_amount_value">€ 0.0</string>

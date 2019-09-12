@@ -129,5 +129,4 @@
     <string name="creating_account_failed">Creazione account fallita: riprovare.</string>
     <string name="error_fill_fields">Prego inserire tutti i valori richiesti</string>
     <string name="creating_account">Creazione account in corso</string>
-    <string name="places_api">AIzaSyApWpjpWDFhae8JuAVU9L-HfrM8lcYm-lw</string>
 </resources>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Easy Budget</string>
+
+    <string name="email">Email adresse</string>
+    <string name="password">Passwort</string>
+    <string name="first_name">Vorname</string>
+    <string name="last_name">Nachname</string>
+    <string name="login_title">Login</string>
+    <string name="create_act">Account erschaffen</string>
+    <string name="logout">Abmeldung</string>
+    <string name="addAccount">Konto hinzufügen</string>
+    <string name="logoDescription">Logo</string>
+
+    <!-- Menu -->
+
+    <string name="transazioni">Transaktion</string>
+    <string name="chart">Grafik</string>
+    <string name="account">Konten</string>
+    <string name="setting">Einstellugen</string> EINSTELLUNGEN
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="save_new_account">Konto erschaffen</string>
+    <string name="save_new_transaction">Transaktion hinfügen</string>
+    <string name="account_name">Name account</string>
+    <string name="account_amount_value">0.0 €</string>
+    <string name="account_amount">Betrag</string> BETRAG
+    <string name="account_balance">Bezahlung</string>
+    <string name="select_category">Kategorie auswählen</string>
+    <string name="creation_date">Gründungsdatum</string>
+
+
+    <!-- Category -->
+
+    <string name="category_account_cash">Bar</string>
+    <string name="category_account_account">Konten</string>
+    <string name="category_account_credit_card">Kreditkarte</string>
+    <string name="category_account_debit_card">Debitkarte</string>
+    <string name="category_account_savings">Ersparnis</string>
+    <string name="category_account_cash_electronic">Elektronisches geld</string>
+    <string name="category_account_investment">Anlagen</string>
+    <string name="category_account_loans">Darlehen</string>
+    <string name="category_account_insurance">Versicherungen</string>
+
+
+    <string name="spinner_title_account">Kontokategorie auswählen</string>
+    <string name="spinner_title_category">Kategorie auswählen</string>
+    <string name="select_period">Zeit auswählen</string>
+    <string name="spinner_title_type">Konto auswählen</string>
+    <string name="addTransaction">Neue transaktion</string>
+    <string name="filter">Filtern</string>
+
+    <string name="expense">Ausgang</string>
+    <string name="income">Eingang</string>
+    <string name="incomes">Verdienst</string>
+    <string name="expenses">Einkauf</string>
+    <string name="select_date">Datum auswählen</string>
+    <string name="transaction_note">Noten</string>
+
+    <!-- Expense category -->
+
+    <string name="category_expense_food">Essen</string>
+    <string name="category_expense_bills">Rechnung</string>
+    <string name="category_expense_rent">Miete</string>
+    <string name="category_expense_transport">Verkehrswesen</string>
+    <string name="category_expense_home">Haus</string>
+    <string name="category_expense_car">Auto</string>
+    <string name="category_expense_entertainment">Untrhaltung</string>
+    <string name="category_expense_shopping">Shopping</string>
+    <string name="category_expense_insurance">Versicherung</string>
+    <string name="category_expense_tax">Steuern</string>
+    <string name="category_expense_selfcare">Selbspflege</string>
+    <string name="category_expense_health">Gesungheit</string>
+    <string name="category_expense_sport">Sport</string>
+    <string name="category_expense_gift">Geschenke</string>
+    <string name="category_expense_trip">Reisen</string>
+    <string name="category_expense_education">Bildung</string>
+    <string name="category_expense_culture">Kultur</string>
+    <string name="category_expense_animal">Tiere</string>
+    <string name="category_expense_other">Anderes</string>
+
+    <!-- Income category -->
+
+    <string name="category_income_salary">Gehalt</string>
+    <string name="category_income_sales">Verkauf</string>
+    <string name="category_income_refund">Rückzahlung</string>
+    <string name="category_income_award">Gewinn</string>
+    <string name="category_income_gift">Geschenk</string>
+    <string name="category_income_scholarship">Stipendium</string>
+    <string name="category_income_rental">Miete</string>
+    <string name="category_income_investment">Investition</string>
+    <string name="category_income_interest">Interessen</string>
+    <string name="category_income_allowances">Quoten</string>
+    <string name="category_income_lottery">Lotterie</string>
+
+    <string name="daily">Täglich</string>
+    <string name="monthly">Monatlich</string>
+    <string name="yearly">Jährlich</string>
+    <string name="total">Gesamt</string>
+    <string name="set_account_filter">Konten zum Filtern auswählen</string>
+    <string name="transaction_created">Transaktion erfolgreich abgeschlossen</string>
+    <string name="transaction_not_created">Unmöglich die Transaktion zu erstellen. Versuchen sie es wieder</string>
+    <string name="account_created">Konto erfolgreich Estellt</string>
+    <string name="account_not_created">Unmöglich das Konto zu erstellen. Versuchen Sie es wieder</string>
+
+    <string name="error_insert_amount">Geben Sie den Betrag der Transaktion ein</string>
+    <string name="transaction_detail">Transaktionsdetail</string>
+    <string name="data_loading">Daten hochladen</string>
+    <string name="account_deleted">Konto erfolgreich gelöscht</string>
+    <string name="account_not_deleted">Das Konto kann nicht gelöscht werden. Versuchen Sie es wieder.</string>
+
+    <!-- Stringhe per le impostazioni -->
+
+    <string name="category_expense">Ausgabekategorien</string>  ?
+    <string name="category_income">Eingabekategorien</string> ?
+
+    <string name="language">Sprache</string>
+    <string name="addCategory">Kategorie hinfügen</string>
+    <string name="category_name">kategorie name</string>
+    <string name="save_new_category">Kategorie erstellen</string>
+    <string name="mandatory_name_category">Der name der Kategorie ist ein Pflichtfeld.</string>
+    <string name="choose_language" type="id">Sprache auswählen</string>
+
+    <string name="connection_no">Keine Verbindung</string>
+    <string name="connection_established">Die Verbindung wurde korrekt herstellt.</string>
+    <string name="wait_category_loading">Laden der laufenden Kategorien. Bitte warten</string>
+    <string name="error_no_account">Vor dem Hinzufügen einer Transaktion muss ein Konto erstellt werden</string>
+
+    <string name="euro">€</string>
+    <string name="create_account_title">Erstellen Sie ein neues Konto</string>
+    <string name="logging">Anmeldung läuft</string>
+    <string name="login_failed">Anmeldung fehlgeschlagen: Versuchen Sie es erneut.</string>
+    <string name="creating_account_failed">Kontoerstellung fehlgeschlagen: Versuchen Sie es erneut.</string>
+    <string name="error_fill_fields">Bitte geben Sie alle erforderlichen Werte ein</string>
+    <string name="creating_account">Kontoerstellung läuft</string>
+</resources>
