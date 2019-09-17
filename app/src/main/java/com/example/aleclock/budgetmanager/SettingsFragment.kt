@@ -78,6 +78,7 @@ class SettingsFragment : Fragment() {
         startActivity(intent)
     }
 
+    // TODO aggiungere banner "l'applicazione verrà riavviata"
     // https://www.youtube.com/watch?v=xxPzi2h0Vvc
     private fun showChangeLang() {
         val listLanguage = resources.getStringArray(R.array.language_array)
@@ -87,11 +88,15 @@ class SettingsFragment : Fragment() {
             when (which) {
                 0 -> {
                     setLocate("it",context!!)
-                    restartActivity()
+                    restart()
                 }
                 1 -> {
                     setLocate("en",context!!)
-                    restartActivity()
+                    restart()
+                }
+                2 -> {
+                    setLocate("de",context!!)
+                    restart()
                 }
             }
             dialog.dismiss()
@@ -105,8 +110,17 @@ class SettingsFragment : Fragment() {
      * Funzione che fa partire l'activity principale (MainActivity) in modo tale da applicare le modifiche apportate
      */
     private fun restartActivity() {
-        val intent = Intent(activity, MainActivity::class.java)
+        /*val intent = Intent(activity, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+        activity!!.finish()
+        startActivity(intent)*/
+
+        val intent = Intent(activity, MainActivity::class.java)
+        //intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+        activity!!.overridePendingTransition(0, 0)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+        activity!!.finish()
+        activity!!.overridePendingTransition(0, 0)
         startActivity(intent)
     }
 
@@ -114,6 +128,8 @@ class SettingsFragment : Fragment() {
      * Funzione che riavvia completamente l'app
      */
     private fun restart() {
+        Thread.sleep(1500)
+
         val mStartActivity = Intent(context, MainActivity::class.java)
         val mPendingIntentId = 123456
         val mPendingIntent = PendingIntent.getActivity(

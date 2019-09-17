@@ -30,6 +30,19 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageButton
+                android:id="@+id/btn_chart_date"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_bookmark"
+                android:background="@drawable/custom_trasparent_button"
+                android:layout_gravity="center_vertical|center_horizontal"
+                app:layout_constraintEnd_toStartOf="@+id/btn_set_date"
+                android:layout_marginEnd="12dp"
+                android:contentDescription="@string/filter"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:padding="10dp"/>
 
         <ImageButton
                 android:id="@+id/btn_set_date"

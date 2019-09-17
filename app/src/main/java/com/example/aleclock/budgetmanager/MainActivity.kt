@@ -7,8 +7,13 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.irozon.sneaker.Sneaker
+
+
+
 
 class MainActivity : AppCompatActivity(), ConnectionReceiver.ConnectionReceiverListener {
 
@@ -17,14 +22,16 @@ class MainActivity : AppCompatActivity(), ConnectionReceiver.ConnectionReceiverL
     private lateinit var accountFragment: AccountFragment
     private lateinit var settingsFragment: SettingsFragment
 
+    private var mDatabase: DatabaseReference? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        loadLocate()
+
         setContentView(R.layout.activity_main)
 
         FirebaseDatabase.getInstance().setPersistenceEnabled(true)
-
-        loadLocate()
 
         baseContext.registerReceiver(ConnectionReceiver(), IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
         setConnectionListener(this)
@@ -111,6 +118,7 @@ class MainActivity : AppCompatActivity(), ConnectionReceiver.ConnectionReceiverL
     private fun loadLocate() {
         val sharedPreferences = getSharedPreferences("Settings",Context.MODE_PRIVATE)
         val language = sharedPreferences.getString("langSel","")
+        Log.d(",,,", language)
         SettingsFragment.setLocate(language,this)
     }
 
