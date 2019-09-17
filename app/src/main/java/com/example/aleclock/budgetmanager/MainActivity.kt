@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
+import com.google.firebase.database.FirebaseDatabase
 import com.irozon.sneaker.Sneaker
 
 class MainActivity : AppCompatActivity(), ConnectionReceiver.ConnectionReceiverListener {
@@ -20,6 +21,8 @@ class MainActivity : AppCompatActivity(), ConnectionReceiver.ConnectionReceiverL
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true)
 
         loadLocate()
 
