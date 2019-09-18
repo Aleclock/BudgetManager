@@ -1,16 +1,16 @@
 package com.example.aleclock.budgetmanager
 
-import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils.concat
-import android.util.AttributeSet
-import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import com.irozon.sneaker.Sneaker
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import java.text.SimpleDateFormat
@@ -22,16 +22,21 @@ class TransactionDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_transaction_detail)
 
-        var transaction = intent.getParcelableExtra<TransactionRowItem>("transaction")
+        val transaction = intent.getParcelableExtra<TransactionRowItem>("transaction")
 
-        var btnBack = findViewById<ImageButton>(R.id.btn_back)
+        val btnBack = findViewById<ImageButton>(R.id.btn_back)
         btnBack.setOnClickListener {
             super.finish()
         }
 
-        var txtAmount = findViewById<TextView>(R.id.transaction_detail_amount)
-        var txtCategory = findViewById<TextView>(R.id.transaction_detail_category)
-        var recycleView = findViewById<RecyclerView>(R.id.recycler_view_transaction_detail)
+        val btnSaveModel = findViewById<ImageButton>(R.id.btn_save_model)
+        btnSaveModel.setOnClickListener {
+            saveModelToDB(transaction)
+        }
+
+        val txtAmount = findViewById<TextView>(R.id.transaction_detail_amount)
+        val txtCategory = findViewById<TextView>(R.id.transaction_detail_category)
+        val recycleView = findViewById<RecyclerView>(R.id.recycler_view_transaction_detail)
 
         txtAmount.text = concat(transaction.amount.toString(), " €")
         txtCategory.text = transaction.category
@@ -58,20 +63,43 @@ class TransactionDetailActivity : AppCompatActivity() {
         recycleView.addItemDecoration(DividerItemDecoration(this,DividerItemDecoration.VERTICAL))
     }
 
+    // TODO valutare l'idea di creare una classe particolare per questo tipo di dato
+    private fun saveModelToDB(transaction: TransactionRowItem) {
+        val userId = FirebaseAuth.getInstance().uid
+
+        if (userId == null) return
+        else {
+            val reference = FirebaseDatabase.getInstance().getReference("/models").child(userId).push()
+
+            reference.setValue(transaction)
+                .addOnSuccessListener {
+                    Sneaker.with(this)
+                        .setTitle(getString(R.string.transaction_created))
+                        .setDuration(2000)
+                        .sneak(R.color.colorPrimary)
+                }
+                .addOnFailureListener {
+                    Sneaker.with(this)
+                        .setTitle(getString(R.string.transaction_not_created))
+                        .setDuration(2000)
+                        .sneak(R.color.colorError)
+                }
+        }
+    }
+
     private fun getFormattedDate(date: String): Any {
         val fromFormat = SimpleDateFormat("yyyyMMdd")
         val theDate = fromFormat.parse(date.removePrefix("-"))
         val myCal = GregorianCalendar()
-        myCal.setTime(theDate)
+        myCal.time = theDate
 
         val toFormat = SimpleDateFormat("dd.MM.yyyy")
         toFormat.setCalendar(myCal)
-        val toDate = toFormat.format(myCal.time)
-        return toDate
+        return toFormat.format(myCal.time)
     }
 
-    override fun onCreateView(name: String?, context: Context?, attrs: AttributeSet?): View? {
+/*    override fun onCreateView(name: String?, context: Context?, attrs: AttributeSet?): View? {
 
         return super.onCreateView(name, context, attrs)
-    }
+    }*/
 }

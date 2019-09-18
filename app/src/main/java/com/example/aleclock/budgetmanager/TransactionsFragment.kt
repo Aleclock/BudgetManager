@@ -1,5 +1,6 @@
 package com.example.aleclock.budgetmanager
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.*
@@ -328,7 +329,7 @@ class TransactionsFragment : Fragment() {
 
     private fun initTitleBarButtons() {
         val btn_setDate = view!!.findViewById<ImageButton>(R.id.btn_set_date)
-        //val btn_filter = view!!.findViewById<ImageButton>(R.id.btn_period_filter)
+        val btn_models = view!!.findViewById<ImageButton>(R.id.btn_models)
 
         /**
          * DatePicker
@@ -361,6 +362,16 @@ class TransactionsFragment : Fragment() {
             }, year, month, day)
 
             datePickerDialog.show()
+        }
+
+        /**
+         * Transaction models
+         */
+        btn_models.setOnClickListener {
+            val mBuilder = AlertDialog.Builder(context)
+            mBuilder.setTitle(resources.getString(R.string.models))
+            val mDialog = mBuilder.create()
+            mDialog.show()
         }
 
         /**

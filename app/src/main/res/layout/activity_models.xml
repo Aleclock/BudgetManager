@@ -2,15 +2,14 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:background="@color/colorWhite"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".TransactionDetailActivity">
+        tools:context=".ModelsActivity">
 
     <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/transaction_detail_titleBar"
+            android:id="@+id/category_list_container"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_gravity="center"
@@ -32,10 +31,9 @@
                 android:padding="10dp"/>
 
         <TextView
-                android:text="@string/transaction_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:id="@+id/transaction_title"
+                android:id="@+id/category_transaction_title"
                 android:textColor="@color/colorSecondaryDark"
                 android:textSize="23sp"
                 android:layout_marginStart="16dp"
@@ -44,61 +42,19 @@
                 app:layout_constraintStart_toEndOf="@+id/btn_back"/>
 
         <ImageButton
-                android:id="@+id/btn_save_model"
+                android:id="@+id/btn_add_transaction_category"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_bookmark"
+                android:src="@drawable/ic_add"
                 android:background="@drawable/custom_trasparent_button"
                 android:layout_gravity="center_vertical|center_horizontal"
-                android:layout_marginEnd="12dp"
-                android:contentDescription="@string/filter"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="24dp"
+                android:contentDescription="@string/addAccount"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:padding="10dp"/>
 
     </android.support.constraint.ConstraintLayout>
-
-    <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/transaction_detail_category_amount"
-            app:layout_constraintTop_toBottomOf="@+id/transaction_detail_titleBar"
-            android:layout_marginTop="30dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
-            android:padding="16dp">
-
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/transaction_detail_category"
-                android:textSize="25dp"
-                android:textAlignment="center"
-                app:layout_constraintTop_toTopOf="parent"/>
-
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/transaction_detail_amount"
-                android:textSize="32sp"
-                android:textAlignment="center"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/transaction_detail_category"
-                android:layout_marginTop="8dp" />
-
-    </android.support.constraint.ConstraintLayout>
-
-    <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:id="@+id/recycler_view_transaction_detail"
-            app:layout_constraintTop_toBottomOf="@id/transaction_detail_category_amount"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-            android:layout_marginTop="30dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"/>
-
 
 </android.support.constraint.ConstraintLayout>

@@ -34,6 +34,7 @@ class SettingsFragment : Fragment() {
         val contact = arrayOf(
                 resources.getString(R.string.category_expense),
                 resources.getString(R.string.category_income),
+                resources.getString(R.string.models),
                 resources.getString(R.string.language))
 
 
@@ -51,6 +52,10 @@ class SettingsFragment : Fragment() {
                     startActivity(intent)
                 }
                 2 -> {
+                    val intent = Intent(context,ModelsActivity::class.java)
+                    startActivity(intent)
+                }
+                3 -> {
                     showChangeLang()
                 }
             }
