@@ -93,12 +93,6 @@ class IncomeCategoryActivity : AppCompatActivity()  {
     private fun getData() {
         val userId = FirebaseAuth.getInstance().uid
 
-/*        val s = Sneaker.with(this)
-            .autoHide(false)
-            .setTitle(getString(R.string.data_loading))
-
-        s.sneak(R.color.colorThirdLighter)*/
-
         if (userId == null) {
             return
         } else {

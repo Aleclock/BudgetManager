@@ -9,12 +9,12 @@ import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.category_transaction_row_layout.view.*
 
 class CategoryItem(
-    val category: TransactionCategoryItem,
-    val adapter: GroupAdapter<ViewHolder>
-) : Item<ViewHolder>() {
-    override fun getLayout(): Int {
-        return R.layout.category_transaction_row_layout
-    }
+        val category: TransactionCategoryItem,
+        val adapter: GroupAdapter<ViewHolder>
+    ) : Item<ViewHolder>() {
+        override fun getLayout(): Int {
+            return R.layout.category_transaction_row_layout
+        }
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
         viewHolder.itemView.txt_transaction_category_name.text = category.name

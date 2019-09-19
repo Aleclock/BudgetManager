@@ -15,6 +15,7 @@ import android.widget.ListView
 import java.util.*
 import android.app.AlarmManager
 import android.app.PendingIntent
+import com.example.aleclock.budgetmanager.Models.ModelsActivity
 import kotlin.system.exitProcess
 
 class SettingsFragment : Fragment() {
@@ -52,7 +53,8 @@ class SettingsFragment : Fragment() {
                     startActivity(intent)
                 }
                 2 -> {
-                    val intent = Intent(context,ModelsActivity::class.java)
+                    val intent = Intent(context,
+                        ModelsActivity::class.java)
                     startActivity(intent)
                 }
                 3 -> {

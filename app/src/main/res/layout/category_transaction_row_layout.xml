@@ -9,15 +9,15 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/txt_transaction_category_name"
-            android:textColor="@color/colorSecondaryDark"
-            android:textSize="16sp"
-            android:padding="10dp"
-            android:layout_marginStart="10dp"
-            app:layout_constraintEnd_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/txt_transaction_category_name"
+        android:textColor="@color/colorSecondaryDark"
+        android:textSize="16sp"
+        android:padding="10dp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <ImageButton
             android:layout_width="wrap_content"

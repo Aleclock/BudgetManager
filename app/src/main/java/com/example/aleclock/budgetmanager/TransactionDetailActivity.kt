@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView
 import android.text.TextUtils.concat
 import android.widget.ImageButton
 import android.widget.TextView
+import com.example.aleclock.budgetmanager.Models.TransactionModelItem
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.irozon.sneaker.Sneaker
@@ -71,7 +72,17 @@ class TransactionDetailActivity : AppCompatActivity() {
         else {
             val reference = FirebaseDatabase.getInstance().getReference("/models").child(userId).push()
 
-            reference.setValue(transaction)
+            val model = TransactionModelItem(
+                    transaction.accountId,
+                    transaction.accountName,
+                    transaction.category,
+                    transaction.amount,
+                    transaction.note,
+                    transaction.transactionType,
+                    transaction.userId,
+                    reference.key!!)
+
+            reference.setValue(model)
                 .addOnSuccessListener {
                     Sneaker.with(this)
                         .setTitle(getString(R.string.transaction_created))
