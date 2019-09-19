@@ -20,8 +20,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import com.example.aleclock.budgetmanager.Models.ModelItem
-import com.example.aleclock.budgetmanager.Models.ModelListItem
 import com.example.aleclock.budgetmanager.Models.TransactionModelItem
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -280,8 +278,6 @@ class TransactionsFragment : Fragment() {
 
                 }
 
-                // PLACES AUTOCOMPLETE
-
                 // Amount text Formatter
                 val newTransactionAmount = view.findViewById<EditText>(R.id.et_amount_transaction)
                 newTransactionAmount.addTextChangedListener(MoneyTextWatcher(newTransactionAmount))
@@ -334,13 +330,13 @@ class TransactionsFragment : Fragment() {
     }
 
     private fun initTitleBarButtons() {
-        val btn_setDate = view!!.findViewById<ImageButton>(R.id.btn_set_date)
-        val btn_models = view!!.findViewById<ImageButton>(R.id.btn_models)
+        val btnSetdate = view!!.findViewById<ImageButton>(R.id.btn_set_date)
+        val btnModels = view!!.findViewById<ImageButton>(R.id.btn_models)
 
         /**
          * DatePicker
          */
-        btn_setDate.setOnClickListener {
+        btnSetdate.setOnClickListener {
 
             // Viene settato il datepicker
 
@@ -371,47 +367,25 @@ class TransactionsFragment : Fragment() {
         /**
          * Transaction models
          */
-        btn_models.setOnClickListener {
-/*            val dialog = context?.let { it1 -> BottomSheetDialog(it1) }
-            val view = layoutInflater.inflate(R.layout.models_list_layout, null)
-
-            // Aggiunge l'animazione di entrata e di uscita al popup
-            dialog?.window?.attributes!!.windowAnimations = R.style.DialogAnimation
-
-            val adapter = GroupAdapter<ViewHolder>()
-            modelsList.forEach {
-                adapter.add(ModelListItem(it, adapter))
-            }
-
-            val recyclerView = view!!.findViewById<RecyclerView>(R.id.recycler_view_models)
-            recyclerView!!.adapter = adapter
-
-            dialog.setContentView(view)
-            dialog.show()*/
+        btnModels.setOnClickListener {
 
             val mBuilder = AlertDialog.Builder(context)
-
+            //mBuilder.setTitle(R.string.models)
             val customView = layoutInflater.inflate(R.layout.models_list_layout, null)
             mBuilder.setView(customView)
 
             val listView = customView.findViewById<ListView>(R.id.listview_models)
-            //val arrayAdapter = ArrayAdapter<TransactionModelItem>(context, android.R.layout.simple_list_item_1)
-            //val arrayAdapter = ArrayAdapter<TransactionModelItem>(context, R.layout.model_transaction_row_layout_list, R.id.txt_model_list_category)
             val adapter = ModelAdapter(context!!, modelsList)
-
-            /*modelsList.forEach {
-                arrayAdapter.add(it)
-            }*/
 
             listView.adapter = adapter
 
-            listView.setOnItemClickListener { _, _, _, id ->
-                Log.d("aaaa", id.toString())
-            }
-
-
             val mDialog = mBuilder.create()
             mDialog.show()
+
+            listView.setOnItemClickListener { _, _, _, id ->
+                mDialog.hide()
+                showNewTransactionDialog(modelsList[id.toInt()])
+            }
         }
 
         /**
@@ -423,6 +397,212 @@ class TransactionsFragment : Fragment() {
                 .setDuration(2000)
                 .sneak(R.color.colorGreen)
         }*/
+    }
+
+    private fun showNewTransactionDialog(item: TransactionModelItem) {
+
+        if ((transactionCategoryEx.size == 0 && transactionCategoryIn.size == 0) || (accountListId.size == 0)) {
+            if (transactionCategoryEx.size == 0 && transactionCategoryIn.size == 0) {
+                Sneaker.with(this)
+                    .setTitle(getString(R.string.wait_category_loading))
+                    .setDuration(2000)
+                    .sneak(R.color.colorError)
+            } else {
+                Sneaker.with(this)
+                    .setTitle(getString(R.string.error_no_account))
+                    .setDuration(2000)
+                    .sneak(R.color.colorError)
+            }
+
+        } else {
+            val dialog = context?.let { it1 -> BottomSheetDialog(it1) }
+            val view = layoutInflater.inflate(R.layout.new_transaction_dialog_layout, null)
+
+            // Aggiunge l'animazione di entrata e di uscita al popup
+            dialog?.window?.attributes!!.windowAnimations = R.style.DialogAnimation
+
+            dialog.setContentView(view)
+            dialog.show()
+
+            /**
+             * Gestione del dialog spinner per la selezione della categoria della nuova transazione
+             */
+            val categorySpinner = view.findViewById<Spinner>(R.id.spn_transaction_category)
+            var transactionCategories = transactionCategoryEx
+            //var transactionCategoriesSel = transactionCategories[0] // TODO *****
+            var transactionCategoriesSel = item.category
+            var categoryAdapter = ArrayAdapter(
+                context,
+                R.layout.select_dialog_item_material,
+                transactionCategories
+            )
+            categorySpinner.adapter = categoryAdapter
+
+            categorySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    transactionCategoriesSel = transactionCategories[position]
+                }
+
+            }
+
+            /**
+             * Gestione dei tab del dialog della nuova transazione
+             */
+            tabLayout = view?.findViewById(R.id.tab_layout)
+
+            tabLayout!!.addTab(tabLayout!!.newTab().setText(R.string.expense))
+            tabLayout!!.addTab(tabLayout!!.newTab().setText(R.string.income))
+            tabLayout!!.tabGravity = TabLayout.GRAVITY_FILL
+
+            tabLayout!!.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+                override fun onTabReselected(p0: TabLayout.Tab?) {
+                }
+
+                override fun onTabUnselected(p0: TabLayout.Tab?) {
+                }
+
+                override fun onTabSelected(p0: TabLayout.Tab?) {
+                    if (p0 != null) {
+                        when (p0.position) {
+                            0 -> {
+                                transactionCategories = transactionCategoryEx
+                                transactionCategoriesSel = transactionCategories[0]
+                                transactionType = "expense"
+                                categoryAdapter = ArrayAdapter(
+                                    context!!,
+                                    R.layout.select_dialog_item_material,
+                                    transactionCategories
+                                )
+                                categorySpinner.adapter = categoryAdapter
+                            }
+                            1 -> {
+                                transactionCategories = transactionCategoryIn
+                                transactionCategoriesSel = transactionCategories[0]
+                                transactionType = "income"
+                                categoryAdapter = ArrayAdapter(
+                                    context!!,
+                                    R.layout.select_dialog_item_material,
+                                    transactionCategories
+                                )
+                                categorySpinner.adapter = categoryAdapter
+                            }
+                        }
+                    }
+                }
+            })
+
+            /**
+             * Gestione del pulsante per il dataPicker
+             */
+            val btnDatePicker = view!!.findViewById<Button>(R.id.btn_date_picker)
+
+            val dateFormat =
+                SimpleDateFormat("yyyyMMdd") // Formato per il salvataggio della data su Firebase
+
+            // TODO sostituire con getTodayDate o con la data selezionata corrente
+            var newTransactionDate = Calendar.getInstance().time
+            var date =
+                dateFormat.format(newTransactionDate)    // newTransactionDate con formato yyyyMMdd
+
+            var newTransactionDateTxt = date
+            btnDatePicker.text = getDate(newTransactionDate.time)
+
+            btnDatePicker.setOnClickListener {
+                val c = Calendar.getInstance()
+                val year = c.get(Calendar.YEAR)
+                val month = c.get(Calendar.MONTH)
+                val day = c.get(Calendar.DAY_OF_MONTH)
+
+                // TODO i valori iniziali della data sono quelli di oggi (credo)
+
+                val datePickerDialog = DatePickerDialog(
+                    activity,
+                    DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+                        newTransactionDate =
+                            GregorianCalendar(year, monthOfYear, dayOfMonth).time
+
+                        date = dateFormat.format(newTransactionDate)
+
+                        newTransactionDateTxt = date
+                        btnDatePicker.text = getDate(newTransactionDate.time)
+                    }, year, month, day
+                )
+                datePickerDialog.show()
+            }
+
+
+            /**
+             * Gestione del dialog spinner per la selezione del conto della nuova transazione
+             */
+            val accountSpinner = view.findViewById<Spinner>(R.id.spn_transaction_type)
+            val acc_categories = accountListId
+            //var accountListIdSelected = accountListId[0]    // TODO *****
+            var accountListIdSelected = item.accountId
+            //var accountListNameSelected = accountListName[0]    // TODO *****
+            var accountListNameSelected = item.accountName
+
+            val adapter = ArrayAdapter(context, R.layout.select_dialog_item_material, accountListName)
+            accountSpinner.adapter = adapter
+
+            accountSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    accountListIdSelected = accountListId[position]
+                    accountListNameSelected = accountListName[position]
+                }
+
+            }
+
+            // Amount text Formatter
+            val newTransactionAmount = view.findViewById<EditText>(R.id.et_amount_transaction)
+            newTransactionAmount.setText(item.amount.toString())
+            newTransactionAmount.addTextChangedListener(MoneyTextWatcher(newTransactionAmount))
+
+
+            val btnCreateTransaction = view.findViewById<Button>(R.id.btn_create_transaction)
+            btnCreateTransaction.setOnClickListener {
+                val newTransactionNote = view.findViewById<EditText>(R.id.et_description_transaction)
+                newTransactionNote.setText(item.note)
+
+                if (newTransactionAmount.text.toString() == "")
+                    Sneaker.with(this)
+                        .setTitle(getString(R.string.error_insert_amount))
+                        .setDuration(2000)
+                        .sneak(R.color.colorError)
+                else {
+
+                    val amount = newTransactionAmount.text.substring(2, newTransactionAmount.text.length)
+                        .replace(",","")
+
+                    createNewTransaction(
+                        "-$newTransactionDateTxt",
+                        accountListIdSelected,
+                        accountListNameSelected,
+                        transactionCategoriesSel,
+                        amount.toFloat(),
+                        newTransactionNote.text.toString(),
+                        transactionType
+                    )
+
+                    dialog.hide()
+                }
+            }
+        }
     }
 
     /**

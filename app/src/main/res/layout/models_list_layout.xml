@@ -2,32 +2,23 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#A6000000"
         xmlns:app="http://schemas.android.com/apk/res-auto">
-<!--
+
     <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/custom_dialog">-->
+            android:background="@drawable/custom_dialog_rounded">
 
         <TextView android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorSecondaryDark"
-                android:text="@string/models"
+                android:text="@string/addTransaction"
                 android:padding="16dp"
                 android:textSize="20sp"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/listview_models"
                 android:id="@+id/title_models"/>
-
-<!--        <android.support.v7.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/recycler_view_models"
-                android:background="@color/colorWhite"
-                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-                app:layout_constraintTop_toBottomOf="@+id/title_models"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_margin="15dp"/>-->
 
         <ListView
                 android:layout_width="match_parent"
@@ -36,9 +27,10 @@
                 android:layout_margin="15dp"
                 android:background="@color/colorWhite"
                 app:layout_constraintTop_toBottomOf="@+id/title_models"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
-<!--    </android.support.constraint.ConstraintLayout>-->
+   </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>

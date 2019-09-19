@@ -8,6 +8,9 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import com.example.aleclock.budgetmanager.Models.TransactionModelItem
 
+// https://demonuts.com/android-listview-kotlin/
+// https://www.raywenderlich.com/155-android-listview-tutorial-with-kotlin
+
 class ModelAdapter( private val context: Context, private val modelList: ArrayList<TransactionModelItem>) : BaseAdapter() {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         var convertView = convertView
