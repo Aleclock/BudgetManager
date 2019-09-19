@@ -20,6 +20,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import com.example.aleclock.budgetmanager.Models.ModelItem
+import com.example.aleclock.budgetmanager.Models.ModelListItem
+import com.example.aleclock.budgetmanager.Models.TransactionModelItem
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -49,6 +52,8 @@ class TransactionsFragment : Fragment() {
 
     var transactionCategoryEx = ArrayList<String>()
     var transactionCategoryIn = ArrayList<String>()
+
+    var modelsList = ArrayList<TransactionModelItem>()
 
     val transactionArray = ArrayList<TransactionRowItem>()
 
@@ -314,6 +319,7 @@ class TransactionsFragment : Fragment() {
 
     private fun initializeData() {
         getAccountlist()
+        getModelsList()
         transactionCategoryEx = getCategoryList("expense")
         transactionCategoryIn = getCategoryList("income")
         transactionType = "expense"
@@ -355,9 +361,7 @@ class TransactionsFragment : Fragment() {
 
             val datePickerDialog = DatePickerDialog(activity, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
                 periodDate = GregorianCalendar(year, monthOfYear, dayOfMonth).time
-
                 currentDateSelected = dateFormat.format(periodDate)
-
                 fetchTransaction(currentDateSelected,currentTabPeriod)
             }, year, month, day)
 
@@ -368,8 +372,44 @@ class TransactionsFragment : Fragment() {
          * Transaction models
          */
         btn_models.setOnClickListener {
+/*            val dialog = context?.let { it1 -> BottomSheetDialog(it1) }
+            val view = layoutInflater.inflate(R.layout.models_list_layout, null)
+
+            // Aggiunge l'animazione di entrata e di uscita al popup
+            dialog?.window?.attributes!!.windowAnimations = R.style.DialogAnimation
+
+            val adapter = GroupAdapter<ViewHolder>()
+            modelsList.forEach {
+                adapter.add(ModelListItem(it, adapter))
+            }
+
+            val recyclerView = view!!.findViewById<RecyclerView>(R.id.recycler_view_models)
+            recyclerView!!.adapter = adapter
+
+            dialog.setContentView(view)
+            dialog.show()*/
+
             val mBuilder = AlertDialog.Builder(context)
-            mBuilder.setTitle(resources.getString(R.string.models))
+
+            val customView = layoutInflater.inflate(R.layout.models_list_layout, null)
+            mBuilder.setView(customView)
+
+            val listView = customView.findViewById<ListView>(R.id.listview_models)
+            //val arrayAdapter = ArrayAdapter<TransactionModelItem>(context, android.R.layout.simple_list_item_1)
+            //val arrayAdapter = ArrayAdapter<TransactionModelItem>(context, R.layout.model_transaction_row_layout_list, R.id.txt_model_list_category)
+            val adapter = ModelAdapter(context!!, modelsList)
+
+            /*modelsList.forEach {
+                arrayAdapter.add(it)
+            }*/
+
+            listView.adapter = adapter
+
+            listView.setOnItemClickListener { _, _, _, id ->
+                Log.d("aaaa", id.toString())
+            }
+
+
             val mDialog = mBuilder.create()
             mDialog.show()
         }
@@ -542,7 +582,7 @@ class TransactionsFragment : Fragment() {
                 activity!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
                 val width = displayMetrics.widthPixels
 
-            // Gestione dello swipe (creazione del canvas/rect)
+                // Gestione dello swipe (creazione del canvas/rect)
 
                 if (actionState == ACTION_STATE_SWIPE) {
 
@@ -557,7 +597,7 @@ class TransactionsFragment : Fragment() {
 
                     if (dX > 0) {
 
-                //Drawing for Swife Right
+                        //Drawing for Swife Right
                         p.color = resources.getColor(R.color.colorPrimary)
                         icon = resources.getDrawable(R.drawable.ic_info)
 
@@ -575,7 +615,7 @@ class TransactionsFragment : Fragment() {
                         icon.draw(c)
                     } else if (dX < 0){
 
-                //Drawing for Swife Left
+                        //Drawing for Swife Left
                         p.color = resources.getColor(R.color.colorError)
                         icon = resources.getDrawable(R.drawable.ic_delete)
 
@@ -615,6 +655,7 @@ class TransactionsFragment : Fragment() {
      */
     private fun getCategoryList(type: String) : ArrayList<String> {
         val userId = FirebaseAuth.getInstance().uid
+
         if (userId == null) return ArrayList(0)
         else {
             var categoryList = ArrayList<String>()
@@ -642,6 +683,7 @@ class TransactionsFragment : Fragment() {
      */
     private fun getAccountlist() {
         val userId = FirebaseAuth.getInstance().uid
+
         if (userId == null) return
         else {
             val ref = FirebaseDatabase.getInstance().getReference("/account").child(userId)
@@ -650,11 +692,38 @@ class TransactionsFragment : Fragment() {
                 }
 
                 override fun onDataChange(p0: DataSnapshot) {
+
+                    accountListId.clear()
+                    accountListName.clear()
+
                     p0.children.forEach {
                         val account = it.getValue(AccountRowItem::class.java)
                         if (account != null) {
                             accountListId.add(account.id)
                             accountListName.add(account.name)
+                        }
+                    }
+                }
+            })
+        }
+    }
+
+    private fun getModelsList() {
+        val userId = FirebaseAuth.getInstance().uid
+
+        if (userId == null) return
+        else {
+            val ref = FirebaseDatabase.getInstance().getReference("/models").child(userId)
+            ref.addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) { }
+                override fun onDataChange(p0: DataSnapshot) {
+
+                    modelsList.clear()
+
+                    p0.children.forEach {
+                        val modelItem = it.getValue(TransactionModelItem::class.java)
+                        if (modelItem != null) {  // Se l'oggetto ottenuto non è nullo
+                            modelsList.add(modelItem)
                         }
                     }
                 }
@@ -689,7 +758,7 @@ class TransactionsFragment : Fragment() {
                         .sneak(R.color.colorPrimary)
 
                     updateAccountBalance(accountId, transactionType, amount, "update")
-                   //fetchTransaction(currentDateSelected, currentTabPeriod)
+                    //fetchTransaction(currentDateSelected, currentTabPeriod)
                 }
                 .addOnFailureListener {
                     Sneaker.with(this)

@@ -32,7 +32,7 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val contact = arrayOf(
+        val elements = arrayOf(
                 resources.getString(R.string.category_expense),
                 resources.getString(R.string.category_income),
                 resources.getString(R.string.models),
@@ -40,7 +40,7 @@ class SettingsFragment : Fragment() {
 
 
         val listView = view.findViewById<ListView>(R.id.setting_listview)
-        val arrayAdapter: ArrayAdapter<String> = ArrayAdapter(context,android.R.layout.simple_list_item_1,contact)
+        val arrayAdapter: ArrayAdapter<String> = ArrayAdapter(context,android.R.layout.simple_list_item_1,elements)
         listView.adapter = arrayAdapter
         listView.setOnItemClickListener { _, _, _, id ->
             when(id.toInt()) {
