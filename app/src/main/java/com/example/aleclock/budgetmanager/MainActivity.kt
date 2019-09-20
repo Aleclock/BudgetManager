@@ -8,6 +8,10 @@ import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import com.example.aleclock.budgetmanager.fragment.AccountFragment
+import com.example.aleclock.budgetmanager.fragment.GraphFragment
+import com.example.aleclock.budgetmanager.fragment.SettingsFragment
+import com.example.aleclock.budgetmanager.fragment.TransactionsFragment
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.irozon.sneaker.Sneaker
@@ -54,7 +58,8 @@ class MainActivity : AppCompatActivity(), ConnectionReceiver.ConnectionReceiverL
             if (bottomNavigation.selectedItemId != item.itemId) {
                 when (item.itemId) {
                     R.id.transaction -> {
-                        transactionsFragment = TransactionsFragment()
+                        transactionsFragment =
+                            TransactionsFragment()
                         supportFragmentManager
                             .beginTransaction()
                             .replace(R.id.frame_layout, transactionsFragment)
@@ -72,7 +77,8 @@ class MainActivity : AppCompatActivity(), ConnectionReceiver.ConnectionReceiverL
                     }
 
                     R.id.account -> {
-                        accountFragment = AccountFragment()
+                        accountFragment =
+                            AccountFragment()
                         supportFragmentManager
                             .beginTransaction()
                             .replace(R.id.frame_layout, accountFragment)
@@ -81,7 +87,8 @@ class MainActivity : AppCompatActivity(), ConnectionReceiver.ConnectionReceiverL
                     }
 
                     R.id.settings -> {
-                        settingsFragment = SettingsFragment()
+                        settingsFragment =
+                            SettingsFragment()
                         supportFragmentManager
                             .beginTransaction()
                             .replace(R.id.frame_layout, settingsFragment)

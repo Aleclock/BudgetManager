@@ -10,10 +10,10 @@ import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.model_transaction_row_layout.view.*
 
 class ModelItem(
-    val item: TransactionModelItem,
-    val adapter: GroupAdapter<ViewHolder>,
-    val incomeColor: Int,
-    val expenseColor: Int
+    private val item: TransactionModelItem,
+    private val adapter: GroupAdapter<ViewHolder>,
+    private val incomeColor: Int,
+    private val expenseColor: Int
 ) : Item<ViewHolder>() {
 
     override fun getLayout(): Int {

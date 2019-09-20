@@ -1,16 +1,16 @@
 package com.example.aleclock.budgetmanager
 
+import com.example.aleclock.budgetmanager.transaction.TransactionCategoryItem
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import com.irozon.sneaker.Sneaker
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.category_transaction_row_layout.view.*
 
 class CategoryItem(
-        val category: TransactionCategoryItem,
-        val adapter: GroupAdapter<ViewHolder>
+    val category: TransactionCategoryItem,
+    val adapter: GroupAdapter<ViewHolder>
     ) : Item<ViewHolder>() {
         override fun getLayout(): Int {
             return R.layout.category_transaction_row_layout

@@ -14,7 +14,7 @@
             android:theme="@style/AppTheme">
         <activity android:name=".Models.ModelsActivity"></activity>
         <activity
-                android:name=".TransactionDetailActivity"
+                android:name=".activity.TransactionDetailActivity"
                 android:screenOrientation="portrait">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
@@ -24,29 +24,29 @@
                 android:name=".MainActivity"
                 android:screenOrientation="portrait" />
         <activity
-                android:name=".ExpenseCategoryActivity"
+                android:name=".activity.ExpenseCategoryActivity"
                 android:screenOrientation="portrait">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value=".MainActivity" />
         </activity>
         <activity
-                android:name=".IncomeCategoryActivity"
+                android:name=".activity.IncomeCategoryActivity"
                 android:screenOrientation="portrait">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value=".MainActivity" />
         </activity>
         <activity
-                android:name=".LoginActivity"
+                android:name=".activity.LoginActivity"
                 android:noHistory="true"
                 android:screenOrientation="portrait" />
         <activity
-                android:name=".CreateAccountActivity"
+                android:name=".activity.CreateAccountActivity"
                 android:noHistory="true"
                 android:screenOrientation="portrait" />
         <activity
-                android:name=".SplashScreenActivity"
+                android:name=".activity.SplashScreenActivity"
                 android:noHistory="true"
                 android:screenOrientation="portrait">
             <intent-filter>
