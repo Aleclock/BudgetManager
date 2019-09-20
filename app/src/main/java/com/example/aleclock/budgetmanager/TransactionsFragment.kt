@@ -30,10 +30,13 @@ import com.irozon.sneaker.Sneaker
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import java.lang.Math.abs
+import java.math.RoundingMode
 import java.text.DateFormatSymbols
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.math.roundToInt
 
 
 class TransactionsFragment : Fragment() {
@@ -735,8 +738,18 @@ class TransactionsFragment : Fragment() {
     private fun setPeriodBarAmount(income: Float, expense: Float) {
         val txtTotIncomeAmount = view?.findViewById<TextView>(R.id.txt_total_income_amount)
         val txtTotExpenseAmount = view?.findViewById<TextView>(R.id.txt_total_expense_amount)
-        txtTotExpenseAmount?.text = TextUtils.concat(abs(expense).toString(), "  €")
-        txtTotIncomeAmount?.text = TextUtils.concat(income.toString(),"  €")
+
+        val df = DecimalFormat("#,###.00")
+        df.roundingMode = RoundingMode.FLOOR
+
+        val inc = df.format(income)
+        val exp = df.format(expense).substring(1)
+
+        /*txtTotExpenseAmount?.text = TextUtils.concat(abs(expense).toString(), "  €")
+        txtTotIncomeAmount?.text = TextUtils.concat(income.toString(),"  €")*/
+
+        txtTotExpenseAmount?.text = TextUtils.concat(exp, "  €")
+        txtTotIncomeAmount?.text = TextUtils.concat(inc,"  €")
     }
 
     // TODO Implementare questa funzione in una classe https://medium.com/@kitek/recyclerview-swipe-to-delete-easier-than-you-thought-cff67ff5e5f6

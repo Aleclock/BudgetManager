@@ -103,7 +103,7 @@
                 android:layout_marginStart="20dp"
                 android:text="Data"/>
 
-        <TextView
+      <!--  <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:id="@+id/txt_total_income_title"
@@ -112,19 +112,19 @@
                 android:textColor="@color/colorGreenDark"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/txt_total_income_amount"
-                android:layout_marginRight="5dp" />
+                android:layout_marginRight="5dp" />-->
 
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:id="@+id/txt_total_income_amount"
-                android:text="@string/account_amount_value"
+                android:textColor="@color/colorGreenDark"
                 android:textSize="13sp"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/txt_total_expense_title"
+                app:layout_constraintEnd_toStartOf="@+id/txt_total_expense_amount"
                 android:layout_marginRight="10dp"/>
 
-        <TextView
+<!--        <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:id="@+id/txt_total_expense_title"
@@ -133,13 +133,13 @@
                 android:textColor="@color/colorError"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/txt_total_expense_amount"
-                android:layout_marginRight="5dp" />
+                android:layout_marginRight="5dp" />-->
 
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:id="@+id/txt_total_expense_amount"
-                android:text="@string/account_amount_value"
+                android:textColor="@color/colorError"
                 android:textSize="13sp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
