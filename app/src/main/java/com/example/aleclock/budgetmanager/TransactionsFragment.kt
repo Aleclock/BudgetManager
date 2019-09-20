@@ -20,6 +20,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import com.example.aleclock.budgetmanager.Models.ModelAdapter
 import com.example.aleclock.budgetmanager.Models.TransactionModelItem
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -29,14 +30,12 @@ import com.google.firebase.database.ValueEventListener
 import com.irozon.sneaker.Sneaker
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
-import java.lang.Math.abs
 import java.math.RoundingMode
 import java.text.DateFormatSymbols
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.math.roundToInt
 
 
 class TransactionsFragment : Fragment() {
@@ -373,12 +372,12 @@ class TransactionsFragment : Fragment() {
         btnModels.setOnClickListener {
 
             val mBuilder = AlertDialog.Builder(context)
-            //mBuilder.setTitle(R.string.models)
             val customView = layoutInflater.inflate(R.layout.models_list_layout, null)
             mBuilder.setView(customView)
 
             val listView = customView.findViewById<ListView>(R.id.listview_models)
-            val adapter = ModelAdapter(context!!, modelsList)
+            val adapter =
+                ModelAdapter(context!!, modelsList)
 
             listView.adapter = adapter
 
@@ -739,14 +738,11 @@ class TransactionsFragment : Fragment() {
         val txtTotIncomeAmount = view?.findViewById<TextView>(R.id.txt_total_income_amount)
         val txtTotExpenseAmount = view?.findViewById<TextView>(R.id.txt_total_expense_amount)
 
-        val df = DecimalFormat("#,###.00")
+        val df = DecimalFormat("#,##0.00")
         df.roundingMode = RoundingMode.FLOOR
 
         val inc = df.format(income)
         val exp = df.format(expense).substring(1)
-
-        /*txtTotExpenseAmount?.text = TextUtils.concat(abs(expense).toString(), "  €")
-        txtTotIncomeAmount?.text = TextUtils.concat(income.toString(),"  €")*/
 
         txtTotExpenseAmount?.text = TextUtils.concat(exp, "  €")
         txtTotIncomeAmount?.text = TextUtils.concat(inc,"  €")

@@ -43,8 +43,13 @@ class ModelsActivity : AppCompatActivity() {
 
                     p0.children.forEach {
                         val modelItem = it.getValue(TransactionModelItem::class.java)
+
+                        val incomeColor = resources.getColor(R.color.colorGreenDark)
+                        val expenseColor = resources.getColor(R.color.colorError)
+
+
                         if (modelItem != null) {  // Se l'oggetto ottenuto non è nullo
-                            adapter.add(ModelItem(modelItem, adapter))
+                            adapter.add(ModelItem(modelItem, adapter,incomeColor,expenseColor))
                         }
                     }
 

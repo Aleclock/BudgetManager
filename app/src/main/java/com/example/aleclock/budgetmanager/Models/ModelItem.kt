@@ -9,8 +9,13 @@ import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.model_transaction_row_layout.view.*
 
-class ModelItem(val item: TransactionModelItem,
-                val adapter: GroupAdapter<ViewHolder>) : Item<ViewHolder>() {
+class ModelItem(
+    val item: TransactionModelItem,
+    val adapter: GroupAdapter<ViewHolder>,
+    val incomeColor: Int,
+    val expenseColor: Int
+) : Item<ViewHolder>() {
+
     override fun getLayout(): Int {
         return R.layout.model_transaction_row_layout
     }
@@ -19,6 +24,11 @@ class ModelItem(val item: TransactionModelItem,
         viewHolder.itemView.txt_model_category.text = item.category
         viewHolder.itemView.txt_model_account.text = item.accountName
         viewHolder.itemView.txt_model_amount.text = TextUtils.concat("€  ", item.amount.toString())
+
+        if (item.transactionType == "expense")
+            viewHolder.itemView.txt_model_amount.setTextColor(expenseColor)
+        else
+            viewHolder.itemView.txt_model_amount.setTextColor(incomeColor)
 
         viewHolder.itemView.btn_remove_model.setOnClickListener {
             val pos = viewHolder.adapterPosition

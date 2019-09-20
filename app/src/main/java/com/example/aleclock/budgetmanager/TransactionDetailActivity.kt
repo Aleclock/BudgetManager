@@ -64,7 +64,6 @@ class TransactionDetailActivity : AppCompatActivity() {
         recycleView.addItemDecoration(DividerItemDecoration(this,DividerItemDecoration.VERTICAL))
     }
 
-    // TODO valutare l'idea di creare una classe particolare per questo tipo di dato
     private fun saveModelToDB(transaction: TransactionRowItem) {
         val userId = FirebaseAuth.getInstance().uid
 
@@ -108,9 +107,4 @@ class TransactionDetailActivity : AppCompatActivity() {
         toFormat.setCalendar(myCal)
         return toFormat.format(myCal.time)
     }
-
-/*    override fun onCreateView(name: String?, context: Context?, attrs: AttributeSet?): View? {
-
-        return super.onCreateView(name, context, attrs)
-    }*/
 }

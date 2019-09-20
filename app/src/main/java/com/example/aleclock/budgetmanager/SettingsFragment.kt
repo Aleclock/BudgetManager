@@ -54,7 +54,7 @@ class SettingsFragment : Fragment() {
                 }
                 2 -> {
                     val intent = Intent(context,
-                        ModelsActivity::class.java)
+                    ModelsActivity::class.java)
                     startActivity(intent)
                 }
                 3 -> {

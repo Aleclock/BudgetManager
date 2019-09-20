@@ -5,7 +5,6 @@
         android:background="@drawable/transaction_category_item_layout"
         android:layout_marginLeft="35dp"
         android:layout_marginRight="35dp"
-        android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
