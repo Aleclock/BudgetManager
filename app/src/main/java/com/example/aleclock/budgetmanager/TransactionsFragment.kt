@@ -570,8 +570,8 @@ class TransactionsFragment : Fragment() {
 
             // Amount text Formatter
             val newTransactionAmount = view.findViewById<EditText>(R.id.et_amount_transaction)
-            newTransactionAmount.setText(item.amount.toString())
             newTransactionAmount.addTextChangedListener(MoneyTextWatcher(newTransactionAmount))
+            newTransactionAmount.setText((item.amount*10).toString())
 
 
             val btnCreateTransaction = view.findViewById<Button>(R.id.btn_create_transaction)
