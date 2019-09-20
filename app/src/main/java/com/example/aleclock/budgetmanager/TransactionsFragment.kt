@@ -424,63 +424,10 @@ class TransactionsFragment : Fragment() {
             dialog.setContentView(view)
             dialog.show()
 
-            /**
-             * Gestione del dialog spinner per la selezione del conto della nuova transazione
-             */
-            val accountSpinner = view.findViewById<Spinner>(R.id.spn_transaction_type)
-            val acc_categories = accountListId
-            //var accountListIdSelected = accountListId[0]    // TODO *****
-            var accountListIdSelected = item.accountId
-            //var accountListNameSelected = accountListName[0]    // TODO *****
-            var accountListNameSelected = item.accountName
-
-            val accountAdapter = ArrayAdapter(context, R.layout.select_dialog_item_material, accountListName)
-            accountSpinner.adapter = accountAdapter
-
-            accountSpinner.setSelection(accountAdapter.getPosition(item.accountName))
-
-            accountSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                }
-
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    accountListIdSelected = accountListId[position]
-                    accountListNameSelected = accountListName[position]
-                }
-
-            }
-
-            /**
-             * Gestione del dialog spinner per la selezione della categoria della nuova transazione
-             */
+            var transactionCategories : ArrayList<String> // Lista delle categorie delle transazioni
             val categorySpinner = view.findViewById<Spinner>(R.id.spn_transaction_category)
-            var transactionCategories = transactionCategoryEx
+            var categoryAdapter : ArrayAdapter<String>
             var transactionCategoriesSel = item.category
-            var categoryAdapter = ArrayAdapter(context, R.layout.select_dialog_item_material, transactionCategories)
-            categorySpinner.adapter = categoryAdapter
-
-            categorySpinner.setSelection(categoryAdapter.getPosition(transactionCategoriesSel),false)
-
-            categorySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                }
-
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    transactionCategoriesSel = transactionCategories[position]
-                }
-            }
-
-
 
             /**
              * Gestione dei tab del dialog della nuova transazione
@@ -497,14 +444,15 @@ class TransactionsFragment : Fragment() {
                 transactionType = "expense"
                 categoryAdapter = ArrayAdapter(context!!, R.layout.select_dialog_item_material, transactionCategories)
                 categorySpinner.adapter = categoryAdapter
+                categorySpinner.setSelection(categoryAdapter.getPosition(transactionCategoriesSel))
             } else {
                 tabLayout!!.getTabAt(1)!!.select()  // Seleziona il tab
                 transactionCategories = transactionCategoryIn
                 transactionType = "income"
                 categoryAdapter = ArrayAdapter(context!!, R.layout.select_dialog_item_material, transactionCategories)
                 categorySpinner.adapter = categoryAdapter
+                categorySpinner.setSelection(categoryAdapter.getPosition(transactionCategoriesSel))
             }
-
 
             tabLayout!!.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabReselected(p0: TabLayout.Tab?) {
@@ -518,30 +466,77 @@ class TransactionsFragment : Fragment() {
                         when (p0.position) {
                             0 -> {
                                 transactionCategories = transactionCategoryEx
-                                transactionCategoriesSel = transactionCategories[0]
                                 transactionType = "expense"
-                                categoryAdapter = ArrayAdapter(
-                                    context!!,
-                                    R.layout.select_dialog_item_material,
-                                    transactionCategories
-                                )
-                                categorySpinner.adapter = categoryAdapter
                             }
                             1 -> {
                                 transactionCategories = transactionCategoryIn
-                                transactionCategoriesSel = transactionCategories[0]
                                 transactionType = "income"
-                                categoryAdapter = ArrayAdapter(
-                                    context!!,
-                                    R.layout.select_dialog_item_material,
-                                    transactionCategories
-                                )
-                                categorySpinner.adapter = categoryAdapter
                             }
                         }
+                        transactionCategoriesSel = transactionCategories[0]
+                        categoryAdapter = ArrayAdapter(context!!, R.layout.select_dialog_item_material, transactionCategories)
+                        categorySpinner.adapter = categoryAdapter
                     }
                 }
             })
+
+
+            /**
+             * Gestione del dialog spinner per la selezione della categoria della nuova transazione
+             */
+
+            if (transactionType == "expense") {
+                transactionCategories = transactionCategoryEx
+            }
+            else if (transactionType == "income") {
+                transactionCategories = transactionCategoryIn
+            }
+
+            categorySpinner.adapter = categoryAdapter
+
+            categorySpinner.setSelection(categoryAdapter.getPosition(transactionCategoriesSel))
+
+            Log.d("aaaaa1",categorySpinner.selectedItem.toString())
+
+            categorySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {   }
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    transactionCategoriesSel = transactionCategories[position]
+                }
+            }
+
+            Log.d("aaaaa3",categorySpinner.selectedItem.toString())
+
+            /**
+             * Gestione del dialog spinner per la selezione del conto della nuova transazione
+             */
+            val accountSpinner = view.findViewById<Spinner>(R.id.spn_transaction_type)
+            //val acc_categories = accountListId
+            var accountListIdSelected = item.accountId
+            var accountListNameSelected = item.accountName
+
+            val accountAdapter = ArrayAdapter(context, R.layout.select_dialog_item_material, accountListName)
+            accountSpinner.adapter = accountAdapter
+
+            accountSpinner.setSelection(accountAdapter.getPosition(item.accountName))
+
+            accountSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {   }
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    accountListIdSelected = accountListId[position]
+                    accountListNameSelected = accountListName[position]
+                }
+            }
 
             /**
              * Gestione del pulsante per il dataPicker
