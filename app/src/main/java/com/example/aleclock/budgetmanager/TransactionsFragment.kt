@@ -399,6 +399,9 @@ class TransactionsFragment : Fragment() {
         }*/
     }
 
+    /**
+     * Funzione che mostra il popup della nuova transazioni con i valori del modello selezionato
+     */
     private fun showNewTransactionDialog(item: TransactionModelItem) {
 
         if ((transactionCategoryEx.size == 0 && transactionCategoryIn.size == 0) || (accountListId.size == 0)) {
@@ -429,8 +432,11 @@ class TransactionsFragment : Fragment() {
             var categoryAdapter : ArrayAdapter<String>
             var transactionCategoriesSel = item.category
 
+
             /**
+             * ----------------------------------------------------------------------------------------------------
              * Gestione dei tab del dialog della nuova transazione
+             * ----------------------------------------------------------------------------------------------------
              */
             tabLayout = view?.findViewById(R.id.tab_layout)
 
@@ -482,7 +488,9 @@ class TransactionsFragment : Fragment() {
 
 
             /**
+             * ----------------------------------------------------------------------------------------------------
              * Gestione del dialog spinner per la selezione della categoria della nuova transazione
+             * ----------------------------------------------------------------------------------------------------
              */
 
             if (transactionType == "expense") {
@@ -496,8 +504,6 @@ class TransactionsFragment : Fragment() {
 
             categorySpinner.setSelection(categoryAdapter.getPosition(transactionCategoriesSel))
 
-            Log.d("aaaaa1",categorySpinner.selectedItem.toString())
-
             categorySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {   }
                 override fun onItemSelected(
@@ -510,10 +516,10 @@ class TransactionsFragment : Fragment() {
                 }
             }
 
-            Log.d("aaaaa3",categorySpinner.selectedItem.toString())
-
             /**
+             * ----------------------------------------------------------------------------------------------------
              * Gestione del dialog spinner per la selezione del conto della nuova transazione
+             * ----------------------------------------------------------------------------------------------------
              */
             val accountSpinner = view.findViewById<Spinner>(R.id.spn_transaction_type)
             //val acc_categories = accountListId
@@ -539,7 +545,9 @@ class TransactionsFragment : Fragment() {
             }
 
             /**
+             * ----------------------------------------------------------------------------------------------------
              * Gestione del pulsante per il dataPicker
+             * ----------------------------------------------------------------------------------------------------
              */
             val btnDatePicker = view!!.findViewById<Button>(R.id.btn_date_picker)
 
@@ -575,7 +583,6 @@ class TransactionsFragment : Fragment() {
                 )
                 datePickerDialog.show()
             }
-
 
             // Amount text Formatter
             val newTransactionAmount = view.findViewById<EditText>(R.id.et_amount_transaction)
@@ -620,9 +627,6 @@ class TransactionsFragment : Fragment() {
 
         val userId = FirebaseAuth.getInstance().uid
 
-        var incomeAmount = 0f
-        var expenseAmount = 0f
-
         val incomeColor = resources.getColor(R.color.colorGreenDark)
         val expenseColor = resources.getColor(R.color.colorError)
 
@@ -645,9 +649,13 @@ class TransactionsFragment : Fragment() {
 
                     val adapter = GroupAdapter<ViewHolder>()
 
+                    var incomeAmount = 0f
+                    var expenseAmount = 0f
+
                     p0.children.forEach {
                         val transaction = it.getValue(TransactionRowItem::class.java)
                         if (transaction != null) {
+
 
                             val item = TransactionItem(transaction,incomeColor,expenseColor)
 
