@@ -462,6 +462,29 @@ class TransactionsFragment : Fragment() {
             tabLayout!!.addTab(tabLayout!!.newTab().setText(R.string.income))
             tabLayout!!.tabGravity = TabLayout.GRAVITY_FILL
 
+            if (item.transactionType == "expense") {
+                tabLayout!!.getTabAt(0)!!.select()
+                transactionCategories = transactionCategoryEx
+                transactionType = "expense"
+                categoryAdapter = ArrayAdapter(
+                    context!!,
+                    R.layout.select_dialog_item_material,
+                    transactionCategories
+                )
+                categorySpinner.adapter = categoryAdapter
+            } else {
+                tabLayout!!.getTabAt(1)!!.select()
+                transactionCategories = transactionCategoryIn
+                transactionType = "income"
+                categoryAdapter = ArrayAdapter(
+                    context!!,
+                    R.layout.select_dialog_item_material,
+                    transactionCategories
+                )
+                categorySpinner.adapter = categoryAdapter
+            }
+
+
             tabLayout!!.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabReselected(p0: TabLayout.Tab?) {
                 }
@@ -504,8 +527,7 @@ class TransactionsFragment : Fragment() {
              */
             val btnDatePicker = view!!.findViewById<Button>(R.id.btn_date_picker)
 
-            val dateFormat =
-                SimpleDateFormat("yyyyMMdd") // Formato per il salvataggio della data su Firebase
+            val dateFormat = SimpleDateFormat("yyyyMMdd") // Formato per il salvataggio della data su Firebase
 
             // TODO sostituire con getTodayDate o con la data selezionata corrente
             var newTransactionDate = Calendar.getInstance().time
