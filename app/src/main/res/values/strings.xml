@@ -128,5 +128,8 @@
     <string name="creating_account_failed">Creazione account fallita: riprovare.</string>
     <string name="error_fill_fields">Prego inserire tutti i valori richiesti</string>
     <string name="creating_account">Creazione account in corso</string>
+
     <string name="models">Modelli</string>
+    <string name="model_created">Modello creato con successo</string>
+    <string name="model_not_created">Impossibile creare il modello. Riprovare</string>
 </resources>

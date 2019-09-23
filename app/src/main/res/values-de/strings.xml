@@ -133,4 +133,7 @@
     <string name="creating_account_failed">Kontoerstellung fehlgeschlagen: Versuchen Sie es erneut.</string>
     <string name="error_fill_fields">Bitte geben Sie alle erforderlichen Werte ein</string>
     <string name="creating_account">Kontoerstellung läuft</string>
+    <string name="models">Modelle</string>
+    <string name="model_not_created">Das Modell konnte nicht erstellt werden. versuchen Sie es erneut</string>
+    <string name="model_created">Modell erfolgreich erstellt</string>
 </resources>

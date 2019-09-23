@@ -107,4 +107,7 @@
     <string name="logging">Logging</string>
     <string name="login_failed">Login failed: try again.</string>
     <string name="wait_category_loading">Loading of the categories in progress. Please wait</string>
+    <string name="models">Models</string>
+    <string name="model_not_created">The model could not be created. Try again</string>
+    <string name="model_created">Model created successfully</string>
 </resources>
