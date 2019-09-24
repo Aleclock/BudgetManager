@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity(), ConnectionReceiver.ConnectionReceiverL
 
         setContentView(R.layout.activity_main)
 
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true)
+        // FirebaseDatabase.getInstance().setPersistenceEnabled(true)
 
         baseContext.registerReceiver(ConnectionReceiver(), IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
         setConnectionListener(this)
