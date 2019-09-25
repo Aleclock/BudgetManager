@@ -6,15 +6,22 @@ import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.rule.ActivityTestRule
 import com.example.aleclock.budgetmanager.activity.LoginActivity
-import org.junit.Rule
-import org.junit.Test
+import org.junit.*
 
 class MainActivityTest {
 
-    // TODO invece di fare il login ogni volta farlo solo nella prima regola, per semplicità
-
     @get:Rule
     val activityTestRule = ActivityTestRule<LoginActivity>(LoginActivity::class.java)
+
+    @After
+    fun doLogout() {
+        LoginActivity.signOut()
+    }
+
+    @Before
+    fun doLogin() {
+        login()
+    }
 
     private fun login() {
         onView(withId(R.id.et_email)).perform(typeText("piero.bruni@gmail.com"), closeSoftKeyboard())
@@ -24,83 +31,58 @@ class MainActivityTest {
     }
 
     @Test
-    fun loginAndSignOut() {
-        login()
-        LoginActivity.signOut()
-    }
-
-    @Test
     fun shouldContainNavBar() {
-        login()
         onView(withId(R.id.nav_bar)).check(matches(isDisplayed()))
-        LoginActivity.signOut()
     }
 
     @Test
-    fun sholdContainItemTransaction() {
-        login()
+    fun shouldContainItemTransaction() {
         onView(withId(R.id.transaction)).check(matches(isDisplayed()))
-        LoginActivity.signOut()
     }
-
     @Test
-    fun sholdContainItemGraph() {
-        login()
+    fun shouldContainItemGraph() {
         onView(withId(R.id.graph)).check(matches(isDisplayed()))
-        LoginActivity.signOut()
     }
 
     @Test
-    fun sholdContainItemAccount() {
-        login()
+    fun shouldContainItemAccount() {
         onView(withId(R.id.account)).check(matches(isDisplayed()))
-        LoginActivity.signOut()
     }
 
     @Test
-    fun sholdContainItemSettings() {
-        login()
+    fun shouldContainItemSettings() {
         onView(withId(R.id.settings)).check(matches(isDisplayed()))
-        LoginActivity.signOut()
     }
 
     @Test
     fun shouldContainFrameLayout() {
-        login()
         onView(withId(R.id.frame_layout)).check(matches(isDisplayed()))
-        LoginActivity.signOut()
     }
 
     @Test
-    fun onItemClickedSholdContainFragmentTransaction() {
-        login()
+    fun onItemClickedShouldContainFragmentTransaction() {
         onView(withId(R.id.transaction)).perform(click())
         onView(withId(R.id.fragment_transaction)).check(matches(isDisplayed()))
-        LoginActivity.signOut()
     }
 
     @Test
-    fun onItemClickedSholdContainFragmentCharts() {
-        login()
+    fun onItemClickedShouldContainFragmentCharts() {
         onView(withId(R.id.graph)).perform(click())
         onView(withId(R.id.fragment_chart)).check(matches(isDisplayed()))
-        LoginActivity.signOut()
     }
 
     @Test
-    fun onItemClickedSholdContainFragmentAccount() {
-        login()
+    fun onItemClickedShouldContainFragmentAccount() {
         onView(withId(R.id.account)).perform(click())
         onView(withId(R.id.fragment_account_constraint)).check(matches(isDisplayed()))
-        LoginActivity.signOut()
     }
 
     @Test
-    fun onItemClickedSholdContainFragmentSettings() {
-        login()
+    fun onItemClickedShouldContainFragmentSettings() {
         onView(withId(R.id.settings)).perform(click())
         onView(withId(R.id.fragment_settings)).check(matches(isDisplayed()))
-        LoginActivity.signOut()
     }
+
+
 
 }

@@ -96,7 +96,7 @@ class LoginActivityTest {
         onView(withId(R.id.et_email)).perform(typeText("piero.bruni@gmail.com"), closeSoftKeyboard())
         onView(withId(R.id.et_password)).perform(typeText("Alessandro1"), closeSoftKeyboard())
         onView(withId(R.id.btn_login)).perform(click())
-        Thread.sleep(1000)
+        Thread.sleep(5000)
         LoginActivity.signOut()
     }
 
