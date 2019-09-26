@@ -2,13 +2,11 @@ package com.example.aleclock.budgetmanager
 
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.action.ViewActions.*
-import android.support.test.espresso.assertion.ViewAssertions.doesNotExist
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.rule.ActivityTestRule
 import com.example.aleclock.budgetmanager.activity.LoginActivity
 import com.example.aleclock.budgetmanager.fragment.TransactionsFragment
-import com.example.aleclock.budgetmanager.transaction.TransactionRowItem
 import org.junit.*
 
 class TransactionFragmentTest {

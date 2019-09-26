@@ -127,7 +127,7 @@ class CreateAccountActivityTest {
         onView(withId(R.id.et_password)).perform(typeText("MarcoRossi1"), closeSoftKeyboard())
         onView(withId(R.id.btn_register)).perform(click())
 
-        Thread.sleep(1000)
+        Thread.sleep(5000)
         LoginActivity.signOut()
     }
 
