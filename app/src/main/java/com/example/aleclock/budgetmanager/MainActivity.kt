@@ -107,11 +107,11 @@ class MainActivity : AppCompatActivity(), ConnectionReceiver.ConnectionReceiverL
         val s = Sneaker.with(this)
 
         if (isConnected) {
-            s.hide()
+/*            s.hide()
             s.setTitle(getString(R.string.connection_established))
             s.sneak(R.color.colorGreen)
             s.autoHide(true)
-            s.setDuration(2000)
+            s.setDuration(2000)*/
         } else {
             s.autoHide(false)
             .setTitle(getString(R.string.connection_no))

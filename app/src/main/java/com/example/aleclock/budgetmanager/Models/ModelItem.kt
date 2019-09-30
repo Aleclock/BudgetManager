@@ -1,6 +1,7 @@
 package com.example.aleclock.budgetmanager.Models
 
 import android.text.TextUtils
+import android.text.TextUtils.concat
 import com.example.aleclock.budgetmanager.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -8,6 +9,7 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.model_transaction_row_layout.view.*
+import java.text.DecimalFormat
 
 class ModelItem(
     private val item: TransactionModelItem,
@@ -23,9 +25,14 @@ class ModelItem(
     override fun bind(viewHolder: ViewHolder, position: Int) {
         viewHolder.itemView.txt_model_category.text = item.category
         viewHolder.itemView.txt_model_account.text = item.accountName
-        viewHolder.itemView.txt_model_amount.text = TextUtils.concat("€  ", item.amount.toString())
 
-        if (item.transactionType == "expense")
+        val df = DecimalFormat("#,##0.00")
+        //df.roundingMode = RoundingMode.FLOOR
+        val amount = df.format(item.amount)
+
+        viewHolder.itemView.txt_model_amount.text = concat("€  ", amount)
+
+            if (item.transactionType == "expense")
             viewHolder.itemView.txt_model_amount.setTextColor(expenseColor)
         else
             viewHolder.itemView.txt_model_amount.setTextColor(incomeColor)
