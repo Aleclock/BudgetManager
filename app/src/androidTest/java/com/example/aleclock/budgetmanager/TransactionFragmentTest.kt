@@ -18,7 +18,7 @@ class TransactionFragmentTest {
         onView(withId(R.id.et_email)).perform(typeText("piero.bruni@gmail.com"), closeSoftKeyboard())
         onView(withId(R.id.et_password)).perform(typeText("Alessandro1"), closeSoftKeyboard())
         onView(withId(R.id.btn_login)).perform(click())
-        Thread.sleep(1000)
+        Thread.sleep(2000)
     }
 
     @After
@@ -58,14 +58,12 @@ class TransactionFragmentTest {
 
     @Test
     fun onClickModelsShowPopup() {
-        onView(withText(R.string.connection_established)).perform(click())
         onView(withId(R.id.btn_models)).perform(click())
         onView(withText(R.string.models)).check(matches(isDisplayed()))
     }
 
     @Test
     fun onClickNewTransactionShowDialog() {
-        onView(withText(R.string.connection_established)).perform(click())
         onView(withId(R.id.btn_add_transaction)).perform(click())
         onView(withText(R.string.addTransaction)).check(matches(isDisplayed()))
     }

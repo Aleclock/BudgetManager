@@ -22,7 +22,6 @@ class ChartFragmentTest {
     }
 
     private fun clickChartItem() {
-        onView(withText(R.string.connection_established)).perform(click())
         onView(withId(R.id.graph)).perform(click())
     }
 

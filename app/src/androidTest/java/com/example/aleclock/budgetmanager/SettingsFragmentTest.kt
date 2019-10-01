@@ -28,7 +28,6 @@ class SettingsFragmentTest {
     }
 
     private fun clickChartItem() {
-        onView(withText(R.string.connection_established)).perform(click())
         onView(withId(R.id.settings)).perform(click())
     }
 
