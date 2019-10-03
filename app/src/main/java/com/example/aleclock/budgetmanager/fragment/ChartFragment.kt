@@ -139,7 +139,7 @@ class GraphFragment : Fragment() {
                                 if (monthCurrent == monthDate) {    // Se il mese dell'oggetto coincide con quello corrente
 
                             // Bar chart
-                                    val xValue = getDayIndex(transaction.date.removePrefix("-"))
+                                    val xValue = getDayIndex(transaction.date.removePrefix("-")) - 1
                                     val yValue = transaction.amount
 
                                     if (transaction.transactionType == "expense") {
@@ -351,14 +351,15 @@ class GraphFragment : Fragment() {
         xAxis.textColor = resources.getColor(R.color.colorSecondaryMedium)
         xAxis.textSize = 12f
 
-/*        xAxis.valueFormatter = object : ValueFormatter() {
+        xAxis.valueFormatter = object : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
                 return if (value.toInt() == dataXAxis.size)
                     dataXAxis[value.toInt()-1].toString()
                 else
                     dataXAxis[value.toInt()].toString()
             }
-        }*/
+        }
+
         //xAxis.labelCount = data.size / 2
         //xAxis.setCenterAxisLabels(true)
        //xAxis.granularity = 1f
